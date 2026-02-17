@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://b7dpk57xujdyt"]
+
+[ext_resource type="PackedScene" uid="uid://ct6858b4ps6el" path="res://_project/scenes/environment/arena.tscn" id="1_pfjbu"]
+[ext_resource type="PackedScene" uid="uid://b3tdk06n5inos" path="res://_project/scenes/managers/local_multiplayer_manager.tscn" id="2_joiwf"]
+
+[node name="Game" type="Node3D"]
+
+[node name="Arena" parent="." instance=ExtResource("1_pfjbu")]
+
+[node name="LocalMultiplayerManager" parent="." instance=ExtResource("2_joiwf")]

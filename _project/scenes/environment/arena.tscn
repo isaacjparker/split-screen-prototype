@@ -1,0 +1,37 @@
+[gd_scene load_steps=5 format=3 uid="uid://ct6858b4ps6el"]
+
+[ext_resource type="PackedScene" uid="uid://ixn3nqdoh6pj" path="res://_project/scenes/environment/wall_block_perimeter.tscn" id="1_3btop"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_k3pnq"]
+albedo_color = Color(0.27022192, 0.27022192, 0.2702219, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_wel1o"]
+material = SubResource("StandardMaterial3D_k3pnq")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_r27b2"]
+
+[node name="Arena" type="Node3D"]
+
+[node name="Ground" type="MeshInstance3D" parent="."]
+transform = Transform3D(50, 0, 0, 0, 0.1, 0, 0, 0, 50, 0.014458656, 0.028258324, -0.04233551)
+mesh = SubResource("BoxMesh_wel1o")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Ground"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground/StaticBody3D"]
+shape = SubResource("BoxShape3D_r27b2")
+
+[node name="PerimeterWalls" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
+[node name="WallBlockPerimeter" parent="PerimeterWalls" instance=ExtResource("1_3btop")]
+transform = Transform3D(50, 0, 0, 0, 2, 0, 0, 0, 1, -0.5, 0, -25)
+
+[node name="WallBlockPerimeter2" parent="PerimeterWalls" instance=ExtResource("1_3btop")]
+transform = Transform3D(-2.1855694e-06, 0, -1, 0, 2, 0, 50, 0, -4.371139e-08, 25, 0, -0.5)
+
+[node name="WallBlockPerimeter3" parent="PerimeterWalls" instance=ExtResource("1_3btop")]
+transform = Transform3D(50, 0, 0, 0, 2, 0, 0, 0, 1, 0.5, 0, 25)
+
+[node name="WallBlockPerimeter4" parent="PerimeterWalls" instance=ExtResource("1_3btop")]
+transform = Transform3D(-2.1855694e-06, 0, -1, 0, 2, 0, 50, 0, -4.371139e-08, -25, 0, 0.5)

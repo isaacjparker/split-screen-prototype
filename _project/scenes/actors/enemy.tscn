@@ -1,0 +1,32 @@
+[gd_scene load_steps=7 format=3 uid="uid://c1fyfxg64s1l2"]
+
+[ext_resource type="Script" uid="uid://dxvtckis0rxw" path="res://_project/code/combat/EnemyBrain.cs" id="1_sime2"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sime2"]
+albedo_color = Color(0.60784316, 0, 0, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_wel1o"]
+material = SubResource("StandardMaterial3D_sime2")
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_r27b2"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hski7"]
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_dy5t4"]
+material = SubResource("StandardMaterial3D_hski7")
+
+[node name="Enemy" type="CharacterBody3D" groups=["enemies"]]
+script = ExtResource("1_sime2")
+
+[node name="BodyMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CapsuleMesh_wel1o")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_r27b2")
+
+[node name="FaceMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.6, 0, 0, 0, 0.2, 0, 0, 0, 0.4, 0, 1.4, -0.4)
+mesh = SubResource("BoxMesh_dy5t4")

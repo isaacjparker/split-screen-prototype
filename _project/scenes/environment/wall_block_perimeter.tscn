@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://ixn3nqdoh6pj"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_k3pnq"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_wel1o"]
+
+[node name="WallBlockPerimeter" type="MeshInstance3D"]
+transform = Transform3D(50, 0, 0, 0, 2, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("BoxMesh_k3pnq")
+skeleton = NodePath("../..")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("BoxShape3D_wel1o")

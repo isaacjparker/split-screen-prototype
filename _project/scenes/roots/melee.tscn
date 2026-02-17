@@ -1,0 +1,40 @@
+[gd_scene load_steps=8 format=3 uid="uid://jssfihe3gpnw"]
+
+[ext_resource type="PackedScene" uid="uid://ct6858b4ps6el" path="res://_project/scenes/environment/arena.tscn" id="1_058t1"]
+[ext_resource type="PackedScene" uid="uid://b3tdk06n5inos" path="res://_project/scenes/managers/local_multiplayer_manager.tscn" id="2_rkvuc"]
+[ext_resource type="PackedScene" uid="uid://vdpv3kjh4su0" path="res://_project/scenes/actors/player_brain.tscn" id="3_56h8e"]
+[ext_resource type="PackedScene" uid="uid://c1fyfxg64s1l2" path="res://_project/scenes/actors/enemy.tscn" id="3_rkvuc"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_rkvuc"]
+
+[sub_resource type="Sky" id="Sky_56h8e"]
+sky_material = SubResource("ProceduralSkyMaterial_rkvuc")
+
+[sub_resource type="Environment" id="Environment_ob23k"]
+background_mode = 2
+sky = SubResource("Sky_56h8e")
+tonemap_mode = 2
+tonemap_exposure = 0.7
+ssao_enabled = true
+ssil_enabled = true
+sdfgi_enabled = true
+volumetric_fog_enabled = true
+volumetric_fog_density = 0.005
+
+[node name="Melee" type="Node3D"]
+
+[node name="Arena" parent="." instance=ExtResource("1_058t1")]
+
+[node name="LocalMultiplayerManager" parent="." node_paths=PackedStringArray("_spawnPoints") instance=ExtResource("2_rkvuc")]
+_playerScene = ExtResource("3_56h8e")
+_spawnPoints = []
+
+[node name="Enemy" parent="." instance=ExtResource("3_rkvuc")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, -10)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.7240515, 0.43893665, -0.5320564, 0, 0.7713803, 0.6363744, 0.6897459, -0.46076784, 0.55851907, 0, 11.32319, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_ob23k")

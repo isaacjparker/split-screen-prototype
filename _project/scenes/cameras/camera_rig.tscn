@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://bvar8uq5qe1l2"]
+
+[ext_resource type="Script" uid="uid://bk07qvxontej5" path="res://_project/code/split_screen/CameraRig.cs" id="1_eive2"]
+[ext_resource type="Script" uid="uid://b22d5ue20c4eq" path="res://_project/code/split_screen/CameraController.cs" id="2_kq7y7"]
+
+[node name="CameraRig" type="SubViewportContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_eive2")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+handle_input_locally = false
+size = Vector2i(1152, 648)
+render_target_update_mode = 4
+
+[node name="CameraController" type="Camera3D" parent="SubViewport"]
+transform = Transform3D(1, 0, 0, 0, 0.8660254, 0.5, 0, -0.5, 0.8660254, 0, 10, 10)
+script = ExtResource("2_kq7y7")

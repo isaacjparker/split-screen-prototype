@@ -1,0 +1,313 @@
+[gd_scene load_steps=29 format=3 uid="uid://vdpv3kjh4su0"]
+
+[ext_resource type="Script" uid="uid://b5vkwli2l8y5c" path="res://_project/code/combat/PlayerBrain.cs" id="1_anmpw"]
+[ext_resource type="Script" uid="uid://bxdenqcj5hdec" path="res://_project/code/combat/StateMachine.cs" id="2_bvb84"]
+[ext_resource type="Script" uid="uid://d312txxrfn5j3" path="res://_project/code/combat/MotorModule.cs" id="2_bxt2d"]
+[ext_resource type="Script" uid="uid://cdl31mqlcnall" path="res://_project/code/combat/CombatModule.cs" id="2_dvsr0"]
+[ext_resource type="PackedScene" uid="uid://us4hyhqbbyy4" path="res://_project/scenes/weapons/sword_1_handed.tscn" id="3_bxt2d"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_wel1o"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_r27b2"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r27b2"]
+albedo_color = Color(0.7873857, 0, 0.189607, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_dy5t4"]
+material = SubResource("StandardMaterial3D_r27b2")
+
+[sub_resource type="Animation" id="Animation_84dwo"]
+length = 1.8000034
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("HandSlotRight:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.6, 1.0718913, 0.7186857)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("HandSlotRight:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.109955765, -2.2514746, 1.2112585)]
+}
+
+[sub_resource type="Animation" id="Animation_anmpw"]
+resource_name = "attack1_1handed"
+length = 1.0666701
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("HandSlotRight:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.033333335, 0.10000001, 0.16666667, 0.23333333, 0.5666666, 0.7666667, 0.9666666),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0.6, 0.8, 0.39068967), Vector3(1.01, 1.397, 0.879), Vector3(1.246, 0.594, -0.278), Vector3(-0.013, 0.955, -1.463), Vector3(-1.085, 1.188, -1.003), Vector3(-0.88, 1.108, -0.378), Vector3(0.564, 0.711, -0.853), Vector3(0.6, 0.8, 0.39068967)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("HandSlotRight:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.033333335, 0.10000001, 0.16666667, 0.23333332, 0.5666666, 0.76666665, 0.9666666),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(-0.5104914, -0.7853982, -0.27146855), Vector3(0.6859144, -2.7488935, 0.86219263), Vector3(-0.07766717, -1.6362462, -0.15009832), Vector3(-0.02094395, -0.061086524, -1.8605211), Vector3(0.24958208, 1.6318829, -2.3143065), Vector3(0.6597344, 2.1642082, -1.3020157), Vector3(0.39095375, 0.52883476, -1.98793), Vector3(-0.5104914, -0.7853982, -0.27146855)]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.56666666),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"OpenComboWindow"
+}, {
+"args": [],
+"method": &"CloseComboWindow"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_dvsr0"]
+resource_name = "attack2_1handed"
+length = 1.1333368
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("HandSlotRight:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(1.4901161e-08, 0.033333335, 0.1, 0.16666667, 0.5, 0.8333333),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(-1.085, 1.188, -1.003), Vector3(-0.87, 0.693, -1.038), Vector3(-0.055, 0.993, -1.598), Vector3(1.167, 1.699, -0.243), Vector3(0.804, 0.994, 0.494), Vector3(0.6, 0.8, 0.39068967)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("HandSlotRight:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.033333335, 0.1, 0.16666667, 0.5, 0.8333333),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0.24958208, 1.6318829, -2.3143065), Vector3(-0.45727625, 2.1118484, 0.50440013), Vector3(0.0052359877, 0.008726646, 1.9268435), Vector3(0.6597344, -1.9285889, 1.8308504), Vector3(-0.3333579, -2.4207716, -0.4904375), Vector3(-0.5104914, -0.7853982, -0.27146855)]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"OpenComboWindow"
+}, {
+"args": [],
+"method": &"CloseComboWindow"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_fprsi"]
+resource_name = "attack3_1handed"
+length = 1.8000034
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("HandSlotRight:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.36666673, 0.5, 0.76666665, 0.9333334, 1.0666667, 1.2, 1.3, 1.4000001, 1.6666665),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0.6, 0.8, 0.39068967), Vector3(0.2073606, 1.3113978, 1.0137458), Vector3(0.71464723, 1.8547175, 0.0030884743), Vector3(-0.1137557, 1.0641633, -1.5008374), Vector3(-0.78527904, 0.7228972, -0.56510746), Vector3(-0.789, 0.442, -0.268), Vector3(-0.78894854, 0.5467596, -0.26787567), Vector3(-0.2972319, 0.85133046, -0.6128113), Vector3(0.5027255, 1.0788412, -0.61281127), Vector3(0.78160965, 1.3100215, -0.3339271), Vector3(0.8072963, 1.042146, 0.19081563), Vector3(0.5797856, 0.7118883, 0.60180277), Vector3(0.5797856, 0.63115865, 0.46969968)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("HandSlotRight:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.36666673, 0.5, 0.76666665, 0.9333334, 1.0666667, 1.2, 1.3, 1.4000001, 1.6666665),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(-0.5104914, -0.7853982, -0.27146855), Vector3(0.54240906, -2.9048007, 0.54116297), Vector3(0.4223697, -3.556981, -2.6267204), Vector3(0.04601164, -0.12508124, -1.2460667), Vector3(-0.49904716, 1.4153042, -1.4338111), Vector3(-0.24266587, 2.3911817, -1.5446558), Vector3(-0.15413105, 2.4190502, -0.34067348), Vector3(-0.21200061, 2.4021263, -0.29844546), Vector3(-0.33692265, 1.4149427, -0.2784284), Vector3(0.37999585, 0.80178666, 1.8662483), Vector3(0.5176478, -0.50189114, 0.8520036), Vector3(-0.47791338, -1.2381201, -0.095405154), Vector3(-0.46722227, -0.9893047, -0.48931447)]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1.3),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"OpenComboWindow"
+}, {
+"args": [],
+"method": &"CloseComboWindow"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_bxt2d"]
+resource_name = "idle"
+length = 0.03333667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("HandSlotRight:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.6, 0.8, 0.39068967)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("HandSlotRight:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(-0.5104914, -0.7853982, -0.27146855)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_uxghf"]
+_data = {
+&"RESET": SubResource("Animation_84dwo"),
+&"attack1_1handed": SubResource("Animation_anmpw"),
+&"attack2_1handed": SubResource("Animation_dvsr0"),
+&"attack3_1handed": SubResource("Animation_fprsi"),
+&"idle": SubResource("Animation_bxt2d")
+}
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_anmpw"]
+animation = &"attack1_1handed"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_dvsr0"]
+animation = &"attack2_1handed"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_bxt2d"]
+animation = &"attack3_1handed"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_bvb84"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_gsska"]
+xfade_time = 0.1
+advance_mode = 0
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_8bvrd"]
+xfade_time = 0.1
+advance_mode = 0
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_mhhix"]
+xfade_time = 0.1
+advance_mode = 0
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_anmpw"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_dvsr0"]
+xfade_time = 0.1
+advance_mode = 0
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_bxt2d"]
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_bvb84"]
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_c6j5r"]
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_bvb84"]
+states/End/position = Vector2(1287.3334, 118)
+states/attack1_1handed/node = SubResource("AnimationNodeAnimation_anmpw")
+states/attack1_1handed/position = Vector2(506.6667, 174)
+states/attack2_1handed/node = SubResource("AnimationNodeAnimation_dvsr0")
+states/attack2_1handed/position = Vector2(750, 48.666668)
+states/attack3_1handed/node = SubResource("AnimationNodeAnimation_bxt2d")
+states/attack3_1handed/position = Vector2(969.3333, 180.66666)
+states/idle/node = SubResource("AnimationNodeAnimation_bvb84")
+states/idle/position = Vector2(354, 74.666664)
+transitions = ["attack1_1handed", "attack2_1handed", SubResource("AnimationNodeStateMachineTransition_gsska"), "attack2_1handed", "attack3_1handed", SubResource("AnimationNodeStateMachineTransition_8bvrd"), "attack3_1handed", "attack1_1handed", SubResource("AnimationNodeStateMachineTransition_mhhix"), "Start", "idle", SubResource("AnimationNodeStateMachineTransition_anmpw"), "idle", "attack1_1handed", SubResource("AnimationNodeStateMachineTransition_dvsr0"), "attack1_1handed", "idle", SubResource("AnimationNodeStateMachineTransition_bxt2d"), "attack2_1handed", "idle", SubResource("AnimationNodeStateMachineTransition_bvb84"), "attack3_1handed", "idle", SubResource("AnimationNodeStateMachineTransition_c6j5r")]
+
+[node name="PlayerBrain" type="CharacterBody3D" node_paths=PackedStringArray("AnimTree", "StateMachine")]
+script = ExtResource("1_anmpw")
+AnimTree = NodePath("AnimationTree")
+StateMachine = NodePath("StateMachine")
+
+[node name="BodyMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CapsuleMesh_wel1o")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_r27b2")
+
+[node name="FaceMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.6, 0, 0, 0, 0.2, 0, 0, 0, 0.4, 0, 1.4, -0.4)
+mesh = SubResource("BoxMesh_dy5t4")
+
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource("2_bvb84")
+
+[node name="MotorModule" type="Node" parent="."]
+script = ExtResource("2_bxt2d")
+
+[node name="CombatModule" type="Node" parent="."]
+script = ExtResource("2_dvsr0")
+
+[node name="HandSlotRight" type="Node3D" parent="."]
+transform = Transform3D(-0.3012479, 0.55907595, -0.7724532, 0.93040663, 0.34971657, -0.109734386, 0.20878987, -0.75175184, -0.62552017, 0.6, 1.0718913, 0.7186857)
+
+[node name="sword_1handed" parent="HandSlotRight" instance=ExtResource("3_bxt2d")]
+transform = Transform3D(1.9106853e-15, -4.371139e-08, 1, -0.99999994, -4.371139e-08, 0, 4.3711385e-08, -1, -4.371139e-08, 0, 0, 0)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_uxghf")
+}
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource("AnimationNodeStateMachine_bvb84")
+anim_player = NodePath("../AnimationPlayer")
