@@ -25,6 +25,8 @@ public partial class AttackingState : ActorState
 
 	public override void ProcessState(float delta)
     {
+        _brain.Motor.ProcessForcesLocomotion(delta);
+
         if (_isComboWindowOpen == false) return;
 
         if (_brain.IsAttackJustPressed())
@@ -38,6 +40,8 @@ public partial class AttackingState : ActorState
     {
         _brain.OnComboWindowOpen -= HandleComboWindowOpen;
         _brain.OnComboWindowClose -= HandleComboWindowClose;
+
+        _brain.HitBox.ProcessMode = Node.ProcessModeEnum.Disabled;
     }
 
     /// <summary>
@@ -72,11 +76,17 @@ public partial class AttackingState : ActorState
     private void HandleComboWindowOpen()
     {
         _isComboWindowOpen = true;
+
+        _brain.HitBox.SetPayload(_brain.Combat.BuildAttackPayload(_brain));
+
+        _brain.HitBox.ProcessMode = Node.ProcessModeEnum.Inherit;
     }
 
     private void HandleComboWindowClose()
     {
         _isComboWindowOpen = false;
+
+        _brain.HitBox.ProcessMode = Node.ProcessModeEnum.Disabled;
 
         if (_nextAttackQueued)
         {

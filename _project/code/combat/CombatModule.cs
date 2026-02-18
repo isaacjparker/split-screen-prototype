@@ -18,7 +18,7 @@ public partial class CombatModule : Node
     private MotorModule _motor;
     
 
-    public void Initialize(CharacterBody3D actor, MotorModule motor)
+    public void Initialise(CharacterBody3D actor, MotorModule motor)
     {
         _actor = actor;
         _motor = motor;
@@ -66,9 +66,19 @@ public partial class CombatModule : Node
         _motor.Lunge(_actor, lungePos, duration, offset);
     }
 
-	public void TakeDamage(int amount)
-	{
-		// Stub for future hit reactions/health
-        GD.Print($"{_actor.Name} took {amount} damage!");
-	}
+    // TODO: Don't use paramete here -
+    // We need modules to cache the runtime data source
+    // But currently this is PlayerBrain which won't extend to enemies
+    // So instead of refactoring our data approach right now
+    // Come back later and change it so as to avoid parameters like this.
+    public AttackPayload BuildAttackPayload(PlayerBrain brain)
+    {
+        return new AttackPayload 
+        {
+        BaseDamage = brain.BaseDamage,
+        KnockbackPower = brain.KnockbackPower,
+        HitStopDuration = brain.HitStopDuration,
+        SourcePosition = brain.GlobalPosition
+        };
+    }
 }

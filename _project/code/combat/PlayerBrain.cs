@@ -11,6 +11,13 @@ public partial class PlayerBrain : CharacterBody3D
     [Export] public AnimationTree AnimTree;
     [Export] public StateMachine StateMachine;
 
+    [ExportGroup("Combat")]
+    [Export] public HitBox HitBox;
+    [Export] public Area3D HurtBox;
+    [Export] public float BaseDamage = 5.0f;
+    [Export] public float KnockbackPower = 5.0f;
+    [Export] public float HitStopDuration = 0.2f;
+
     [ExportGroup("Locomotion")]
     [Export] private float _gravity = -9.8f;
     [Export] public float MaxSpeed = 5.0f;
@@ -26,6 +33,7 @@ public partial class PlayerBrain : CharacterBody3D
 
     public MotorModule Motor { get; private set; }
     public CombatModule Combat { get; private set; }
+    public StatusModule Status { get; private set; }
     public CharacterBody3D CurrentTarget { get; set; }  // Settable by states
 
     // Animation State Machine
@@ -60,7 +68,10 @@ public partial class PlayerBrain : CharacterBody3D
         Motor.Initialise(this, _acceleration, _deceleration, _turnSpeed, _gravity);
 
         Combat = GetNode<CombatModule>("CombatModule");
-        Combat.Initialize(this, Motor);
+        Combat.Initialise(this, Motor);
+
+        Status = GetNode<StatusModule>("StatusModule");
+        Status.Initialise(this);
 
         if (StateMachine == null)
         {
@@ -77,6 +88,11 @@ public partial class PlayerBrain : CharacterBody3D
         StateMachine.Initialise(new IdleMoveState(this));
         AnimPlayback = (AnimationNodeStateMachinePlayback)AnimTree.Get("parameters/playback");
 
+        if (HitBox.ProcessMode != Node.ProcessModeEnum.Disabled)
+        { 
+            HitBox.ProcessMode = Node.ProcessModeEnum.Disabled;
+        }
+        
     }
 
     public override void _PhysicsProcess(double delta)

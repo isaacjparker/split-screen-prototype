@@ -102,20 +102,72 @@ public partial class MotorModule : Node
 
     public Tween Lunge(CharacterBody3D actor, Vector3 targetPosition, float duration, float proximityOffset)
     {
-        // Calculate the actual stop point (don't overlap the enemy)
-        Vector3 direction = (targetPosition - actor.GlobalPosition).Normalized();
-        Vector3 finalPos = targetPosition - (direction * proximityOffset);
+        // Calculate distance and direction
+        Vector3 direction = (targetPosition - actor.GlobalPosition);
+        direction.Y = 0;
+
+        float distance = direction.Length() - proximityOffset;
+
+        if (distance <= 0)
+        {
+            actor.Velocity = new Vector3(0, actor.Velocity.Y, 0);
+            return actor.CreateTween(); // dummy tween
+        }
+
+        direction = direction.Normalized();
+
+        float initialSpeed = (distance * 4.0f) / duration;
+
+        actor.Velocity = new Vector3(direction.X * initialSpeed, actor.Velocity.Y, direction.Z * initialSpeed);
+
 
         // create tween through the actor's tree
         Tween tween = actor.CreateTween();
+        tween.SetParallel(true);
 
         // Set transition for a "snappy" feel: Easeout Quad or Cubic is good for lunges
         tween.SetTrans(Tween.TransitionType.Cubic);
         tween.SetEase(Tween.EaseType.Out);
 
         // Tween the global position
-        tween.TweenProperty(actor, "global_position", finalPos, duration);
+        tween.TweenProperty(actor, "velocity:x", 0f, duration);
+        tween.TweenProperty(actor, "velocity:z", 0f, duration);
 
         return tween;
+    }
+
+    public Tween ApplyKnockback(Vector3 sourcePosition, float knockbackPower)
+    {
+        Vector3 direction = (_actor.GlobalPosition - sourcePosition);
+        direction.Y = 0;
+        direction = direction.Normalized();
+
+        _actor.Velocity = direction * knockbackPower;
+
+        float duration = Mathf.Clamp(knockbackPower * 0.05f, 0.1f, 1.0f);
+
+        Tween tween = _actor.CreateTween();
+
+        tween.SetParallel(true);
+
+        tween.SetTrans(Tween.TransitionType.Cubic);
+        tween.SetEase(Tween.EaseType.Out);
+
+        tween.TweenProperty(_actor, "velocity:x", 0f, duration);
+        tween.TweenProperty(_actor, "velocity:z", 0f, duration);
+
+        return tween;
+    }
+
+    public void ProcessForcesLocomotion(float delta)
+    {
+        if (!_actor.IsOnFloor())
+        {
+            Vector3 vel = _actor.Velocity;
+            vel.Y += _gravity * delta;
+            _actor.Velocity = vel;
+        }
+
+        _actor.MoveAndSlide();
     }
 }

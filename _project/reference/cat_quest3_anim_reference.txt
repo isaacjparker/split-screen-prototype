@@ -1,0 +1,28 @@
+Cat Quest III
+
+attack1:
+
+04.60 - input (ish)
+04.62 - sword starts lighting up
+04.73 - sword fully lit
+04.74 - snap to full wind up
+04.75 - start forward dash (fixed wind up position)
+04.82 - begin swing from wind up
+04.83 - full slash curve visible at once + sword at arc end
+04.86 - dash 'lands' (slash vfx arc still visible)
+04.88 - dash 'squash' begins + vfx arc retreats to half way.
+04.90 - still forward movement from dash, still 'squashed', VFX arc now at 1/4
+04.92 - 1/4 vfx arc still visible, squash goes even squashier
+04.95 - VFX arc gone. Still fully squashed
+04.97 - triple squash!
+05.02 - relieve squash
+05.06 - standing tall overshoot (a bit too tall)
+05.10 - back to regular height (bounce back) + still holding end sword position
+05.72 - begin recovery (sheathing)
+05.90 - sword sheathed but body in slightly tense position
+05.99 - recovery finished. Idle.
+
+
+
+
+
