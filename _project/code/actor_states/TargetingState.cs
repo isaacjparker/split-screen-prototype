@@ -3,7 +3,7 @@ using System;
 
 public partial class TargetingState : ActorState
 {
-	public TargetingState(PlayerBrain brain) : base(brain)
+	public TargetingState(ActorCore core) : base(core)
     {
     }
 
@@ -14,28 +14,28 @@ public partial class TargetingState : ActorState
 
 	public override void ProcessState(float delta)
     {
-        if (_brain.CurrentTarget == null || !GodotObject.IsInstanceValid(_brain.CurrentTarget))
+        if (_core.CurrentTarget == null || !GodotObject.IsInstanceValid(_core.CurrentTarget))
         {
-            _brain.CurrentTarget = null;
-            _brain.StateMachine.ChangeState(new IdleMoveState(_brain));
+            _core.CurrentTarget = null;
+            _core.StateMachine.ChangeState(new IdleMoveState(_core));
             return;
         }
 
-        if (!_brain.IsTargetPressed())
+        if (!_core.ActorInput.IsTargetLockHeld())
         {
-            _brain.CurrentTarget = null;
-            _brain.StateMachine.ChangeState(new IdleMoveState(_brain));
+            _core.CurrentTarget = null;
+            _core.StateMachine.ChangeState(new IdleMoveState(_core));
             return;
         }
 
-        if (_brain.IsAttackJustPressed())
+        if (_core.ActorInput.IsAttackRequested())
         {
-            _brain.StateMachine.ChangeState(new AttackingState(_brain));
+            _core.StateMachine.ChangeState(new AttackingState(_core));
             return;
         }
 
-        Vector3 inputDir = _brain.GetInputDirection();
-        _brain.Motor.ProcessTargetingLocomotion(inputDir, _brain.CurrentTarget, _brain.MaxSpeed, delta);
+        Vector3 moveDir = _core.ActorInput.GetMovementDirection();
+        _core.Motor.ProcessTargetingLocomotion(moveDir, _core.CurrentTarget, _status.MaxSpeed, delta);
     }
 
     public override void ExitState()

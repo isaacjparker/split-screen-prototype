@@ -3,16 +3,20 @@ using System;
 
 public partial class MotorModule : Node
 {
-	private CharacterBody3D _actor;
+	private CharacterBody3D _core;
 
+    // TODO: Remove and replace with Status reference
     private float _acceleration;
     private float _deceleration;
     private float _turnSpeed;
     private float _gravity;
 
-    public void Initialise(CharacterBody3D actor, float accel, float decel, float turnSpeed, float gravity)
+    // TODO: Change CharacterBody3D to ActorCore
+    // and remove Initialise parameters (other than ActorCore)
+    // Grab reference to Status and store in _status.
+    public void Initialise(CharacterBody3D core, float accel, float decel, float turnSpeed, float gravity)
     { 
-        _actor = actor;
+        _core = core;
         _acceleration = accel;
         _deceleration = decel;
         _turnSpeed = turnSpeed;
@@ -25,18 +29,18 @@ public partial class MotorModule : Node
     public void ProcessLocomotion(Vector3 inputDirection, float maxSpeed, float delta)
     {
         // 1. Calculate Velocity
-        _actor.Velocity = CalculateVelocity(_actor.Velocity, inputDirection, maxSpeed, _actor.IsOnFloor(), delta);
+        _core.Velocity = CalculateVelocity(_core.Velocity, inputDirection, maxSpeed, _core.IsOnFloor(), delta);
 
         // 2. Rotate
         if (inputDirection != Vector3.Zero)
         {
-            Vector3 rotation = _actor.Rotation;
-            rotation.Y = GetTargetYaw(_actor.Velocity, _actor.Rotation.Y, delta);
-            _actor.Rotation = rotation;
+            Vector3 rotation = _core.Rotation;
+            rotation.Y = GetTargetYaw(_core.Velocity, _core.Rotation.Y, delta);
+            _core.Rotation = rotation;
         }
 
         // 3. Apply
-        _actor.MoveAndSlide();
+        _core.MoveAndSlide();
     }
 
     public void ProcessTargetingLocomotion(Vector3 inputDirection, CharacterBody3D target, float maxSpeed, float delta)
@@ -44,17 +48,17 @@ public partial class MotorModule : Node
         if (target == null) return;
 
         // 1. Move
-        _actor.Velocity = CalculateVelocity(_actor.Velocity, inputDirection, maxSpeed, _actor.IsOnFloor(), delta);
-        _actor.MoveAndSlide();
+        _core.Velocity = CalculateVelocity(_core.Velocity, inputDirection, maxSpeed, _core.IsOnFloor(), delta);
+        _core.MoveAndSlide();
 
         // 2. Rotate (Face Target)
-        Vector3 toTarget = (target.GlobalPosition - _actor.GlobalPosition).Normalized();
+        Vector3 toTarget = (target.GlobalPosition - _core.GlobalPosition).Normalized();
         toTarget.Y = 0;
 
         float targetYaw = Mathf.Atan2(-toTarget.X, -toTarget.Z);
-        Vector3 rot = _actor.Rotation;
+        Vector3 rot = _core.Rotation;
         rot.Y = Mathf.LerpAngle(rot.Y, targetYaw, _turnSpeed * delta);
-        _actor.Rotation = rot;
+        _core.Rotation = rot;
     }
 
 	public Vector3 CalculateVelocity(Vector3 currentVelocity, Vector3 inputDir, float maxSpeed, bool isOnfloor, float delta)
@@ -138,36 +142,36 @@ public partial class MotorModule : Node
 
     public Tween ApplyKnockback(Vector3 sourcePosition, float knockbackPower)
     {
-        Vector3 direction = (_actor.GlobalPosition - sourcePosition);
+        Vector3 direction = (_core.GlobalPosition - sourcePosition);
         direction.Y = 0;
         direction = direction.Normalized();
 
-        _actor.Velocity = direction * knockbackPower;
+        _core.Velocity = direction * knockbackPower;
 
         float duration = Mathf.Clamp(knockbackPower * 0.05f, 0.1f, 1.0f);
 
-        Tween tween = _actor.CreateTween();
+        Tween tween = _core.CreateTween();
 
         tween.SetParallel(true);
 
         tween.SetTrans(Tween.TransitionType.Cubic);
         tween.SetEase(Tween.EaseType.Out);
 
-        tween.TweenProperty(_actor, "velocity:x", 0f, duration);
-        tween.TweenProperty(_actor, "velocity:z", 0f, duration);
+        tween.TweenProperty(_core, "velocity:x", 0f, duration);
+        tween.TweenProperty(_core, "velocity:z", 0f, duration);
 
         return tween;
     }
 
     public void ProcessForcesLocomotion(float delta)
     {
-        if (!_actor.IsOnFloor())
+        if (!_core.IsOnFloor())
         {
-            Vector3 vel = _actor.Velocity;
+            Vector3 vel = _core.Velocity;
             vel.Y += _gravity * delta;
-            _actor.Velocity = vel;
+            _core.Velocity = vel;
         }
 
-        _actor.MoveAndSlide();
+        _core.MoveAndSlide();
     }
 }

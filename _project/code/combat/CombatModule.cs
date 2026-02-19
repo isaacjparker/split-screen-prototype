@@ -1,27 +1,18 @@
 using Godot;
-using System;
-using System.Threading.Tasks;
 
 
 public partial class CombatModule : Node
 {
-    [ExportGroup("Lunge Settings")]
-    [Export] private float _maxLungeDistance = 5.0f;
-    [Export] private float _lungeCone = 45.0f;
-    [Export] private string _targetGroup = "enemies";
-    [Export] private float _lungeDuration = 0.2f;
-    [Export] private float _lungeStopOffset = 1.5f;
-    [Export] private float _lungeWhiffDistance = 1.0f;
-    [Export] private float _lungeWhiffDuration = 0.15f;
-
-    private CharacterBody3D _actor;
+    private ActorCore _core;
     private MotorModule _motor;
-    
+    private StatusModule _status;
 
-    public void Initialise(CharacterBody3D actor, MotorModule motor)
+
+    public void Initialise(ActorCore core, MotorModule motor)
     {
-        _actor = actor;
+        _core = core;
         _motor = motor;
+        _status = _core.Status;
     }
 
     public void PerformMeleeLunge(CharacterBody3D lockedTarget = null)
@@ -31,14 +22,14 @@ public partial class CombatModule : Node
         // If not hard targting, look for a "soft" target
         if (finalTarget == null)
         { 
-			Vector3 forward = -_actor.GlobalTransform.Basis.Z;
+			Vector3 forward = -_core.GlobalTransform.Basis.Z;
 
         	CharacterBody3D target = CombatUtils.GetClosestTargetInCone(
-				_actor.GlobalPosition, 
+				_core.GlobalPosition, 
 				forward,
-				_maxLungeDistance,
-				_lungeCone,
-				_targetGroup,
+				_status.MaxLungeDistance,
+				_status.LungeCone,
+				_status.TargetGroup,
 				GetTree()
 			);
 		}
@@ -51,19 +42,19 @@ public partial class CombatModule : Node
         if (finalTarget != null && IsInstanceValid(finalTarget))
         {
             lungePos = finalTarget.GlobalPosition;
-            duration = _lungeDuration;
-            offset = _lungeStopOffset;
+            duration = _status.LungeDuration;
+            offset = _status.LungeStopOffset;
         }
         else
         {
-            Vector3 forward = -_actor.GlobalTransform.Basis.Z;
-            lungePos = _actor.GlobalPosition + (forward * _lungeWhiffDistance);
-            duration = _lungeWhiffDuration;
+            Vector3 forward = -_core.GlobalTransform.Basis.Z;
+            lungePos = _core.GlobalPosition + (forward * _status.LungeWhiffDistance);
+            duration = _status.LungeWhiffDuration;
             offset = 0.0f;
         }
 
         // Execute lunge
-        _motor.Lunge(_actor, lungePos, duration, offset);
+        _motor.Lunge(_core, lungePos, duration, offset);
     }
 
     // TODO: Don't use paramete here -
@@ -71,14 +62,14 @@ public partial class CombatModule : Node
     // But currently this is PlayerBrain which won't extend to enemies
     // So instead of refactoring our data approach right now
     // Come back later and change it so as to avoid parameters like this.
-    public AttackPayload BuildAttackPayload(PlayerBrain brain)
+    public AttackPayload BuildAttackPayload()
     {
         return new AttackPayload 
         {
-        BaseDamage = brain.BaseDamage,
-        KnockbackPower = brain.KnockbackPower,
-        HitStopDuration = brain.HitStopDuration,
-        SourcePosition = brain.GlobalPosition
+        BaseDamage = _status.BaseDamage,
+        KnockbackPower = _status.KnockbackPower,
+        HitStopDuration = _status.HitStopDuration,
+        SourcePosition = _core.GlobalPosition
         };
     }
 }

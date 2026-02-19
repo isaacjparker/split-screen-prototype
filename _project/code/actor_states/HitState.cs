@@ -3,7 +3,7 @@ using System;
 
 public partial class HitState : ActorState
 {
-    public HitState(PlayerBrain brain) : base(brain)
+    public HitState(ActorCore core) : base(core)
     {
     }
 

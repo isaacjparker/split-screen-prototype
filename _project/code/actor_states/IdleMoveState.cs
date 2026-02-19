@@ -3,7 +3,7 @@ using System;
 
 public partial class IdleMoveState : ActorState
 {
-    public IdleMoveState(PlayerBrain brain) : base(brain)
+    public IdleMoveState(ActorCore core) : base(core)
     {
     }
 
@@ -14,31 +14,31 @@ public partial class IdleMoveState : ActorState
 
 	public override void ProcessState(float delta)
     {
-        Vector3 inputDir = _brain.GetInputDirection();
-        _brain.Motor.ProcessLocomotion(inputDir, _brain.MaxSpeed, delta);
+        Vector3 moveDir = _core.ActorInput.GetMovementDirection();
+        _core.Motor.ProcessLocomotion(moveDir, _status.MaxSpeed, delta);
 
         // Check for state transitions
-        if (_brain.IsAttackJustPressed())
+        if (_core.ActorInput.IsAttackRequested())
         {
-            _brain.StateMachine.ChangeState(new AttackingState(_brain));
+            _core.StateMachine.ChangeState(new AttackingState(_core));
             return;
         }
 
-        if (_brain.IsTargetJustPressed())
+        if (_core.ActorInput.IsTargetLockRequested())
         {
             CharacterBody3D foundTarget = CombatUtils.GetClosestTargetInCone(
-                _brain.GlobalPosition,
-                -_brain.GlobalTransform.Basis.Z,
-                _brain.MaxTargetRange,
-                _brain.MaxTargetScanAngle,
-                _brain.TargetGroup,
-                _brain.GetTree()
+                _core.GlobalPosition,
+                -_core.GlobalTransform.Basis.Z,
+                _status.MaxTargetRange,
+                _status.MaxTargetScanAngle,
+                _status.TargetGroup,
+                _core.GetTree()
             );
 
             if (foundTarget != null)
             {
-                _brain.CurrentTarget = foundTarget;
-                _brain.StateMachine.ChangeState(new TargetingState(_brain));
+                _core.CurrentTarget = foundTarget;
+                _core.StateMachine.ChangeState(new TargetingState(_core));
                 return;
             }
 

@@ -10,7 +10,7 @@ public partial class CameraManager : Node
     [Export] private CameraRig[] _cameraRigs = new CameraRig[4];
 
     // Runtime
-    private Dictionary<int, PlayerBrain> _playerSlotToInstance = new();
+    private Dictionary<int, ActorCore> _playerSlotToInstance = new();
     private Dictionary<int, int> _playerSlotToCameraSlot = new();
 
     public override void _Ready()
@@ -37,7 +37,7 @@ public partial class CameraManager : Node
         _localMultiplayerManager.PlayerLeftEvent -= RemovePlayerCamera;
     }
 
-    private void CreatePlayerCamera(PlayerBrain playerController, int playerSlot)
+    private void CreatePlayerCamera(ActorCore playerController, int playerSlot)
     {
         if (playerController == null)
         {
@@ -80,7 +80,7 @@ public partial class CameraManager : Node
         for (int i = 0; i < sortedSlots.Count; i++)
         {
             int playerSlot = sortedSlots[i];
-            PlayerBrain controller = _playerSlotToInstance[playerSlot];
+            ActorCore controller = _playerSlotToInstance[playerSlot];
 
             // CHECK: If the player is in the process of being removed / disposed, skip initialisation
             if (!GodotObject.IsInstanceValid(controller) || controller.IsQueuedForDeletion())

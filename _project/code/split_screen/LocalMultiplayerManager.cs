@@ -17,11 +17,11 @@ public partial class LocalMultiplayerManager : Node
     // Runtime
     private readonly HashSet<int> _connectedDeviceIds = new();
     private readonly Dictionary<int, int> _deviceIdToPlayerSlot = new();
-    private readonly Dictionary<int, PlayerBrain> _playerSlotToInstance = new Dictionary<int, PlayerBrain>();
+    private readonly Dictionary<int, ActorCore> _playerSlotToInstance = new Dictionary<int, ActorCore>();
     private Node _playersRootNode = default;
 
     // Actions
-    public event Action<PlayerBrain, int> PlayerJoinedEvent;
+    public event Action<ActorCore, int> PlayerJoinedEvent;
     public event Action<int> PlayerLeftEvent;
 
     public override void _Ready()
@@ -125,10 +125,18 @@ public partial class LocalMultiplayerManager : Node
             return;
         }
 
-        PlayerBrain playerInstance = CreatePlayerInstance(KeyboardPlayerSlot);
+        ActorCore playerInstance = CreatePlayerInstance(KeyboardPlayerSlot);
 
-        playerInstance.PlayerSlot = KeyboardPlayerSlot;
-        playerInstance.AssignInputDevice(0);
+        if (playerInstance.ActorInput is PlayerInput playerInput)
+        {
+            playerInput.PlayerSlot = KeyboardPlayerSlot;
+            playerInput.AssignInputDevice(0);
+        }
+        else
+        {
+            GD.PrintErr("Failed to join Keyboard player: ActorCore does not have a PlayerInput module.");
+            return;
+        }
 
         _playerSlotToInstance[KeyboardPlayerSlot] = playerInstance;
 
@@ -147,10 +155,18 @@ public partial class LocalMultiplayerManager : Node
 
         int playerSlot = availablePlayerSlot.Value;
 
-        PlayerBrain playerInstance = CreatePlayerInstance(playerSlot);
+        ActorCore playerInstance = CreatePlayerInstance(playerSlot);
 
-        playerInstance.PlayerSlot = playerSlot;
-        playerInstance.AssignInputDevice(deviceId);
+        if (playerInstance.ActorInput is PlayerInput playerInput)
+        {
+            playerInput.PlayerSlot = playerSlot;
+            playerInput.AssignInputDevice(deviceId);
+        }
+        else
+        {
+            GD.PrintErr("Failed to join player: ActorCore does not have a PlayerInput module.");
+            return;
+        }
 
         _playerSlotToInstance[playerSlot] = playerInstance;
         _deviceIdToPlayerSlot[deviceId] = playerSlot;
@@ -175,7 +191,7 @@ public partial class LocalMultiplayerManager : Node
         // Then remove the data from the manager
         _deviceIdToPlayerSlot.Remove(deviceId);
 
-        if (_playerSlotToInstance.TryGetValue(playerSlot, out PlayerBrain playerInstance))
+        if (_playerSlotToInstance.TryGetValue(playerSlot, out ActorCore playerInstance))
         {
             // Now it is safe to remove the physical node from the scene
             if (playerInstance != null && IsInstanceValid(playerInstance))
@@ -201,11 +217,11 @@ public partial class LocalMultiplayerManager : Node
         return null;
     }
 
-    private PlayerBrain CreatePlayerInstance(int playerSlot)
+    private ActorCore CreatePlayerInstance(int playerSlot)
     {
         Node instance = _playerScene.Instantiate();
 
-		if (instance is not PlayerBrain playerController)
+		if (instance is not ActorCore playerController)
         {
             instance.QueueFree();
             throw new InvalidOperationException("Player scene root must be a PlayerController.");

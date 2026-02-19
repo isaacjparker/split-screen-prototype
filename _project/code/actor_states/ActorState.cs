@@ -3,11 +3,13 @@ using System;
 
 public abstract class ActorState
 {
-    protected PlayerBrain _brain;
+    protected ActorCore _core;
+    protected StatusModule _status;
 
-    public ActorState(PlayerBrain brain)
+    public ActorState(ActorCore core)
     {
-        _brain = brain;
+        _core = core;
+        _status = _core.Status;
     }
 
     public abstract void EnterState();

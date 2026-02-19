@@ -6,30 +6,30 @@ public partial class AttackingState : ActorState
     private bool _nextAttackQueued = false;
     private bool _isComboWindowOpen = false;
 
-    public AttackingState(PlayerBrain brain) : base(brain)
+    public AttackingState(ActorCore core) : base(core)
     {
     }
 
     public override void EnterState()
     {
-        _brain.OnComboWindowOpen += HandleComboWindowOpen;
-        _brain.OnComboWindowClose += HandleComboWindowClose;
+        _core.OnComboWindowOpen += HandleComboWindowOpen;
+        _core.OnComboWindowClose += HandleComboWindowClose;
 
         _nextAttackQueued = false;
         _isComboWindowOpen = false;
 
         // Must use Start() NOT Travel(). Travel() can lock up animation transition.
-        _brain.AnimPlayback.Start(PlayerBrain.ANIM_ATK1);
-        _brain.Combat.PerformMeleeLunge(_brain.CurrentTarget);
+        _core.AnimPlayback.Start(ActorCore.ANIM_ATK1);
+        _core.Combat.PerformMeleeLunge(_core.CurrentTarget);
     }
 
 	public override void ProcessState(float delta)
     {
-        _brain.Motor.ProcessForcesLocomotion(delta);
+        _core.Motor.ProcessForcesLocomotion(delta);
 
         if (_isComboWindowOpen == false) return;
 
-        if (_brain.IsAttackJustPressed())
+        if (_core.ActorInput.IsAttackRequested())
         {
             _nextAttackQueued = true;
         }
@@ -38,10 +38,10 @@ public partial class AttackingState : ActorState
     
     public override void ExitState()
     {
-        _brain.OnComboWindowOpen -= HandleComboWindowOpen;
-        _brain.OnComboWindowClose -= HandleComboWindowClose;
+        _core.OnComboWindowOpen -= HandleComboWindowOpen;
+        _core.OnComboWindowClose -= HandleComboWindowClose;
 
-        _brain.HitBox.ProcessMode = Node.ProcessModeEnum.Disabled;
+        _core.HitBox.ProcessMode = Node.ProcessModeEnum.Disabled;
     }
 
     /// <summary>
@@ -51,22 +51,22 @@ public partial class AttackingState : ActorState
     /// </summary>
     private bool AdvanceCombo()
     {
-        string current = _brain.AnimPlayback.GetCurrentNode();
+        string current = _core.AnimPlayback.GetCurrentNode();
         string nextState = "";
 
         switch (current)
         { 
-            case PlayerBrain.ANIM_ATK1 : nextState = PlayerBrain.ANIM_ATK2; break;
-            case PlayerBrain.ANIM_ATK2 : nextState = PlayerBrain.ANIM_ATK3; break;
-            case PlayerBrain.ANIM_ATK3 : nextState = PlayerBrain.ANIM_ATK1; break;
+            case ActorCore.ANIM_ATK1 : nextState = ActorCore.ANIM_ATK2; break;
+            case ActorCore.ANIM_ATK2 : nextState = ActorCore.ANIM_ATK3; break;
+            case ActorCore.ANIM_ATK3 : nextState = ActorCore.ANIM_ATK1; break;
         }
 
         if (!string.IsNullOrEmpty(nextState))
         {
             _isComboWindowOpen = false;
 
-            _brain.AnimPlayback.Travel(nextState);
-            _brain.Combat.PerformMeleeLunge(_brain.CurrentTarget);
+            _core.AnimPlayback.Travel(nextState);
+            _core.Combat.PerformMeleeLunge(_core.CurrentTarget);
             return true;
         }
 
@@ -77,16 +77,16 @@ public partial class AttackingState : ActorState
     {
         _isComboWindowOpen = true;
 
-        _brain.HitBox.SetPayload(_brain.Combat.BuildAttackPayload(_brain));
+        _core.HitBox.SetPayload(_core.Combat.BuildAttackPayload());
 
-        _brain.HitBox.ProcessMode = Node.ProcessModeEnum.Inherit;
+        _core.HitBox.ProcessMode = Node.ProcessModeEnum.Inherit;
     }
 
     private void HandleComboWindowClose()
     {
         _isComboWindowOpen = false;
 
-        _brain.HitBox.ProcessMode = Node.ProcessModeEnum.Disabled;
+        _core.HitBox.ProcessMode = Node.ProcessModeEnum.Disabled;
 
         if (_nextAttackQueued)
         {
@@ -95,6 +95,6 @@ public partial class AttackingState : ActorState
         }
 
         // If no attack queued, change state
-        _brain.StateMachine.ChangeState(new IdleMoveState(_brain));
+        _core.StateMachine.ChangeState(new IdleMoveState(_core));
     }
 }
