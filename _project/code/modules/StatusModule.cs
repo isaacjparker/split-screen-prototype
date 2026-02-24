@@ -20,11 +20,15 @@ public partial class StatusModule : Node
     [Export] public float MaxTargetRange = 20.0f;
     [Export] public float MaxTargetScanAngle = 180.0f;
     [Export] public string TargetGroup = "enemies";
+    [Export] public CharacterBody3D CurrentTarget;
 
     [ExportGroup("Offense")]
     [Export] public float BaseDamage = 5.0f;
     [Export] public float KnockbackPower = 15.0f;
     [Export] public float HitStopDuration = 0.2f;
+    [Export] public int ComboIndex = 0;
+    [Export] public float ComboWindow = 0.6f;
+    [Export] public WeaponData WeaponData;
 
     [ExportGroup("Lunge")]
     [Export] public float MaxLungeDistance = 5.0f;
@@ -40,13 +44,20 @@ public partial class StatusModule : Node
     {
         _core = core;
         CurrentHealth = MaxHealth;
+
+        _core.HurtBox.AreaEntered += OnHurtBoxAreaEntered;
+    }
+
+    public override void _ExitTree()
+    {
+        _core.HurtBox.AreaEntered -= OnHurtBoxAreaEntered;
     }
 
     public event Action<float, float> OnHealthChanged;
     public event Action OnZeroHealth;
     public event Action<Vector3, float> OnKnockbackReceived;
 
-    public void ApplyDamage(AttackPayload payload) 
+    public void ApplyDamage(AttackPayload payload)
     {
         CurrentHealth = Mathf.Clamp(CurrentHealth - payload.BaseDamage, 0.0f, MaxHealth);
         OnHealthChanged?.Invoke(CurrentHealth, payload.BaseDamage);
@@ -72,4 +83,11 @@ public partial class StatusModule : Node
     public void ModifySpeedPercentage(float multiplier, float duration) { }
 
 
+    public void OnHurtBoxAreaEntered(Area3D area)
+    {
+        if (area is HitBox hitBox)
+        {
+            ApplyDamage(hitBox.Payload);
+        }
+    }
 }

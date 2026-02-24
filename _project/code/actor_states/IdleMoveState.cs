@@ -37,7 +37,7 @@ public partial class IdleMoveState : ActorState
 
             if (foundTarget != null)
             {
-                _core.CurrentTarget = foundTarget;
+                _core.Status.CurrentTarget = foundTarget;
                 _core.StateMachine.ChangeState(new TargetingState(_core));
                 return;
             }

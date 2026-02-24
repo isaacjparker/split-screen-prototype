@@ -20,7 +20,9 @@ public partial class AttackingState : ActorState
 
         // Must use Start() NOT Travel(). Travel() can lock up animation transition.
         _core.AnimPlayback.Start(ActorCore.ANIM_ATK1);
-        _core.Combat.PerformMeleeLunge(_core.CurrentTarget);
+
+        LungePayload lungePayload = _core.Combat.CalculateMeleeLunge(_core.Status.CurrentTarget);
+        _core.Motor.Lunge(_core, lungePayload);
     }
 
 	public override void ProcessState(float delta)
@@ -35,7 +37,6 @@ public partial class AttackingState : ActorState
         }
     }
 
-    
     public override void ExitState()
     {
         _core.OnComboWindowOpen -= HandleComboWindowOpen;
@@ -66,7 +67,9 @@ public partial class AttackingState : ActorState
             _isComboWindowOpen = false;
 
             _core.AnimPlayback.Travel(nextState);
-            _core.Combat.PerformMeleeLunge(_core.CurrentTarget);
+
+            LungePayload lungePayload = _core.Combat.CalculateMeleeLunge(_core.Status.CurrentTarget);
+            _core.Motor.Lunge(_core, lungePayload);
             return true;
         }
 

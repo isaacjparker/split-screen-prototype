@@ -3,24 +3,13 @@ using System;
 
 public partial class MotorModule : Node
 {
-	private CharacterBody3D _core;
+	private ActorCore _core;
+    private StatusModule _status;
 
-    // TODO: Remove and replace with Status reference
-    private float _acceleration;
-    private float _deceleration;
-    private float _turnSpeed;
-    private float _gravity;
-
-    // TODO: Change CharacterBody3D to ActorCore
-    // and remove Initialise parameters (other than ActorCore)
-    // Grab reference to Status and store in _status.
-    public void Initialise(CharacterBody3D core, float accel, float decel, float turnSpeed, float gravity)
+    public void Initialise(ActorCore core)
     { 
         _core = core;
-        _acceleration = accel;
-        _deceleration = decel;
-        _turnSpeed = turnSpeed;
-        _gravity = gravity;
+        _status = _core.Status;
     }
 
     // ------------------------------------------------------------------------
@@ -57,7 +46,7 @@ public partial class MotorModule : Node
 
         float targetYaw = Mathf.Atan2(-toTarget.X, -toTarget.Z);
         Vector3 rot = _core.Rotation;
-        rot.Y = Mathf.LerpAngle(rot.Y, targetYaw, _turnSpeed * delta);
+        rot.Y = Mathf.LerpAngle(rot.Y, targetYaw, _status.TurnSpeed * delta);
         _core.Rotation = rot;
     }
 
@@ -67,7 +56,7 @@ public partial class MotorModule : Node
 
         Vector3 targetDirection = inputDir.Normalized();
         float targetSpeed = inputDir.Length() * maxSpeed;
-        float accelRate = _deceleration;
+        float accelRate = _status.Deceleration;
 
         if (inputDir != Vector3.Zero)
         {
@@ -75,7 +64,7 @@ public partial class MotorModule : Node
             bool isSpeedingUp = signedSpeed < targetSpeed - 0.01f;
             bool isSharpTurn = signedSpeed < 0f;
 
-			if (!isSharpTurn && isSpeedingUp) accelRate = _acceleration;
+			if (!isSharpTurn && isSpeedingUp) accelRate = _status.Acceleration;
         }
 
         Vector3 targetVelocity = targetDirection * targetSpeed;
@@ -89,7 +78,7 @@ public partial class MotorModule : Node
         }
         else
         {
-            currentY += _gravity * delta;
+            currentY += _status.Gravity * delta;
         }
 
         return new Vector3(horizontalVelocity.X, currentY, horizontalVelocity.Z);
@@ -101,16 +90,16 @@ public partial class MotorModule : Node
 		if (flattened.LengthSquared() < 0.01f) return currentRotationY;
 
         float targetYaw = Mathf.Atan2(-flattened.X, -flattened.Z);
-        return Mathf.LerpAngle(currentRotationY, targetYaw, _turnSpeed * delta);
+        return Mathf.LerpAngle(currentRotationY, targetYaw, _status.TurnSpeed * delta);
     }
 
-    public Tween Lunge(CharacterBody3D actor, Vector3 targetPosition, float duration, float proximityOffset)
+    public Tween Lunge(CharacterBody3D actor, LungePayload lungePayload)
     {
         // Calculate distance and direction
-        Vector3 direction = (targetPosition - actor.GlobalPosition);
+        Vector3 direction = (lungePayload.TargetPosition - actor.GlobalPosition);
         direction.Y = 0;
 
-        float distance = direction.Length() - proximityOffset;
+        float distance = direction.Length() - lungePayload.StopOffset;
 
         if (distance <= 0)
         {
@@ -120,7 +109,7 @@ public partial class MotorModule : Node
 
         direction = direction.Normalized();
 
-        float initialSpeed = (distance * 4.0f) / duration;
+        float initialSpeed = (distance * 4.0f) / lungePayload.Duration;
 
         actor.Velocity = new Vector3(direction.X * initialSpeed, actor.Velocity.Y, direction.Z * initialSpeed);
 
@@ -134,8 +123,8 @@ public partial class MotorModule : Node
         tween.SetEase(Tween.EaseType.Out);
 
         // Tween the global position
-        tween.TweenProperty(actor, "velocity:x", 0f, duration);
-        tween.TweenProperty(actor, "velocity:z", 0f, duration);
+        tween.TweenProperty(actor, "velocity:x", 0f, lungePayload.Duration);
+        tween.TweenProperty(actor, "velocity:z", 0f, lungePayload.Duration);
 
         return tween;
     }
@@ -168,7 +157,7 @@ public partial class MotorModule : Node
         if (!_core.IsOnFloor())
         {
             Vector3 vel = _core.Velocity;
-            vel.Y += _gravity * delta;
+            vel.Y += _status.Gravity * delta;
             _core.Velocity = vel;
         }
 

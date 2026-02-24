@@ -8,6 +8,7 @@ public partial class ActorCore : CharacterBody3D
     [ExportGroup("Components")]
     [Export] public HitBox HitBox;
     [Export] public Area3D HurtBox;
+    [Export] public Sprite3D SlashVfx;
 
     public InputModule ActorInput { get; private set; }
     public StatusModule Status { get; private set; }
@@ -15,7 +16,6 @@ public partial class ActorCore : CharacterBody3D
     public CombatModule Combat { get; private set; }
     public StateMachine StateMachine { get; private set; }
     public AnimationTree AnimTree { get; private set; }
-    public CharacterBody3D CurrentTarget { get; set; }  // Settable by states
 
     // Animation State Machine
     public AnimationNodeStateMachinePlayback AnimPlayback;
@@ -75,22 +75,36 @@ public partial class ActorCore : CharacterBody3D
         }
 
         Status.Initialise(this);
-        Motor.Initialise(this, Status.Acceleration, Status.Deceleration, Status.TurnSpeed, Status.Gravity);
-        Combat.Initialise(this, Motor);
+        Motor.Initialise(this);
+        Combat.Initialise(this);
         StateMachine.Initialise(new IdleMoveState(this));
 
         AnimPlayback = (AnimationNodeStateMachinePlayback)AnimTree.Get("parameters/playback");
 
-        if (HitBox.ProcessMode != Node.ProcessModeEnum.Disabled)
+        if (HitBox != null && GodotObject.IsInstanceValid(HitBox))
         { 
-            HitBox.ProcessMode = Node.ProcessModeEnum.Disabled;
+            if (HitBox.ProcessMode != Node.ProcessModeEnum.Disabled)
+            { 
+                HitBox.ProcessMode = Node.ProcessModeEnum.Disabled;
+            }
         }
-        
+
+        Status.OnKnockbackReceived += HandleKnockbackEvent;
     }
 
     public override void _PhysicsProcess(double delta)
     {
         StateMachine.ProcessState((float)delta);
+    }
+
+    public override void _ExitTree()
+    {
+        Status.OnKnockbackReceived -= HandleKnockbackEvent;
+    }
+
+    public void HandleKnockbackEvent(Vector3 sourcePos, float power)
+    {
+        StateMachine.ChangeState(new HitState(this, sourcePos, power));
     }
 
     // ------------------------------------------------------------------------

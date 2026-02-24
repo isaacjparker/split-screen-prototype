@@ -1,7 +1,12 @@
-[gd_scene load_steps=9 format=3 uid="uid://c1fyfxg64s1l2"]
+[gd_scene load_steps=18 format=3 uid="uid://c1fyfxg64s1l2"]
 
-[ext_resource type="Script" uid="uid://dxvtckis0rxw" path="res://_project/code/combat/EnemyBrain.cs" id="1_sime2"]
+[ext_resource type="Script" uid="uid://c73ql6q4klmmv" path="res://_project/code/combat/ActorCore.cs" id="1_0v7gv"]
 [ext_resource type="Script" uid="uid://d312txxrfn5j3" path="res://_project/code/combat/MotorModule.cs" id="2_x7wej"]
+[ext_resource type="Script" uid="uid://cdl31mqlcnall" path="res://_project/code/combat/CombatModule.cs" id="3_c4egs"]
+[ext_resource type="Script" uid="uid://bxdenqcj5hdec" path="res://_project/code/combat/StateMachine.cs" id="3_lm0av"]
+[ext_resource type="Script" uid="uid://b8m3cw5117u1o" path="res://_project/code/modules/StatusModule.cs" id="4_0v7gv"]
+[ext_resource type="Script" uid="uid://dogxudvyat1et" path="res://_project/code/modules/AIInput.cs" id="6_1irq2"]
+[ext_resource type="Script" uid="uid://bw0vys6vgjoai" path="res://_project/scenes/actors/HitBox.cs" id="7_t2y1i"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sime2"]
 albedo_color = Color(0.60784316, 0, 0, 1)
@@ -17,12 +22,25 @@ albedo_color = Color(0, 0, 0, 1)
 [sub_resource type="BoxMesh" id="BoxMesh_dy5t4"]
 material = SubResource("StandardMaterial3D_hski7")
 
+[sub_resource type="AnimationRootNode" id="AnimationRootNode_0v7gv"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_e83c6"]
+height = 1.5
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_dddod"]
+height = 3.0
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ifnxb"]
+height = 2.2
+
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_8yq2o"]
 radius = 0.6
 
-[node name="Enemy" type="CharacterBody3D" node_paths=PackedStringArray("HurtBox") groups=["enemies"]]
-script = ExtResource("1_sime2")
+[node name="Enemy" type="CharacterBody3D" node_paths=PackedStringArray("HitBox", "HurtBox", "SlashVfx") groups=["enemies"]]
+script = ExtResource("1_0v7gv")
+HitBox = NodePath("HitBox")
 HurtBox = NodePath("HurtBox")
+SlashVfx = []
 
 [node name="BodyMesh" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -36,6 +54,46 @@ shape = SubResource("CapsuleShape3D_r27b2")
 transform = Transform3D(0.6, 0, 0, 0, 0.2, 0, 0, 0, 0.4, 0, 1.4, -0.4)
 mesh = SubResource("BoxMesh_dy5t4")
 
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource("3_lm0av")
+
+[node name="MotorModule" type="Node" parent="."]
+script = ExtResource("2_x7wej")
+
+[node name="CombatModule" type="Node" parent="."]
+script = ExtResource("3_c4egs")
+
+[node name="StatusModule" type="Node" parent="."]
+script = ExtResource("4_0v7gv")
+
+[node name="InputModule" type="Node" parent="."]
+script = ExtResource("6_1irq2")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource("AnimationRootNode_0v7gv")
+anim_player = NodePath("../AnimationPlayer")
+
+[node name="HitBox" type="Area3D" parent="."]
+process_mode = 4
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -2.31)
+collision_layer = 2
+collision_mask = 4
+script = ExtResource("7_t2y1i")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HitBox"]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, 0, 0)
+shape = SubResource("CapsuleShape3D_e83c6")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="HitBox"]
+transform = Transform3D(-3.090862e-08, -0.70710677, -0.70710677, 1, -4.371139e-08, 0, -3.090862e-08, -0.70710677, 0.70710677, 0.979, 0, 0.721)
+shape = SubResource("CapsuleShape3D_dddod")
+
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="HitBox"]
+transform = Transform3D(-3.090862e-08, -0.70710677, 0.70710677, 1, -4.371139e-08, 0, 3.090862e-08, 0.70710677, 0.70710677, -0.705, 0, 0.43)
+shape = SubResource("CapsuleShape3D_ifnxb")
+
 [node name="HurtBox" type="Area3D" parent="."]
 collision_layer = 4
 collision_mask = 2
@@ -43,6 +101,3 @@ collision_mask = 2
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HurtBox"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_8yq2o")
-
-[node name="MotorModule" type="Node" parent="."]
-script = ExtResource("2_x7wej")

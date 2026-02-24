@@ -14,16 +14,16 @@ public partial class TargetingState : ActorState
 
 	public override void ProcessState(float delta)
     {
-        if (_core.CurrentTarget == null || !GodotObject.IsInstanceValid(_core.CurrentTarget))
+        if (_core.Status.CurrentTarget == null || !GodotObject.IsInstanceValid(_core.Status.CurrentTarget))
         {
-            _core.CurrentTarget = null;
+            _core.Status.CurrentTarget = null;
             _core.StateMachine.ChangeState(new IdleMoveState(_core));
             return;
         }
 
         if (!_core.ActorInput.IsTargetLockHeld())
         {
-            _core.CurrentTarget = null;
+            _core.Status.CurrentTarget = null;
             _core.StateMachine.ChangeState(new IdleMoveState(_core));
             return;
         }
@@ -35,7 +35,7 @@ public partial class TargetingState : ActorState
         }
 
         Vector3 moveDir = _core.ActorInput.GetMovementDirection();
-        _core.Motor.ProcessTargetingLocomotion(moveDir, _core.CurrentTarget, _status.MaxSpeed, delta);
+        _core.Motor.ProcessTargetingLocomotion(moveDir, _core.Status.CurrentTarget, _status.MaxSpeed, delta);
     }
 
     public override void ExitState()

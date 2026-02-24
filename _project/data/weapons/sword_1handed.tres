@@ -1,0 +1,49 @@
+[gd_resource type="Resource" script_class="WeaponData" load_steps=9 format=3 uid="uid://bc2p1xr1ir88e"]
+
+[ext_resource type="Texture2D" uid="uid://bera5w6t4q4ek" path="res://_project/assets/sprites/slash_02.png" id="1_5bi44"]
+[ext_resource type="Script" uid="uid://bow7tk70sv7fk" path="res://_project/code/_data/WeaponData.cs" id="1_alyb8"]
+[ext_resource type="Script" uid="uid://mu7ojbt2ha6e" path="res://_project/code/_data/AttackData.cs" id="1_ayj0f"]
+[ext_resource type="Texture2D" uid="uid://cunw4mi22s0j5" path="res://_project/assets/sprites/slash_back_03.png" id="3_0bp6h"]
+[ext_resource type="Texture2D" uid="uid://g7pfxhpyvm3s" path="res://_project/assets/sprites/slash_01.png" id="4_8b5ts"]
+
+[sub_resource type="Resource" id="Resource_1kwn4"]
+script = ExtResource("1_ayj0f")
+BaseDamage = 5.0
+KnockbackPower = 15.0
+HitStopDuration = 0.2
+SlashSprite = ExtResource("1_5bi44")
+Windup = 0.1
+Active = 0.6
+Recovery = 1.0
+ComboWindow = Vector2(0, 0.6)
+metadata/_custom_type_script = "uid://mu7ojbt2ha6e"
+
+[sub_resource type="Resource" id="Resource_rptlv"]
+script = ExtResource("1_ayj0f")
+BaseDamage = 5.0
+KnockbackPower = 15.0
+HitStopDuration = 0.2
+SlashSprite = ExtResource("3_0bp6h")
+Windup = 0.1
+Active = 0.5
+Recovery = 0.9
+ComboWindow = Vector2(0, 0.5)
+metadata/_custom_type_script = "uid://mu7ojbt2ha6e"
+
+[sub_resource type="Resource" id="Resource_5bi44"]
+script = ExtResource("1_ayj0f")
+BaseDamage = 5.0
+KnockbackPower = 15.0
+HitStopDuration = 0.2
+SlashSprite = ExtResource("4_8b5ts")
+Windup = 0.3
+Active = 0.8
+Recovery = 1.6
+ComboWindow = Vector2(0, 0.8)
+metadata/_custom_type_script = "uid://mu7ojbt2ha6e"
+
+[resource]
+script = ExtResource("1_alyb8")
+WeaponName = "sword_1handed"
+AttackData = Array[Object]([SubResource("Resource_1kwn4"), SubResource("Resource_rptlv"), SubResource("Resource_5bi44")])
+metadata/_custom_type_script = "uid://bow7tk70sv7fk"

@@ -1,21 +1,34 @@
 using Godot;
 
+public readonly struct LungePayload
+{
+    public readonly Vector3 TargetPosition;
+    public readonly float Duration;
+    public readonly float StopOffset;
+    public readonly bool IsWhiff; // Helpful for animation logic if needed
+
+    public LungePayload(Vector3 target, float duration, float offset, bool isWhiff)
+    {
+        TargetPosition = target;
+        Duration = duration;
+        StopOffset = offset;
+        IsWhiff = isWhiff;
+    }
+}
 
 public partial class CombatModule : Node
 {
     private ActorCore _core;
-    private MotorModule _motor;
     private StatusModule _status;
 
 
-    public void Initialise(ActorCore core, MotorModule motor)
+    public void Initialise(ActorCore core)
     {
         _core = core;
-        _motor = motor;
         _status = _core.Status;
     }
 
-    public void PerformMeleeLunge(CharacterBody3D lockedTarget = null)
+    public LungePayload CalculateMeleeLunge(CharacterBody3D lockedTarget = null)
     {
         CharacterBody3D finalTarget = lockedTarget;
 
@@ -24,7 +37,7 @@ public partial class CombatModule : Node
         { 
 			Vector3 forward = -_core.GlobalTransform.Basis.Z;
 
-        	CharacterBody3D target = CombatUtils.GetClosestTargetInCone(
+        	finalTarget = CombatUtils.GetClosestTargetInCone(
 				_core.GlobalPosition, 
 				forward,
 				_status.MaxLungeDistance,
@@ -34,30 +47,24 @@ public partial class CombatModule : Node
 			);
 		}
 
-        // Prepare lunge data
-        Vector3 lungePos;
-        float duration;
-        float offset;
+        LungePayload lungePayload;
 
         if (finalTarget != null && IsInstanceValid(finalTarget))
         {
-            lungePos = finalTarget.GlobalPosition;
-            duration = _status.LungeDuration;
-            offset = _status.LungeStopOffset;
+            lungePayload = new LungePayload(finalTarget.GlobalPosition, _status.LungeDuration, _status.LungeStopOffset, false);
         }
         else
         {
             Vector3 forward = -_core.GlobalTransform.Basis.Z;
-            lungePos = _core.GlobalPosition + (forward * _status.LungeWhiffDistance);
-            duration = _status.LungeWhiffDuration;
-            offset = 0.0f;
+            Vector3 lungePos = _core.GlobalPosition + (forward * _status.LungeWhiffDistance);
+
+            lungePayload = new LungePayload(lungePos, _status.LungeWhiffDuration, 0.0f, true);
         }
 
-        // Execute lunge
-        _motor.Lunge(_core, lungePos, duration, offset);
+        return lungePayload;
     }
 
-    // TODO: Don't use paramete here -
+    // TODO: Don't use parameter here -
     // We need modules to cache the runtime data source
     // But currently this is PlayerBrain which won't extend to enemies
     // So instead of refactoring our data approach right now

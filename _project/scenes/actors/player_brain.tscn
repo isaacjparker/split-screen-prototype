@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3 uid="uid://vdpv3kjh4su0"]
+[gd_scene load_steps=37 format=3 uid="uid://vdpv3kjh4su0"]
 
 [ext_resource type="Script" uid="uid://c73ql6q4klmmv" path="res://_project/code/combat/ActorCore.cs" id="1_gsska"]
 [ext_resource type="Script" uid="uid://bxdenqcj5hdec" path="res://_project/code/combat/StateMachine.cs" id="2_bvb84"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://cdl31mqlcnall" path="res://_project/code/combat/CombatModule.cs" id="2_dvsr0"]
 [ext_resource type="PackedScene" uid="uid://us4hyhqbbyy4" path="res://_project/scenes/weapons/sword_1_handed.tscn" id="3_bxt2d"]
 [ext_resource type="Script" uid="uid://b8m3cw5117u1o" path="res://_project/code/modules/StatusModule.cs" id="5_bxt2d"]
+[ext_resource type="Texture2D" uid="uid://bera5w6t4q4ek" path="res://_project/assets/sprites/slash_02.png" id="7_8bvrd"]
 [ext_resource type="Script" uid="uid://bw0vys6vgjoai" path="res://_project/scenes/actors/HitBox.cs" id="7_bvb84"]
 [ext_resource type="Script" uid="uid://biuic736i78u5" path="res://_project/code/modules/PlayerInput.cs" id="8_gsska"]
 
@@ -285,10 +286,11 @@ height = 2.2
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_gsska"]
 
-[node name="ActorCore" type="CharacterBody3D" node_paths=PackedStringArray("HitBox", "HurtBox")]
+[node name="ActorCore" type="CharacterBody3D" node_paths=PackedStringArray("HitBox", "HurtBox", "SlashVfx")]
 script = ExtResource("1_gsska")
 HitBox = NodePath("HitBox")
 HurtBox = NodePath("HurtBox")
+SlashVfx = NodePath("SlashVFX")
 
 [node name="BodyMesh" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -317,8 +319,15 @@ script = ExtResource("5_bxt2d")
 [node name="InputModule" type="Node" parent="."]
 script = ExtResource("8_gsska")
 
+[node name="SlashVFX" type="Sprite3D" parent="."]
+transform = Transform3D(-1, -8.742278e-08, 3.821371e-15, 0, -4.371139e-08, -1, 8.742278e-08, -1, 4.371139e-08, 0, 1, 0)
+visible = false
+flip_h = true
+texture = ExtResource("7_8bvrd")
+
 [node name="HandSlotRight" type="Node3D" parent="."]
 transform = Transform3D(-0.3012479, 0.55907595, -0.7724532, 0.93040663, 0.34971657, -0.109734386, 0.20878987, -0.75175184, -0.62552017, 0.6, 1.0718913, 0.7186857)
+visible = false
 
 [node name="sword_1handed" parent="HandSlotRight" instance=ExtResource("3_bxt2d")]
 transform = Transform3D(1.9106853e-15, -4.371139e-08, 1, -0.99999994, -4.371139e-08, 0, 4.3711385e-08, -1, -4.371139e-08, 0, 0, 0)

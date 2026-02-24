@@ -9,6 +9,7 @@ public partial class StateMachine : Node
     public void Initialise(ActorState startingState)
     {
         CurrentState = startingState;
+        PreviousState = startingState;
         CurrentState?.EnterState();
     }
 
