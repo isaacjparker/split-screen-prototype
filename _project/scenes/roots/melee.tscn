@@ -1,8 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://jssfihe3gpnw"]
+[gd_scene load_steps=7 format=3 uid="uid://jssfihe3gpnw"]
 
 [ext_resource type="PackedScene" uid="uid://ct6858b4ps6el" path="res://_project/scenes/environment/arena.tscn" id="1_058t1"]
 [ext_resource type="PackedScene" uid="uid://b3tdk06n5inos" path="res://_project/scenes/managers/local_multiplayer_manager.tscn" id="2_rkvuc"]
-[ext_resource type="PackedScene" uid="uid://vdpv3kjh4su0" path="res://_project/scenes/actors/player_brain.tscn" id="3_56h8e"]
 [ext_resource type="PackedScene" uid="uid://c1fyfxg64s1l2" path="res://_project/scenes/actors/enemy.tscn" id="3_rkvuc"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_rkvuc"]
@@ -26,7 +25,6 @@ volumetric_fog_density = 0.005
 [node name="Arena" parent="." instance=ExtResource("1_058t1")]
 
 [node name="LocalMultiplayerManager" parent="." node_paths=PackedStringArray("_spawnPoints") instance=ExtResource("2_rkvuc")]
-_playerScene = ExtResource("3_56h8e")
 _spawnPoints = []
 
 [node name="Enemy" parent="." instance=ExtResource("3_rkvuc")]

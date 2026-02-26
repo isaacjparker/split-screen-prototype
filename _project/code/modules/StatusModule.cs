@@ -30,13 +30,23 @@ public partial class StatusModule : Node
     [Export] public float ComboWindow = 0.6f;
     [Export] public WeaponData WeaponData;
 
-    [ExportGroup("Lunge")]
-    [Export] public float MaxLungeDistance = 5.0f;
-    [Export] public float LungeCone = 45.0f;
-    [Export] public float LungeDuration = 0.2f;
-    [Export] public float LungeStopOffset = 1.5f;
-    [Export] public float LungeWhiffDistance = 1.0f;
-    [Export] public float LungeWhiffDuration = 0.15f;
+    [ExportGroup("Dash")]
+    [Export] public float MaxDashDistance = 5.0f;
+    [Export] public float DashCone = 90.0f;
+    [Export] public float DashDuration = 0.2f;
+    [Export] public float DashStopOffset = 1.5f;
+    [Export] public float DashWhiffDistance = 1.0f;
+    [Export] public float DashWhiffDuration = 0.15f;
+
+    [ExportGroup("Camera")]
+    [Export] public float CamSmoothingAccel = 5.0f;
+    [Export] public float CamCatchUpAccel = 12.0f;
+    [Export] public float CamHitStopDuration = 0.5f;
+    [Export] public float CamShakeMagnitude = 2.0f;
+    [Export] public float CamShakeDuration = 1.0f;
+    [Export] public float CamShakeNoiseFreq = 2.0f;
+    [Export] public float CamDashDragFactor = 0.5f;
+    [Export] public float CamDashDragDuration = 0.5f;
 
     public float CurrentHealth { get; private set; }
 

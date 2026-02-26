@@ -17,9 +17,9 @@ public partial class CameraRig : GridContainer
     [Export] private CameraRigType _thisRigType;
 
 	// Called From CameraManager
-    public void InitializeCamera(int camArrayIndex, Node3D targetNode, int playerSlot)
+    public void InitializeCamera(int camArrayIndex, ActorCore actorCore, int playerSlot)
     {
-        if (targetNode == null)
+        if (actorCore == null)
         {
             GD.PushWarning($"CameraRig.InitializeCamera: targetNode for Camera {camArrayIndex} is null.");
             return;
@@ -31,7 +31,7 @@ public partial class CameraRig : GridContainer
             return;
         }
 
-		CamArray[camArrayIndex].InitializeCamera(targetNode, playerSlot);
+		CamArray[camArrayIndex].InitializeCamera(actorCore, playerSlot);
 
     }
 

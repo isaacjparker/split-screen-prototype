@@ -5,5 +5,5 @@ using System;
 public partial class WeaponData : Resource
 {
     [Export] public String WeaponName;
-    [Export] public AttackData[] AttackData;
+    [Export] public AttackData[] Attacks;
 }

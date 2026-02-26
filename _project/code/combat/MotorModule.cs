@@ -93,23 +93,29 @@ public partial class MotorModule : Node
         return Mathf.LerpAngle(currentRotationY, targetYaw, _status.TurnSpeed * delta);
     }
 
-    public Tween Lunge(CharacterBody3D actor, LungePayload lungePayload)
+    public Tween Dash(CharacterBody3D actor, DashPayload dashPayload)
     {
         // Calculate distance and direction
-        Vector3 direction = (lungePayload.TargetPosition - actor.GlobalPosition);
+        Vector3 direction = (dashPayload.TargetPosition - actor.GlobalPosition);
         direction.Y = 0;
 
-        float distance = direction.Length() - lungePayload.StopOffset;
+        float distance = direction.Length() - dashPayload.StopOffset;
 
         if (distance <= 0)
         {
             actor.Velocity = new Vector3(0, actor.Velocity.Y, 0);
-            return actor.CreateTween(); // dummy tween
+            return null;
         }
 
         direction = direction.Normalized();
 
-        float initialSpeed = (distance * 4.0f) / lungePayload.Duration;
+        float targetYaw = Mathf.Atan2(-direction.X, -direction.Z);
+
+        Vector3 currentRotation = actor.Rotation;
+        currentRotation.Y = targetYaw;
+        actor.Rotation = currentRotation;
+
+        float initialSpeed = (distance * 4.0f) / dashPayload.Duration;
 
         actor.Velocity = new Vector3(direction.X * initialSpeed, actor.Velocity.Y, direction.Z * initialSpeed);
 
@@ -123,8 +129,8 @@ public partial class MotorModule : Node
         tween.SetEase(Tween.EaseType.Out);
 
         // Tween the global position
-        tween.TweenProperty(actor, "velocity:x", 0f, lungePayload.Duration);
-        tween.TweenProperty(actor, "velocity:z", 0f, lungePayload.Duration);
+        tween.TweenProperty(actor, "velocity:x", 0f, dashPayload.Duration);
+        tween.TweenProperty(actor, "velocity:z", 0f, dashPayload.Duration);
 
         return tween;
     }

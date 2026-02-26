@@ -15,19 +15,10 @@ public partial class ActorCore : CharacterBody3D
     public MotorModule Motor { get; private set; }
     public CombatModule Combat { get; private set; }
     public StateMachine StateMachine { get; private set; }
-    public AnimationTree AnimTree { get; private set; }
 
-    // Animation State Machine
-    public AnimationNodeStateMachinePlayback AnimPlayback;
-
-    // State Names (must match AnimationTree Node names exactly)
-    public const string ANIM_IDLE = "idle";
-    public const string ANIM_ATK1 = "attack1_1handed";
-    public const string ANIM_ATK2 = "attack2_1handed";
-    public const string ANIM_ATK3 = "attack3_1handed";
-
-    public event Action OnComboWindowOpen;
-    public event Action OnComboWindowClose;
+    public event Action<float, float> OnCameraShake;
+    public event Action<float> OnHitStop;
+    public event Action<float, float> OnDash;
 
     public override void _Ready()
     {
@@ -36,7 +27,6 @@ public partial class ActorCore : CharacterBody3D
         Motor = GetNode<MotorModule>("MotorModule");
         Combat = GetNode<CombatModule>("CombatModule");
         StateMachine = GetNode<StateMachine>("StateMachine");
-        AnimTree = GetNode<AnimationTree>("AnimationTree");
 
         if (ActorInput == null)
         {
@@ -68,18 +58,10 @@ public partial class ActorCore : CharacterBody3D
             return;
         }
 
-        if (AnimTree == null)
-        {
-            GD.PrintErr("ActorCore: AnimationTree not found.");
-            return;
-        }
-
         Status.Initialise(this);
         Motor.Initialise(this);
         Combat.Initialise(this);
         StateMachine.Initialise(new IdleMoveState(this));
-
-        AnimPlayback = (AnimationNodeStateMachinePlayback)AnimTree.Get("parameters/playback");
 
         if (HitBox != null && GodotObject.IsInstanceValid(HitBox))
         { 
@@ -107,18 +89,8 @@ public partial class ActorCore : CharacterBody3D
         StateMachine.ChangeState(new HitState(this, sourcePos, power));
     }
 
-    // ------------------------------------------------------------------------
-    // Animation Events: CALLED BY ANIMATION PLAYER (Method Track)
-    // Place open keyframe at start of the "Action" phase.
-    // Place close keryframe at end of "Action" phase.
-    // ------------------------------------------------------------------------
-    public void OpenComboWindow()
-    { 
-        OnComboWindowOpen?.Invoke();
-    }
-
-    public void CloseComboWindow()
+    public void TriggerDashCam(float dragFactor, float duration)
     {
-        OnComboWindowClose?.Invoke();
+        OnDash?.Invoke(dragFactor, duration);
     }
 }

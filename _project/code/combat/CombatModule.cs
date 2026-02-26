@@ -1,13 +1,13 @@
 using Godot;
 
-public readonly struct LungePayload
+public readonly struct DashPayload
 {
     public readonly Vector3 TargetPosition;
     public readonly float Duration;
     public readonly float StopOffset;
     public readonly bool IsWhiff; // Helpful for animation logic if needed
 
-    public LungePayload(Vector3 target, float duration, float offset, bool isWhiff)
+    public DashPayload(Vector3 target, float duration, float offset, bool isWhiff)
     {
         TargetPosition = target;
         Duration = duration;
@@ -28,7 +28,7 @@ public partial class CombatModule : Node
         _status = _core.Status;
     }
 
-    public LungePayload CalculateMeleeLunge(CharacterBody3D lockedTarget = null)
+    public DashPayload CalculateMeleeDash(CharacterBody3D lockedTarget = null)
     {
         CharacterBody3D finalTarget = lockedTarget;
 
@@ -40,28 +40,28 @@ public partial class CombatModule : Node
         	finalTarget = CombatUtils.GetClosestTargetInCone(
 				_core.GlobalPosition, 
 				forward,
-				_status.MaxLungeDistance,
-				_status.LungeCone,
+				_status.MaxDashDistance,
+				_status.DashCone,
 				_status.TargetGroup,
 				GetTree()
 			);
 		}
 
-        LungePayload lungePayload;
+        DashPayload dashPayload;
 
         if (finalTarget != null && IsInstanceValid(finalTarget))
         {
-            lungePayload = new LungePayload(finalTarget.GlobalPosition, _status.LungeDuration, _status.LungeStopOffset, false);
+            dashPayload = new DashPayload(finalTarget.GlobalPosition, _status.DashDuration, _status.DashStopOffset, false);
         }
         else
         {
             Vector3 forward = -_core.GlobalTransform.Basis.Z;
-            Vector3 lungePos = _core.GlobalPosition + (forward * _status.LungeWhiffDistance);
+            Vector3 dashPos = _core.GlobalPosition + (forward * _status.DashWhiffDistance);
 
-            lungePayload = new LungePayload(lungePos, _status.LungeWhiffDuration, 0.0f, true);
+            dashPayload = new DashPayload(dashPos, _status.DashWhiffDuration, 0.0f, true);
         }
 
-        return lungePayload;
+        return dashPayload;
     }
 
     // TODO: Don't use parameter here -
@@ -69,13 +69,13 @@ public partial class CombatModule : Node
     // But currently this is PlayerBrain which won't extend to enemies
     // So instead of refactoring our data approach right now
     // Come back later and change it so as to avoid parameters like this.
-    public AttackPayload BuildAttackPayload()
+    public AttackPayload BuildAttackPayload(AttackData attackData)
     {
         return new AttackPayload 
         {
-        BaseDamage = _status.BaseDamage,
-        KnockbackPower = _status.KnockbackPower,
-        HitStopDuration = _status.HitStopDuration,
+        BaseDamage = attackData.BaseDamage,
+        KnockbackPower = attackData.KnockbackPower,
+        HitStopDuration = attackData.HitStopDuration,
         SourcePosition = _core.GlobalPosition
         };
     }
