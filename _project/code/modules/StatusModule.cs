@@ -34,6 +34,10 @@ public partial class StatusModule : Node
     [Export] public WeaponData WeaponData;
     [Export] public float HitStopTimer = 0f;
     [Export] public float HitStopFactor = 0f;
+    [Export] public float HitFlashTimer = 0.1f;
+    public AttackData CurrentAttack;
+    public bool HitboxActive = false;
+    public bool NextAttackQueued = false;
 
     [ExportGroup("Dash")]
     [Export] public float MaxDashDistance = 5.0f;
@@ -42,6 +46,7 @@ public partial class StatusModule : Node
     [Export] public float DashStopOffset = 1.5f;
     [Export] public float DashWhiffDistance = 1.0f;
     [Export] public float DashWhiffDuration = 0.15f;
+    public DashPayload CurrentDashPayload;
 
     [ExportGroup("Camera")]
     [Export] public float CamSmoothingAccel = 5.0f;

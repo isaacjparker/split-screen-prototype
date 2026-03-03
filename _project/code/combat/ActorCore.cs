@@ -6,14 +6,18 @@ public partial class ActorCore : CharacterBody3D
 {
 
     [ExportGroup("Components")]
+    [Export] public MeshInstance3D BodyMesh;
     [Export] public Area3D HitBox;
     [Export] public Area3D HurtBox;
     [Export] public Sprite3D SlashVfx;
+    [Export] public Material FlashMaterial;
+    
 
     public InputModule ActorInput { get; private set; }
     public StatusModule Status { get; private set; }
     public MotorModule Motor { get; private set; }
     public CombatModule Combat { get; private set; }
+    public VFXModule VFX {get; private set;}
     public StateMachine StateMachine { get; private set; }
 
     public event Action<float, float> OnCameraShake;
@@ -27,6 +31,7 @@ public partial class ActorCore : CharacterBody3D
         Status = GetNode<StatusModule>("StatusModule");
         Motor = GetNode<MotorModule>("MotorModule");
         Combat = GetNode<CombatModule>("CombatModule");
+        VFX = GetNode<VFXModule>("VFXModule");
         StateMachine = GetNode<StateMachine>("StateMachine");
 
         if (ActorInput == null)
@@ -53,6 +58,12 @@ public partial class ActorCore : CharacterBody3D
             return;
         }
 
+        if (VFX == null)
+        {
+            GD.PrintErr("ActorCore: VFXModule not found.");
+            return;
+        }
+
         if (StateMachine == null)
         {
             GD.PrintErr("ActorCore: StateMachine not found.");
@@ -62,6 +73,7 @@ public partial class ActorCore : CharacterBody3D
         Status.Initialise(this);
         Motor.Initialise(this);
         Combat.Initialise(this);
+        VFX.Initialise(this);
         StateMachine.Initialise(new IdleMoveState(this));
 
         if (HitBox != null && GodotObject.IsInstanceValid(HitBox))

@@ -17,6 +17,8 @@ public partial class HitState : ActorState
     {
         GD.Print($"Entered HitState. Knockback Power: {_knockbackPower}");
 
+        _core.VFX.PlayHitFlash();
+
         // Play Animation (optional)
         _currentVelocity = _core.Motor.CalculateKnockbackVelocity(_sourcePos, _knockbackPower);
         _currentVelocity.Y = _core.Velocity.Y; // Inherit vertical momentum (gravity)

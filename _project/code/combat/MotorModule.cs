@@ -101,32 +101,71 @@ public partial class MotorModule : Node
         return Mathf.LerpAngle(currentRotationY, targetYaw, _status.TurnSpeed * delta);
     }
 
-    // Returns the initial velocity vector for the dash
-    public Vector3 CalculateDashVelocity(CharacterBody3D actor, DashPayload dashPayload)
+    public void StartDash(DashPayload dashPayload)
     {
-        // Calculate distance and direction
-        Vector3 direction = (dashPayload.TargetPosition - actor.GlobalPosition);
+        // 1. Calculate Direction & Distance (Initial Snapshot)
+        Vector3 direction = (dashPayload.TargetPosition - _core.GlobalPosition);
         direction.Y = 0;
 
         float distance = direction.Length() - dashPayload.StopOffset;
+        if (distance < 0) distance = 0;
 
-        if (distance <= 0)
+        // 2. Rotate Actor
+        if (direction.LengthSquared() > 0.001f)
         {
-            return Vector3.Zero;
+            direction = direction.Normalized();
+            float targetYaw = Mathf.Atan2(-direction.X, -direction.Z);
+            Vector3 currentRotation = _core.Rotation;
+            currentRotation.Y = targetYaw;
+            _core.Rotation = currentRotation;
+        }
+        else
+        {
+            direction = Vector3.Zero;
         }
 
-        direction = direction.Normalized();
+        // 3. Calculate Initial Velocity (Kinematic: V = 2 * D / T)
+        float duration = dashPayload.Duration > 0 ? dashPayload.Duration : 0.1f;
+        float initialSpeed = (distance * 2.0f) / duration;
 
-        float targetYaw = Mathf.Atan2(-direction.X, -direction.Z);
+        dashPayload.DashVelocity = direction * initialSpeed;
+        dashPayload.DashVelocity.Y = _core.Velocity.Y; // Inherit vertical momentum
 
-        Vector3 currentRotation = actor.Rotation;
-        currentRotation.Y = targetYaw;
-        actor.Rotation = currentRotation;
+        // 4. Calculate Friction (F = V / T)
+        dashPayload.DashFriction = initialSpeed / duration;
 
-        // Kinematic formula for linear deceleration: V = 2 * D / T
-        float initialSpeed = (distance * 2.0f) / dashPayload.Duration;
+        // 5. Store in Status
+        _status.CurrentDashPayload = dashPayload;
+    }
 
-        return new Vector3(direction.X * initialSpeed, 0f, direction.Z * initialSpeed);
+    public void ProcessDashMovement(float delta)
+    {
+        DashPayload payload = _status.CurrentDashPayload;
+
+        // 1. Decay Dash Velocity (Horizontal Friction)
+        Vector3 horizontal = new Vector3(payload.DashVelocity.X, 0, payload.DashVelocity.Z);
+        horizontal = horizontal.MoveToward(Vector3.Zero, payload.DashFriction * delta);
+
+        // 2. Apply Gravity (Vertical)
+        float vertical = payload.DashVelocity.Y;
+        if (!_core.IsOnFloor())
+        {
+            vertical += _status.Gravity * delta;
+        }
+
+        payload.DashVelocity = new Vector3(horizontal.X, vertical, horizontal.Z);
+
+        // 3. Apply Time Dilation & Move
+        _core.Velocity = payload.DashVelocity * _status.TimeScale;
+        _core.MoveAndSlide();
+
+        // 4. Restore Simulation Velocity (Handle Collisions)
+        if (_status.TimeScale > 0.001f)
+        {
+            payload.DashVelocity = _core.Velocity / _status.TimeScale;
+        }
+
+        _status.CurrentDashPayload = payload;
     }
 
     // Returns the initial velocity vector for knockback

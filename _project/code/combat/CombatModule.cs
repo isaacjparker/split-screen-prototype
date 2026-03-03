@@ -1,21 +1,5 @@
 using Godot;
 
-public readonly struct DashPayload
-{
-    public readonly Vector3 TargetPosition;
-    public readonly float Duration;
-    public readonly float StopOffset;
-    public readonly bool IsWhiff; // Helpful for animation logic if needed
-
-    public DashPayload(Vector3 target, float duration, float offset, bool isWhiff)
-    {
-        TargetPosition = target;
-        Duration = duration;
-        StopOffset = offset;
-        IsWhiff = isWhiff;
-    }
-}
-
 public partial class CombatModule : Node
 {
     private ActorCore _core;
@@ -28,7 +12,7 @@ public partial class CombatModule : Node
         _status = _core.Status;
     }
 
-    public DashPayload CalculateMeleeDash(CharacterBody3D lockedTarget = null)
+    public DashPayload BuildMeleeDash(CharacterBody3D lockedTarget = null)
     {
         CharacterBody3D finalTarget = lockedTarget;
 

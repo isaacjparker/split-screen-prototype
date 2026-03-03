@@ -3,14 +3,8 @@ using System;
 
 public partial class AttackingState : ActorState
 {
-
-    //private float _stateTimer = 0f;
-    private AttackData _currentAttack;
-    private bool _nextAttackQueued = false;
-    private bool _hitboxActive = false;
     private readonly ActorState _previousState;
-    private Vector3 _dashVelocity;
-    private float _dashFriction;
+
 
     public AttackingState(ActorCore core, ActorState previousState) : base(core)
     {
@@ -29,77 +23,53 @@ public partial class AttackingState : ActorState
             index = 0;
         }
 
-        _currentAttack = weaponData.Attacks[index];
+        _status.CurrentAttack = weaponData.Attacks[index];
 
-        if (_core.SlashVfx != null && _currentAttack.SlashSprite != null)
+        if (_core.SlashVfx != null && _status.CurrentAttack.SlashSprite != null)
         {
-            _core.SlashVfx.Texture = _currentAttack.SlashSprite;
+            _core.SlashVfx.Texture = _status.CurrentAttack.SlashSprite;
         }
 
         _status.ComboTimer = 0f;
-        _nextAttackQueued = false;
-        _hitboxActive = false;
+        _status.NextAttackQueued = false;
+        _status.HitboxActive = false;
 
-        DashPayload dashPayload = _core.Combat.CalculateMeleeDash(_core.Status.CurrentTarget);
-        _dashVelocity = _core.Motor.CalculateDashVelocity(_core, dashPayload);
-        _dashVelocity.Y = _core.Velocity.Y; // Inherit vertical momentum
-
-        // Calculate the exact friction needed to stop the dash in the given duration
-        // Friction = InitialVelocity / Duration
-        float horizontalSpeed = new Vector3(_dashVelocity.X, 0, _dashVelocity.Z).Length();
-        _dashFriction = dashPayload.Duration > 0 ? horizontalSpeed / dashPayload.Duration : 0f;
+        _core.Motor.StartDash(_core.Combat.BuildMeleeDash(_core.Status.CurrentTarget));
 
         _core.TriggerDashCam(_core.Status.CamDashDragFactor, _core.Status.CamDashDragDuration);
     }
 
 	public override void ProcessState(float delta)
     {
-        // 1. Decay Dash Velocity
-        Vector3 horizontal = new Vector3(_dashVelocity.X, 0, _dashVelocity.Z);
-        horizontal = horizontal.MoveToward(Vector3.Zero, _dashFriction * delta);
-
-        float vertical = _dashVelocity.Y;
-        if (!_core.IsOnFloor())
-        {
-            vertical += _core.Status.Gravity * delta;
-        }
-
-        _dashVelocity = new Vector3(horizontal.X, vertical, horizontal.Z);
-
-        // 2. Apply Time Dilation (Scale DOWN)
-        _core.Velocity = _dashVelocity * _core.Status.TimeScale;
-        _core.MoveAndSlide();
-
-        // 3. Restore Simulation Velocity (Scale UP)
-        if (_core.Status.TimeScale > 0.001f) _dashVelocity = _core.Velocity / _core.Status.TimeScale;
+        _core.Motor.ProcessDashMovement(delta);
 
         _status.ComboTimer += delta;
 
         // Check input immediately to act on in this frame
-        if (_status.ComboTimer >= _currentAttack.ComboWindow.X && _status.ComboTimer <= _currentAttack.ComboWindow.Y)
+        if (_status.ComboTimer >= _status.CurrentAttack.ComboWindow.X && _status.ComboTimer <= _status.CurrentAttack.ComboWindow.Y)
         {
             if (_core.ActorInput.IsAttackRequested())
             {
-                _nextAttackQueued = true;
+                _status.NextAttackQueued = true;
             }
         }
 
-        if (!_hitboxActive && _status.ComboTimer >= _currentAttack.Windup)
+        if (!_status.HitboxActive && _status.ComboTimer >= _status.CurrentAttack.Windup)
         {
             ActivateHitbox();
         }
 
-        float endOfActive = _currentAttack.Windup + _currentAttack.Active;
+        float endOfActive = _status.CurrentAttack.Windup + _status.CurrentAttack.Active;
 
         if (_status.ComboTimer >= endOfActive)
         {
-            if (_hitboxActive)
+            if (_status.HitboxActive)
             {
                 DeactivateHitbox();
             }
 
             // Interrupt recovery phase for combo if possible
-            if (_nextAttackQueued && IsNextAttackAvailable())
+            if (_status.NextAttackQueued && IsNextAttackAvailable())
             {
                 TryAdvanceCombo();
                 return;                 // Stop processing frame immediately
@@ -115,7 +85,7 @@ public partial class AttackingState : ActorState
             }
         }
 
-        float totalDuration = endOfActive + _currentAttack.Recovery;
+        float totalDuration = endOfActive + _status.CurrentAttack.Recovery;
 
         if (_status.ComboTimer >= totalDuration)
         {
@@ -136,17 +106,17 @@ public partial class AttackingState : ActorState
 
     private void ActivateHitbox()
     {
-        _hitboxActive = true;
+        _status.HitboxActive = true;
 
         if (_core.SlashVfx != null) _core.SlashVfx.Visible = true;
 
-        _core.Status.ActivePayload = _core.Combat.BuildAttackPayload(_currentAttack);
+        _core.Status.ActivePayload = _core.Combat.BuildAttackPayload(_status.CurrentAttack);
         _core.HitBox.ProcessMode = Node.ProcessModeEnum.Inherit;
     }
 
     private void DeactivateHitbox()
     {
-        _hitboxActive = false;
+        _status.HitboxActive = false;
 
         if (_core.SlashVfx != null) _core.SlashVfx.Visible = false;
         
@@ -155,7 +125,7 @@ public partial class AttackingState : ActorState
 
     private void TryAdvanceCombo()
     {
-        if (_nextAttackQueued && IsNextAttackAvailable())
+        if (_status.NextAttackQueued && IsNextAttackAvailable())
         {
             _core.Status.ComboIndex++;
 
