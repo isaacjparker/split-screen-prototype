@@ -17,8 +17,9 @@ public partial class MotorModule : Node
     // ------------------------------------------------------------------------
     public void ProcessLocomotion(Vector3 inputDirection, float maxSpeed, float delta)
     {
-        // 1. Calculate Velocity
-        _core.Velocity = CalculateVelocity(_core.Velocity, inputDirection, maxSpeed, _core.IsOnFloor(), delta);
+        // 1. Calculate Simulation Velocity (Unscaled)
+        // We use _core.Velocity as the storage for Simulation Velocity between frames
+        Vector3 simVelocity = CalculateVelocity(_core.Velocity, inputDirection, maxSpeed, _core.IsOnFloor(), delta);
 
         // 2. Rotate
         if (inputDirection != Vector3.Zero)
@@ -28,17 +29,24 @@ public partial class MotorModule : Node
             _core.Rotation = rotation;
         }
 
-        // 3. Apply
+        // 3. Apply Time Dilation & Move
+        _core.Velocity = simVelocity * _status.TimeScale;
         _core.MoveAndSlide();
+
+        // 4. Restore Simulation Velocity
+        if (_status.TimeScale > 0.001f) _core.Velocity /= _status.TimeScale;
     }
 
     public void ProcessTargetingLocomotion(Vector3 inputDirection, CharacterBody3D target, float maxSpeed, float delta)
     {
         if (target == null) return;
 
-        // 1. Move
-        _core.Velocity = CalculateVelocity(_core.Velocity, inputDirection, maxSpeed, _core.IsOnFloor(), delta);
+        // 1. Move (Scale -> Move -> Unscale)
+        Vector3 simVelocity = CalculateVelocity(_core.Velocity, inputDirection, maxSpeed, _core.IsOnFloor(), delta);
+        
+        _core.Velocity = simVelocity * _status.TimeScale;
         _core.MoveAndSlide();
+        if (_status.TimeScale > 0.001f) _core.Velocity /= _status.TimeScale;
 
         // 2. Rotate (Face Target)
         Vector3 toTarget = (target.GlobalPosition - _core.GlobalPosition).Normalized();
@@ -93,7 +101,8 @@ public partial class MotorModule : Node
         return Mathf.LerpAngle(currentRotationY, targetYaw, _status.TurnSpeed * delta);
     }
 
-    public Tween Dash(CharacterBody3D actor, DashPayload dashPayload)
+    // Returns the initial velocity vector for the dash
+    public Vector3 CalculateDashVelocity(CharacterBody3D actor, DashPayload dashPayload)
     {
         // Calculate distance and direction
         Vector3 direction = (dashPayload.TargetPosition - actor.GlobalPosition);
@@ -103,8 +112,7 @@ public partial class MotorModule : Node
 
         if (distance <= 0)
         {
-            actor.Velocity = new Vector3(0, actor.Velocity.Y, 0);
-            return null;
+            return Vector3.Zero;
         }
 
         direction = direction.Normalized();
@@ -115,58 +123,19 @@ public partial class MotorModule : Node
         currentRotation.Y = targetYaw;
         actor.Rotation = currentRotation;
 
-        float initialSpeed = (distance * 4.0f) / dashPayload.Duration;
+        // Kinematic formula for linear deceleration: V = 2 * D / T
+        float initialSpeed = (distance * 2.0f) / dashPayload.Duration;
 
-        actor.Velocity = new Vector3(direction.X * initialSpeed, actor.Velocity.Y, direction.Z * initialSpeed);
-
-
-        // create tween through the actor's tree
-        Tween tween = actor.CreateTween();
-        tween.SetParallel(true);
-
-        // Set transition for a "snappy" feel: Easeout Quad or Cubic is good for lunges
-        tween.SetTrans(Tween.TransitionType.Cubic);
-        tween.SetEase(Tween.EaseType.Out);
-
-        // Tween the global position
-        tween.TweenProperty(actor, "velocity:x", 0f, dashPayload.Duration);
-        tween.TweenProperty(actor, "velocity:z", 0f, dashPayload.Duration);
-
-        return tween;
+        return new Vector3(direction.X * initialSpeed, 0f, direction.Z * initialSpeed);
     }
 
-    public Tween ApplyKnockback(Vector3 sourcePosition, float knockbackPower)
+    // Returns the initial velocity vector for knockback
+    public Vector3 CalculateKnockbackVelocity(Vector3 sourcePosition, float knockbackPower)
     {
         Vector3 direction = (_core.GlobalPosition - sourcePosition);
         direction.Y = 0;
         direction = direction.Normalized();
 
-        _core.Velocity = direction * knockbackPower;
-
-        float duration = Mathf.Clamp(knockbackPower * 0.05f, 0.1f, 1.0f);
-
-        Tween tween = _core.CreateTween();
-
-        tween.SetParallel(true);
-
-        tween.SetTrans(Tween.TransitionType.Cubic);
-        tween.SetEase(Tween.EaseType.Out);
-
-        tween.TweenProperty(_core, "velocity:x", 0f, duration);
-        tween.TweenProperty(_core, "velocity:z", 0f, duration);
-
-        return tween;
-    }
-
-    public void ProcessForcesLocomotion(float delta)
-    {
-        if (!_core.IsOnFloor())
-        {
-            Vector3 vel = _core.Velocity;
-            vel.Y += _status.Gravity * delta;
-            _core.Velocity = vel;
-        }
-
-        _core.MoveAndSlide();
+        return direction * knockbackPower;
     }
 }

@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=3 uid="uid://vdpv3kjh4su0"]
+[gd_scene load_steps=37 format=3 uid="uid://vdpv3kjh4su0"]
 
 [ext_resource type="Script" uid="uid://c73ql6q4klmmv" path="res://_project/code/combat/ActorCore.cs" id="1_gsska"]
 [ext_resource type="Script" uid="uid://bxdenqcj5hdec" path="res://_project/code/combat/StateMachine.cs" id="2_bvb84"]
@@ -8,7 +8,6 @@
 [ext_resource type="Script" uid="uid://b8m3cw5117u1o" path="res://_project/code/modules/StatusModule.cs" id="5_bxt2d"]
 [ext_resource type="Resource" uid="uid://bc2p1xr1ir88e" path="res://_project/data/weapons/sword_1handed.tres" id="6_mhhix"]
 [ext_resource type="Texture2D" uid="uid://bera5w6t4q4ek" path="res://_project/assets/sprites/slash_02.png" id="7_8bvrd"]
-[ext_resource type="Script" uid="uid://bw0vys6vgjoai" path="res://_project/scenes/actors/HitBox.cs" id="7_bvb84"]
 [ext_resource type="Script" uid="uid://biuic736i78u5" path="res://_project/code/modules/PlayerInput.cs" id="8_gsska"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_wel1o"]
@@ -277,7 +276,8 @@ states/idle/position = Vector2(354, 74.666664)
 transitions = ["attack1_1handed", "attack2_1handed", SubResource("AnimationNodeStateMachineTransition_gsska"), "attack2_1handed", "attack3_1handed", SubResource("AnimationNodeStateMachineTransition_8bvrd"), "attack3_1handed", "attack1_1handed", SubResource("AnimationNodeStateMachineTransition_mhhix"), "Start", "idle", SubResource("AnimationNodeStateMachineTransition_anmpw"), "idle", "attack1_1handed", SubResource("AnimationNodeStateMachineTransition_dvsr0"), "attack1_1handed", "idle", SubResource("AnimationNodeStateMachineTransition_bxt2d"), "attack2_1handed", "idle", SubResource("AnimationNodeStateMachineTransition_bvb84"), "attack3_1handed", "idle", SubResource("AnimationNodeStateMachineTransition_c6j5r")]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_dvsr0"]
-height = 1.5
+radius = 1.2
+height = 2.4
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_bxt2d"]
 height = 3.0
@@ -351,10 +351,9 @@ process_mode = 4
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -2.31)
 collision_layer = 2
 collision_mask = 4
-script = ExtResource("7_bvb84")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HitBox"]
-transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, 0, 0)
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, 0, 0.7294909)
 shape = SubResource("CapsuleShape3D_dvsr0")
 
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="HitBox"]

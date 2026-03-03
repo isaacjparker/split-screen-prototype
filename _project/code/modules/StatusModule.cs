@@ -10,6 +10,7 @@ public partial class StatusModule : Node
     [Export] public float KnockbackResistance = 0.0f;
 
     [ExportGroup("Locomotion")]
+    [Export] public float TimeScale = 1.0f;
     [Export] public float Gravity = -9.8f;
     [Export] public float MaxSpeed = 5.0f;
     [Export] public float Acceleration = 18.0f;
@@ -17,18 +18,22 @@ public partial class StatusModule : Node
     [Export] public float TurnSpeed = 10.0f;
 
     [ExportGroup("Targeting")]
-    [Export] public float MaxTargetRange = 20.0f;
+    [Export] public bool ManualTargeting = false;
+    [Export] public float TargetingPollingRate = 0.1f;
+    [Export] public float MaxTargetScanRange = 16.0f;
     [Export] public float MaxTargetScanAngle = 180.0f;
+    [Export] public float MaxTargetLeashRange = 18.0f;
+    [Export] public float MaxTargetSwapDifference = 2.0f;
     [Export] public string TargetGroup = "enemies";
     [Export] public CharacterBody3D CurrentTarget;
 
-    [ExportGroup("Offense")]
-    [Export] public float BaseDamage = 5.0f;
-    [Export] public float KnockbackPower = 15.0f;
-    [Export] public float HitStopDuration = 0.2f;
+    [ExportGroup("Combat")]
     [Export] public int ComboIndex = 0;
     [Export] public float ComboWindow = 0.6f;
+    [Export] public float ComboTimer = 0f;
     [Export] public WeaponData WeaponData;
+    [Export] public float HitStopTimer = 0f;
+    [Export] public float HitStopFactor = 0f;
 
     [ExportGroup("Dash")]
     [Export] public float MaxDashDistance = 5.0f;
@@ -49,6 +54,7 @@ public partial class StatusModule : Node
     [Export] public float CamDashDragDuration = 0.5f;
 
     public float CurrentHealth { get; private set; }
+    public AttackPayload ActivePayload; // Set by AttackingState
 
     public void Initialise(ActorCore core)
     {
@@ -56,11 +62,17 @@ public partial class StatusModule : Node
         CurrentHealth = MaxHealth;
 
         _core.HurtBox.AreaEntered += OnHurtBoxAreaEntered;
+        
+        if (_core.HitBox != null)
+        {
+            _core.HitBox.AreaEntered += OnHitBoxAreaEntered;
+        }
     }
 
     public override void _ExitTree()
     {
         _core.HurtBox.AreaEntered -= OnHurtBoxAreaEntered;
+        if (_core.HitBox != null) _core.HitBox.AreaEntered -= OnHitBoxAreaEntered;
     }
 
     public event Action<float, float> OnHealthChanged;
@@ -71,6 +83,8 @@ public partial class StatusModule : Node
     {
         CurrentHealth = Mathf.Clamp(CurrentHealth - payload.BaseDamage, 0.0f, MaxHealth);
         OnHealthChanged?.Invoke(CurrentHealth, payload.BaseDamage);
+
+        _core.TriggerHitStop(payload.HitStopDuration, payload.HitStopFactor);
 
         float effectiveKnockback = payload.KnockbackPower - KnockbackResistance;
 
@@ -93,11 +107,28 @@ public partial class StatusModule : Node
     public void ModifySpeedPercentage(float multiplier, float duration) { }
 
 
+    // Fired when WE get hit by something
     public void OnHurtBoxAreaEntered(Area3D area)
     {
-        if (area is HitBox hitBox)
+        // We assume the area is a HitBox from an attacker.
+        // We resolve the attacker by checking the Owner of the area.
+        if (area.Owner is ActorCore attacker)
         {
-            ApplyDamage(hitBox.Payload);
+            // Prevent self-damage if collision layers aren't perfect
+            if (attacker == _core) return;
+
+            ApplyDamage(attacker.Status.ActivePayload);
         }
+    }
+
+    // Fired when OUR HitBox hits something (like a HurtBox)
+    public void OnHitBoxAreaEntered(Area3D area)
+    {
+        // Safety check: Don't freeze if we hit ourselves (e.g. our own HurtBox)
+        if (area.Owner == _core) return;
+
+        // We successfully hit a target. Trigger our own HitStop (Freeze).
+        // Note: This assumes our HitBox only masks with HurtBoxes.
+        _core.TriggerHitStop(ActivePayload.HitStopDuration, ActivePayload.HitStopFactor);
     }
 }

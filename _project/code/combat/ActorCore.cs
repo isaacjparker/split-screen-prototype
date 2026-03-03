@@ -6,7 +6,7 @@ public partial class ActorCore : CharacterBody3D
 {
 
     [ExportGroup("Components")]
-    [Export] public HitBox HitBox;
+    [Export] public Area3D HitBox;
     [Export] public Area3D HurtBox;
     [Export] public Sprite3D SlashVfx;
 
@@ -19,6 +19,7 @@ public partial class ActorCore : CharacterBody3D
     public event Action<float, float> OnCameraShake;
     public event Action<float> OnHitStop;
     public event Action<float, float> OnDash;
+
 
     public override void _Ready()
     {
@@ -74,9 +75,27 @@ public partial class ActorCore : CharacterBody3D
         Status.OnKnockbackReceived += HandleKnockbackEvent;
     }
 
+    public override void _Process(double delta)
+    {
+        if (Status.HitStopTimer > 0)
+        {
+            Status.HitStopTimer -= (float)delta;
+        }
+    }
+
     public override void _PhysicsProcess(double delta)
     {
-        StateMachine.ProcessState((float)delta);
+        if (Status.HitStopTimer > 0)
+        {
+            // Factor 100 = 100% stop (0.0 scale). Factor 0 = 0% stop (1.0 scale).
+            Status.TimeScale = 1.0f - Mathf.Clamp(Status.HitStopFactor / 100.0f, 0.0f, 1.0f);
+            StateMachine.ProcessState((float)delta * Status.TimeScale);
+        }
+        else
+        {
+            Status.TimeScale = 1.0f;
+            StateMachine.ProcessState((float)delta);
+        }
     }
 
     public override void _ExitTree()
@@ -92,5 +111,11 @@ public partial class ActorCore : CharacterBody3D
     public void TriggerDashCam(float dragFactor, float duration)
     {
         OnDash?.Invoke(dragFactor, duration);
+    }
+
+    public void TriggerHitStop(float hitStopDuration, float hitStopFactor)
+    {
+        Status.HitStopTimer = hitStopDuration;
+        Status.HitStopFactor = hitStopFactor;
     }
 }

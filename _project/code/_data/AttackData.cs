@@ -8,6 +8,8 @@ public partial class AttackData : Resource
     [Export] public float BaseDamage;       // 5.0f
     [Export] public float KnockbackPower;   // 15.0f
     [Export] public float HitStopDuration;  // 0.2f
+    [Export(PropertyHint.Range, "0,100")]
+    public float HitStopFactor = 100.0f;
     [Export] public Texture2D SlashSprite;
     private float _windup;
     [Export] public float Windup { get => _windup; set { _windup = value; ClampCombo(); } }

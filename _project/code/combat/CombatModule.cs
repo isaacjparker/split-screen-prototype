@@ -51,7 +51,20 @@ public partial class CombatModule : Node
 
         if (finalTarget != null && IsInstanceValid(finalTarget))
         {
-            dashPayload = new DashPayload(finalTarget.GlobalPosition, _status.DashDuration, _status.DashStopOffset, false);
+            Vector3 startPos = _core.GlobalPosition;
+            Vector3 targetPos = finalTarget.GlobalPosition;
+            Vector3 toTarget = targetPos - startPos;
+            toTarget.Y = 0; // Flatten to match MotorModule logic
+
+            float stopOffset = _status.DashStopOffset;
+
+            if (toTarget.Length() > _status.MaxDashDistance)
+            {
+                targetPos = startPos + (toTarget.Normalized() * _status.MaxDashDistance);
+                stopOffset = 0f; // Don't stop short if we are maxing out distance
+            }
+
+            dashPayload = new DashPayload(targetPos, _status.DashDuration, stopOffset, false);
         }
         else
         {
@@ -76,6 +89,7 @@ public partial class CombatModule : Node
         BaseDamage = attackData.BaseDamage,
         KnockbackPower = attackData.KnockbackPower,
         HitStopDuration = attackData.HitStopDuration,
+        HitStopFactor = attackData.HitStopFactor,
         SourcePosition = _core.GlobalPosition
         };
     }

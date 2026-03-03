@@ -3,6 +3,8 @@ using System;
 
 public partial class IdleMoveState : ActorState
 {
+    private float _scanTimer = 0f;
+
     public IdleMoveState(ActorCore core) : base(core)
     {
     }
@@ -20,16 +22,39 @@ public partial class IdleMoveState : ActorState
         // Check for state transitions
         if (_core.ActorInput.IsAttackRequested())
         {
-            _core.StateMachine.ChangeState(new AttackingState(_core));
+            _core.StateMachine.ChangeState(new AttackingState(_core, this));
             return;
+        }
+
+        // Automatic Targeting Logic
+        if (!_core.Status.ManualTargeting)
+        {
+            _scanTimer -= delta;
+            if (_scanTimer <= 0f)
+            {
+                _scanTimer = _core.Status.TargetingPollingRate;
+                if (TryMoveToTargetingState()) return;
+            }
         }
 
         if (_core.ActorInput.IsTargetLockRequested())
         {
-            CharacterBody3D foundTarget = CombatUtils.GetClosestTargetInCone(
+            TryMoveToTargetingState();
+            // If no target found, stay in IdleMove state
+        }
+    }
+
+    public override void ExitState()
+    {
+        // Cleanup if neessary
+    }
+
+    private bool TryMoveToTargetingState()
+    {
+        CharacterBody3D foundTarget = CombatUtils.GetClosestTargetInCone(
                 _core.GlobalPosition,
                 -_core.GlobalTransform.Basis.Z,
-                _status.MaxTargetRange,
+                _status.MaxTargetScanRange,
                 _status.MaxTargetScanAngle,
                 _status.TargetGroup,
                 _core.GetTree()
@@ -39,16 +64,10 @@ public partial class IdleMoveState : ActorState
             {
                 _core.Status.CurrentTarget = foundTarget;
                 _core.StateMachine.ChangeState(new TargetingState(_core));
-                return;
+                return true;
             }
 
-            // If no target found, stay in IdleMove state
-        }
-    }
-
-    public override void ExitState()
-    {
-        // Cleanup if neessary
+        return false;
     }
 
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://c1fyfxg64s1l2"]
+[gd_scene load_steps=17 format=3 uid="uid://c1fyfxg64s1l2"]
 
 [ext_resource type="Script" uid="uid://c73ql6q4klmmv" path="res://_project/code/combat/ActorCore.cs" id="1_0v7gv"]
 [ext_resource type="Script" uid="uid://d312txxrfn5j3" path="res://_project/code/combat/MotorModule.cs" id="2_x7wej"]
@@ -6,7 +6,6 @@
 [ext_resource type="Script" uid="uid://bxdenqcj5hdec" path="res://_project/code/combat/StateMachine.cs" id="3_lm0av"]
 [ext_resource type="Script" uid="uid://b8m3cw5117u1o" path="res://_project/code/modules/StatusModule.cs" id="4_0v7gv"]
 [ext_resource type="Script" uid="uid://dogxudvyat1et" path="res://_project/code/modules/AIInput.cs" id="6_1irq2"]
-[ext_resource type="Script" uid="uid://bw0vys6vgjoai" path="res://_project/scenes/actors/HitBox.cs" id="7_t2y1i"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sime2"]
 albedo_color = Color(0.60784316, 0, 0, 1)
@@ -36,11 +35,10 @@ height = 2.2
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_8yq2o"]
 radius = 0.6
 
-[node name="Enemy" type="CharacterBody3D" node_paths=PackedStringArray("HitBox", "HurtBox", "SlashVfx") groups=["enemies"]]
+[node name="Enemy" type="CharacterBody3D" node_paths=PackedStringArray("HitBox", "HurtBox") groups=["enemies"]]
 script = ExtResource("1_0v7gv")
 HitBox = NodePath("HitBox")
 HurtBox = NodePath("HurtBox")
-SlashVfx = []
 
 [node name="BodyMesh" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -80,7 +78,6 @@ process_mode = 4
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -2.31)
 collision_layer = 2
 collision_mask = 4
-script = ExtResource("7_t2y1i")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HitBox"]
 transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, 0, 0)

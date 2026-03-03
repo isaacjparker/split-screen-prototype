@@ -3,6 +3,8 @@ using System;
 
 public partial class TargetingState : ActorState
 {
+    private float _scanTimer = 0f;
+
 	public TargetingState(ActorCore core) : base(core)
     {
     }
@@ -21,16 +23,55 @@ public partial class TargetingState : ActorState
             return;
         }
 
-        if (!_core.ActorInput.IsTargetLockHeld())
+        if (_core.ActorInput.IsAttackRequested())
         {
-            _core.Status.CurrentTarget = null;
-            _core.StateMachine.ChangeState(new IdleMoveState(_core));
+            _core.StateMachine.ChangeState(new AttackingState(_core, this));
             return;
         }
 
-        if (_core.ActorInput.IsAttackRequested())
+        if (!_core.Status.ManualTargeting)
         {
-            _core.StateMachine.ChangeState(new AttackingState(_core));
+            float distToTarget = _core.GlobalPosition.DistanceTo(_core.Status.CurrentTarget.GlobalPosition);
+
+            // 1. Leash Check (Run every frame for responsiveness)
+            if (distToTarget > _core.Status.MaxTargetLeashRange)
+            {
+                _core.Status.CurrentTarget = null;
+                _core.StateMachine.ChangeState(new IdleMoveState(_core));
+                return;
+            }
+
+            // 2. Swap Check (Run on poll timer)
+            _scanTimer -= delta;
+            if (_scanTimer <= 0f)
+            {
+                _scanTimer = _core.Status.TargetingPollingRate;
+                
+                CharacterBody3D potentialTarget = CombatUtils.GetClosestTargetInCone(
+                    _core.GlobalPosition,
+                    -_core.GlobalTransform.Basis.Z,
+                    _status.MaxTargetScanRange,
+                    _status.MaxTargetScanAngle,
+                    _status.TargetGroup,
+                    _core.GetTree()
+                );
+
+                if (potentialTarget != null && potentialTarget != _core.Status.CurrentTarget)
+                {
+                    float distToPotential = _core.GlobalPosition.DistanceTo(potentialTarget.GlobalPosition);
+                    
+                    // Only swap if the new target is significantly closer
+                    if (distToTarget - distToPotential > _core.Status.MaxTargetSwapDifference)
+                    {
+                        _core.Status.CurrentTarget = potentialTarget;
+                    }
+                }
+            }
+        }
+        else if (!_core.ActorInput.IsTargetLockHeld())
+        {
+            _core.Status.CurrentTarget = null;
+            _core.StateMachine.ChangeState(new IdleMoveState(_core));
             return;
         }
 
