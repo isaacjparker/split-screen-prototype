@@ -1,0 +1,8 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://csyhv3ykw0brb"]
+
+[ext_resource type="Shader" uid="uid://dy473gecn8br6" path="res://_project/shaders/slash_wipe.gdshader" id="1_yos44"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_yos44")
+shader_parameter/progress = 0.0

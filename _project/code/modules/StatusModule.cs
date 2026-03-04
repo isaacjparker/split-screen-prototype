@@ -16,6 +16,7 @@ public partial class StatusModule : Node
     [Export] public float Acceleration = 18.0f;
     [Export] public float Deceleration = 30.0f;
     [Export] public float TurnSpeed = 10.0f;
+    [Export] public float SharpTurnMultiplier = 2.5f;
 
     [ExportGroup("Targeting")]
     [Export] public bool ManualTargeting = false;

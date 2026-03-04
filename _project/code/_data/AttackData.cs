@@ -10,7 +10,12 @@ public partial class AttackData : Resource
     [Export] public float HitStopDuration;  // 0.2f
     [Export(PropertyHint.Range, "0,100")]
     public float HitStopFactor = 100.0f;
+    [Export] public float CamShakeMagnitude = 0.5f;
     [Export] public Texture2D SlashSprite;
+    [Export] public bool FlipH = false;
+    [Export] public float WipeOutDelay = 0.05f;
+    [Export] public float WipeOutDuration = 0.2f;
+    [Export] public float WipeArcDegrees = 200.0f;
     private float _windup;
     [Export] public float Windup { get => _windup; set { _windup = value; ClampCombo(); } }
 

@@ -1,10 +1,10 @@
 [gd_resource type="Resource" script_class="WeaponData" load_steps=9 format=3 uid="uid://bc2p1xr1ir88e"]
 
-[ext_resource type="Texture2D" uid="uid://bera5w6t4q4ek" path="res://_project/assets/sprites/slash_02.png" id="1_5bi44"]
+[ext_resource type="Texture2D" uid="uid://d2gi2brtbnhds" path="res://_project/assets/sprites/slash_back_02.png" id="1_5bi44"]
 [ext_resource type="Script" uid="uid://bow7tk70sv7fk" path="res://_project/code/_data/WeaponData.cs" id="1_alyb8"]
 [ext_resource type="Script" uid="uid://mu7ojbt2ha6e" path="res://_project/code/_data/AttackData.cs" id="1_ayj0f"]
 [ext_resource type="Texture2D" uid="uid://cunw4mi22s0j5" path="res://_project/assets/sprites/slash_back_03.png" id="3_0bp6h"]
-[ext_resource type="Texture2D" uid="uid://g7pfxhpyvm3s" path="res://_project/assets/sprites/slash_01.png" id="4_8b5ts"]
+[ext_resource type="Texture2D" uid="uid://lmuagxk52u0a" path="res://_project/assets/sprites/slash_back_01.png" id="4_0bp6h"]
 
 [sub_resource type="Resource" id="Resource_5bi44"]
 script = ExtResource("1_ayj0f")
@@ -13,6 +13,7 @@ KnockbackPower = 10.0
 HitStopDuration = 0.2
 HitStopFactor = 70.0
 SlashSprite = ExtResource("1_5bi44")
+WipeOutDuration = 0.3
 Windup = 0.14
 Active = 0.12
 Recovery = 1.13
@@ -26,6 +27,8 @@ KnockbackPower = 14.0
 HitStopDuration = 0.2
 HitStopFactor = 70.0
 SlashSprite = ExtResource("3_0bp6h")
+FlipH = true
+WipeOutDuration = 0.3
 Windup = 0.14
 Active = 0.3
 Recovery = 1.13
@@ -38,7 +41,9 @@ BaseDamage = 5.0
 KnockbackPower = 20.0
 HitStopDuration = 0.2
 HitStopFactor = 70.0
-SlashSprite = ExtResource("4_8b5ts")
+SlashSprite = ExtResource("4_0bp6h")
+WipeOutDuration = 0.3
+WipeArcDegrees = 330.0
 Windup = 0.14
 Active = 0.12
 Recovery = 0.6

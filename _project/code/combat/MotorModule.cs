@@ -1,8 +1,17 @@
 using Godot;
 using System;
+using System.Reflection.Metadata;
 
 public partial class MotorModule : Node
 {
+
+    private const float MinTimescale = 0.001f;
+    private const float MinSpeedThreshold = 0.01f;
+    private const float MinDirectionSqLength = 0.001f;
+    private const float MinDashDuration = 0.1f;
+    private const float FloorSnapVelocity = -1f;
+    private const float KinematicVelocityScale = 2.0f;
+
 	private ActorCore _core;
     private StatusModule _status;
 
@@ -17,38 +26,29 @@ public partial class MotorModule : Node
     // ------------------------------------------------------------------------
     public void ProcessLocomotion(Vector3 inputDirection, float maxSpeed, float delta)
     {
-        // 1. Calculate Simulation Velocity (Unscaled)
-        // We use _core.Velocity as the storage for Simulation Velocity between frames
         Vector3 simVelocity = CalculateVelocity(_core.Velocity, inputDirection, maxSpeed, _core.IsOnFloor(), delta);
 
-        // 2. Rotate
+        ApplyScaledMovement(simVelocity);
+
+        // Rotate
+        // Uses simVelocity, not _core.Velocity, to avoid a one-frame lag
         if (inputDirection != Vector3.Zero)
         {
             Vector3 rotation = _core.Rotation;
-            rotation.Y = GetTargetYaw(_core.Velocity, _core.Rotation.Y, delta);
+            rotation.Y = GetTargetYaw(simVelocity, _core.Rotation.Y, delta);
             _core.Rotation = rotation;
         }
-
-        // 3. Apply Time Dilation & Move
-        _core.Velocity = simVelocity * _status.TimeScale;
-        _core.MoveAndSlide();
-
-        // 4. Restore Simulation Velocity
-        if (_status.TimeScale > 0.001f) _core.Velocity /= _status.TimeScale;
     }
 
     public void ProcessTargetingLocomotion(Vector3 inputDirection, CharacterBody3D target, float maxSpeed, float delta)
     {
         if (target == null) return;
 
-        // 1. Move (Scale -> Move -> Unscale)
         Vector3 simVelocity = CalculateVelocity(_core.Velocity, inputDirection, maxSpeed, _core.IsOnFloor(), delta);
         
-        _core.Velocity = simVelocity * _status.TimeScale;
-        _core.MoveAndSlide();
-        if (_status.TimeScale > 0.001f) _core.Velocity /= _status.TimeScale;
+        ApplyScaledMovement(simVelocity);
 
-        // 2. Rotate (Face Target)
+        // Rotate (Face Target)
         Vector3 toTarget = (target.GlobalPosition - _core.GlobalPosition).Normalized();
         toTarget.Y = 0;
 
@@ -69,10 +69,18 @@ public partial class MotorModule : Node
         if (inputDir != Vector3.Zero)
         {
             float signedSpeed = horizontalVelocity.Dot(targetDirection);
-            bool isSpeedingUp = signedSpeed < targetSpeed - 0.01f;
+            bool isSpeedingUp = signedSpeed < targetSpeed - MinSpeedThreshold;
             bool isSharpTurn = signedSpeed < 0f;
 
-			if (!isSharpTurn && isSpeedingUp) accelRate = _status.Acceleration;
+			if (isSharpTurn)
+            {
+                // Apply a sharper friction rate to make direction changes feel responsive
+                accelRate = _status.Deceleration * _status.SharpTurnMultiplier;
+            }
+            else if (isSpeedingUp)
+            {
+                accelRate = _status.Acceleration;
+            }
         }
 
         Vector3 targetVelocity = targetDirection * targetSpeed;
@@ -82,7 +90,7 @@ public partial class MotorModule : Node
         float currentY = currentVelocity.Y;
         if (isOnfloor)
         { 
-			if (currentY < 0f) currentY = -1f;
+			if (currentY < 0f) currentY = FloorSnapVelocity;
         }
         else
         {
@@ -95,51 +103,51 @@ public partial class MotorModule : Node
     public float GetTargetYaw(Vector3 velocity, float currentRotationY, float delta)
     {
         Vector3 flattened = new Vector3(velocity.X, 0f, velocity.Z);
-		if (flattened.LengthSquared() < 0.01f) return currentRotationY;
+		if (flattened.LengthSquared() < MinDirectionSqLength) return currentRotationY;
 
         float targetYaw = Mathf.Atan2(-flattened.X, -flattened.Z);
         return Mathf.LerpAngle(currentRotationY, targetYaw, _status.TurnSpeed * delta);
     }
 
-    public void StartDash(DashPayload dashPayload)
+    public void StartDash(DashPayload dashPayload, bool snapRotation = true)
     {
-        // 1. Calculate Direction & Distance (Initial Snapshot)
         Vector3 direction = (dashPayload.TargetPosition - _core.GlobalPosition);
         direction.Y = 0;
 
         float distance = direction.Length() - dashPayload.StopOffset;
         if (distance < 0) distance = 0;
 
-        // 2. Rotate Actor
-        if (direction.LengthSquared() > 0.001f)
-        {
-            direction = direction.Normalized();
-            float targetYaw = Mathf.Atan2(-direction.X, -direction.Z);
-            Vector3 currentRotation = _core.Rotation;
-            currentRotation.Y = targetYaw;
-            _core.Rotation = currentRotation;
-        }
-        else
-        {
-            direction = Vector3.Zero;
-        }
+        direction = direction.LengthSquared() > MinDirectionSqLength
+            ? direction.Normalized()
+            : Vector3.Zero;
 
-        // 3. Calculate Initial Velocity (Kinematic: V = 2 * D / T)
-        float duration = dashPayload.Duration > 0 ? dashPayload.Duration : 0.1f;
-        float initialSpeed = (distance * 2.0f) / duration;
+        if(snapRotation) SnapRotationTowards(direction);
+
+        float duration = dashPayload.Duration > 0 ? dashPayload.Duration : MinDashDuration;
+        // Dash decelerates linearly to zero, so average speed = initialSpeed / 2.
+        // To cover full distance, initial speed must be doubled.
+        float initialSpeed = (distance * 2f) / duration;
 
         dashPayload.DashVelocity = direction * initialSpeed;
         dashPayload.DashVelocity.Y = _core.Velocity.Y; // Inherit vertical momentum
-
-        // 4. Calculate Friction (F = V / T)
         dashPayload.DashFriction = initialSpeed / duration;
 
-        // 5. Store in Status
         _status.CurrentDashPayload = dashPayload;
+    }
+
+    private void SnapRotationTowards(Vector3 direction)
+    {
+        if (direction.LengthSquared() <= MinDirectionSqLength) return;
+
+        float targetYaw = Mathf.Atan2(-direction.X, -direction.Z);
+        Vector3 currentRotation = _core.Rotation;
+        currentRotation.Y = targetYaw;
+        _core.Rotation = currentRotation;
     }
 
     public void ProcessDashMovement(float delta)
     {
+        // DashPayload is a class - mutations write directly to stored instance
         DashPayload payload = _status.CurrentDashPayload;
 
         // 1. Decay Dash Velocity (Horizontal Friction)
@@ -160,21 +168,30 @@ public partial class MotorModule : Node
         _core.MoveAndSlide();
 
         // 4. Restore Simulation Velocity (Handle Collisions)
-        if (_status.TimeScale > 0.001f)
+        if (_status.TimeScale > MinTimescale)
         {
             payload.DashVelocity = _core.Velocity / _status.TimeScale;
         }
-
-        _status.CurrentDashPayload = payload;
     }
 
     // Returns the initial velocity vector for knockback
-    public Vector3 CalculateKnockbackVelocity(Vector3 sourcePosition, float knockbackPower)
+    public Vector3 CalculateKnockbackVelocity(Vector3 sourcePosition, float knockbackPower, float knockbackLift = 0f)
     {
-        Vector3 direction = (_core.GlobalPosition - sourcePosition);
+        Vector3 direction = _core.GlobalPosition - sourcePosition;
         direction.Y = 0;
         direction = direction.Normalized();
 
-        return direction * knockbackPower;
+        return new Vector3(direction.X * knockbackPower, knockbackLift, direction.Z * knockbackPower);
+    }
+
+    private void ApplyScaledMovement(Vector3 simVelocity)
+    {
+        _core.Velocity = simVelocity * _status.TimeScale;
+        _core.MoveAndSlide();
+
+        // MoveAndSlide() writes back to Velocity post-collision
+        // Unscale here so next frame's simulation reads a clean, unscaled value -
+        // otherwise slow-motion would compound across frames and bleed into movement speed.
+        if (_status.TimeScale > MinTimescale) _core.Velocity /= _status.TimeScale;
     }
 }

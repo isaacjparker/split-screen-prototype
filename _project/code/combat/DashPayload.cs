@@ -1,7 +1,7 @@
 using Godot;
 
 
-public struct DashPayload
+public class DashPayload
 {
 	public readonly Vector3 TargetPosition;
     public readonly float Duration;

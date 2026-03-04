@@ -4,6 +4,7 @@ using System;
 public partial class AttackingState : ActorState
 {
     private readonly ActorState _previousState;
+    private ShaderMaterial _slashMaterial;
 
 
     public AttackingState(ActorCore core, ActorState previousState) : base(core)
@@ -28,6 +29,22 @@ public partial class AttackingState : ActorState
         if (_core.SlashVfx != null && _status.CurrentAttack.SlashSprite != null)
         {
             _core.SlashVfx.Texture = _status.CurrentAttack.SlashSprite;
+            _core.SlashVfx.FlipH = _status.CurrentAttack.FlipH;
+
+            _slashMaterial = _core.SlashVfx.MaterialOverride as ShaderMaterial;
+
+            if (_slashMaterial != null)
+            {
+                _slashMaterial.SetShaderParameter("slash_texture", _status.CurrentAttack.SlashSprite);
+                _slashMaterial.SetShaderParameter("progress", 0f);
+                _slashMaterial.SetShaderParameter("arc_degrees", _status.CurrentAttack.WipeArcDegrees);
+            }
+            else
+            {
+                GD.PushWarning("AttackingState: SlashVfx MaterialOverride is not a ShaderMaterial. Wipe effect will not play.");
+            }
+
+            _core.SlashVfx.Visible = true;
         }
 
         _status.ComboTimer = 0f;
@@ -44,6 +61,8 @@ public partial class AttackingState : ActorState
         _core.Motor.ProcessDashMovement(delta);
 
         _status.ComboTimer += delta;
+
+        UpdateSlashVfx();
 
         // Check input immediately to act on in this frame
         if (_status.ComboTimer >= _status.CurrentAttack.ComboWindow.X && _status.ComboTimer <= _status.CurrentAttack.ComboWindow.Y)
@@ -102,14 +121,44 @@ public partial class AttackingState : ActorState
         {
             _core.SlashVfx.Visible = false;
         }
+
+        if (_slashMaterial != null)
+        {
+            _slashMaterial.SetShaderParameter("progress", 0f);
+            _slashMaterial = null;
+        }
+    }
+
+    private void UpdateSlashVfx()
+    {
+        if (_core.SlashVfx == null || _slashMaterial == null) return;
+
+        float progress = 0f;
+        float endOfActive = _status.CurrentAttack.Windup + _status.CurrentAttack.Active;
+        float wipeOutStart = endOfActive + _status.CurrentAttack.WipeOutDelay;
+        float wipeOutDuration = _status.CurrentAttack.WipeOutDuration;
+
+        if (_status.ComboTimer >= _status.CurrentAttack.Windup && _status.ComboTimer <= wipeOutStart)
+        {
+            // Wipe in across the Active window
+            //float t = (_status.ComboTimer - _status.CurrentAttack.Windup) / _status.CurrentAttack.Active;
+            //progress = Mathf.Clamp(t, 0f, 1f);
+
+            // Instantly fully visible at the start of the active window
+            progress = 1f;
+        }
+        else if (_status.ComboTimer > wipeOutStart)
+        {
+            float t = (_status.ComboTimer - wipeOutStart) / wipeOutDuration;
+            progress = 1f - Mathf.Clamp(t, 0f, 1f);
+        }
+
+        _slashMaterial.SetShaderParameter("progress", progress);
     }
 
     private void ActivateHitbox()
     {
         _status.HitboxActive = true;
-
-        if (_core.SlashVfx != null) _core.SlashVfx.Visible = true;
-
         _core.Status.ActivePayload = _core.Combat.BuildAttackPayload(_status.CurrentAttack);
         _core.HitBox.ProcessMode = Node.ProcessModeEnum.Inherit;
     }
@@ -117,9 +166,6 @@ public partial class AttackingState : ActorState
     private void DeactivateHitbox()
     {
         _status.HitboxActive = false;
-
-        if (_core.SlashVfx != null) _core.SlashVfx.Visible = false;
-        
         _core.HitBox.ProcessMode = Node.ProcessModeEnum.Disabled;
     }
 

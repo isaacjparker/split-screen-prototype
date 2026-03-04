@@ -67,42 +67,42 @@ public partial class CameraController : Camera3D
 
         float fDelta = (float)delta;
 
-        // If Hitstop, simply freeze everything
+        // If Hitstop, freeze the follow position but still process shake
         if (_hitStopTimer > 0)
         {
             _hitStopTimer -= fDelta;
-            return;
-        }
-
-
-        Vector3 lookAtTarget = _actorCore.GlobalPosition + _lookAtOffset;
-        Vector3 targetPos = lookAtTarget + _camOffset;
-
-        float targetAccel = _smoothingAccel;
-
-        if (_dashTimer > 0)
-        {
-            // We are dashing - lag
-            _dashTimer -= fDelta;
-            targetAccel = _smoothingAccel * _dashDragFactor;
         }
         else
         {
-            float dist = _currentFollowPos.DistanceTo(targetPos);
+            Vector3 lookAtTarget = _actorCore.GlobalPosition + _lookAtOffset;
+            Vector3 targetPos = lookAtTarget + _camOffset;
 
-            if (dist > 1.0f)
+            float targetAccel = _smoothingAccel;
+
+            if (_dashTimer > 0)
             {
-                float catchUpWeight = Mathf.Clamp((dist - 1.0f) / 4.0f, 0f, 1f);
-                targetAccel = Mathf.Lerp(_smoothingAccel, _catchUpAccel, catchUpWeight);
+                // We are dashing - lag
+                _dashTimer -= fDelta;
+                targetAccel = _smoothingAccel * _dashDragFactor;
             }
+            else
+            {
+                float dist = _currentFollowPos.DistanceTo(targetPos);
+
+                if (dist > 1.0f)
+                {
+                    float catchUpWeight = Mathf.Clamp((dist - 1.0f) / 4.0f, 0f, 1f);
+                    targetAccel = Mathf.Lerp(_smoothingAccel, _catchUpAccel, catchUpWeight);
+                }
+            }
+
+            _currentAccelRate = Mathf.Lerp(_currentAccelRate, targetAccel, fDelta * 5f);
+
+            // Apply movement
+            float blend = Mathf.Clamp(_currentAccelRate * fDelta, 0f, 1f);
+            _currentFollowPos = _currentFollowPos.Lerp(targetPos, blend);
         }
 
-        _currentAccelRate = Mathf.Lerp(_currentAccelRate, targetAccel, fDelta * 5f);
-
-        // Apply movement
-        float blend = Mathf.Clamp(_currentAccelRate * fDelta, 0f, 1f);
-        _currentFollowPos = _currentFollowPos.Lerp(targetPos, blend);
-        
         Vector3 shakeOffset = Vector3.Zero;
 
         if (_shakeTimer > 0)
@@ -141,7 +141,7 @@ public partial class CameraController : Camera3D
         _actorCore = null;
     }
 
-    private void HandleCameraShake(float magnitude, float duration)
+    private void HandleCameraShake(float duration, float magnitude)
     {
         if (magnitude >= _shakeMagnitude || _shakeTimer <= 0)
         {

@@ -127,7 +127,11 @@ public partial class ActorCore : CharacterBody3D
 
     public void TriggerHitStop(float hitStopDuration, float hitStopFactor)
     {
+        float camShakeMagnitude = Status.CurrentAttack?.CamShakeMagnitude ?? Status.CamShakeMagnitude;
+        
         Status.HitStopTimer = hitStopDuration;
         Status.HitStopFactor = hitStopFactor;
+        OnCameraShake?.Invoke(Status.CamShakeDuration, camShakeMagnitude);
+        OnHitStop?.Invoke(hitStopDuration);
     }
 }
