@@ -16,6 +16,8 @@ public partial class AttackData : Resource
     [Export] public float WipeOutDelay = 0.05f;
     [Export] public float WipeOutDuration = 0.2f;
     [Export] public float WipeArcDegrees = 200.0f;
+    [Export] public SoundEffectConfig AttackAudio;
+    [Export] public SoundEffectConfig ImpactAudio;
     private float _windup;
     [Export] public float Windup { get => _windup; set { _windup = value; ClampCombo(); } }
 

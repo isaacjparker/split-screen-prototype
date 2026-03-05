@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="SoundEffectConfig" load_steps=3 format=3 uid="uid://dhtm3br4ljy73"]
+
+[ext_resource type="Script" uid="uid://jgkh3mhu6k4i" path="res://_project/code/_config/SoundEffectConfig.cs" id="1_3n6fu"]
+[ext_resource type="AudioStream" uid="uid://nep87gl37r5n" path="res://_project/assets/audio/mixkit-sword-cutting-2168-edit.wav" id="1_u3c35"]
+
+[resource]
+script = ExtResource("1_3n6fu")
+Type = 1
+SoundEffect = ExtResource("1_u3c35")
+PitchRandomness = 0.211
+metadata/_custom_type_script = "uid://jgkh3mhu6k4i"

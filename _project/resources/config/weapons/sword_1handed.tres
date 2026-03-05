@@ -1,0 +1,65 @@
+[gd_resource type="Resource" script_class="WeaponData" load_steps=11 format=3 uid="uid://bc2p1xr1ir88e"]
+
+[ext_resource type="Resource" uid="uid://due7bij1e38nh" path="res://_project/resources/config/sfx/sword_slash.tres" id="1_8fhwl"]
+[ext_resource type="Resource" uid="uid://dhtm3br4ljy73" path="res://_project/resources/config/sfx/sword_impact.tres" id="2_la72m"]
+[ext_resource type="Texture2D" uid="uid://d2gi2brtbnhds" path="res://_project/assets/sprites/slash_back_02.png" id="3_s0isr"]
+[ext_resource type="Script" uid="uid://mu7ojbt2ha6e" path="res://_project/code/_config/AttackData.cs" id="4_w1dxm"]
+[ext_resource type="Texture2D" uid="uid://cunw4mi22s0j5" path="res://_project/assets/sprites/slash_back_03.png" id="5_o0qtq"]
+[ext_resource type="Texture2D" uid="uid://lmuagxk52u0a" path="res://_project/assets/sprites/slash_back_01.png" id="6_fvp65"]
+[ext_resource type="Script" uid="uid://bow7tk70sv7fk" path="res://_project/code/_config/WeaponData.cs" id="7_wxp0v"]
+
+[sub_resource type="Resource" id="Resource_5bi44"]
+script = ExtResource("4_w1dxm")
+BaseDamage = 5.0
+KnockbackPower = 10.0
+HitStopDuration = 0.2
+HitStopFactor = 70.0
+SlashSprite = ExtResource("3_s0isr")
+WipeOutDuration = 0.3
+AttackAudio = ExtResource("1_8fhwl")
+ImpactAudio = ExtResource("2_la72m")
+Windup = 0.14
+Active = 0.12
+Recovery = 1.13
+ComboWindow = Vector2(0, 1.39)
+metadata/_custom_type_script = "uid://mu7ojbt2ha6e"
+
+[sub_resource type="Resource" id="Resource_0bp6h"]
+script = ExtResource("4_w1dxm")
+BaseDamage = 5.0
+KnockbackPower = 14.0
+HitStopDuration = 0.2
+HitStopFactor = 70.0
+SlashSprite = ExtResource("5_o0qtq")
+FlipH = true
+WipeOutDuration = 0.3
+AttackAudio = ExtResource("1_8fhwl")
+ImpactAudio = ExtResource("2_la72m")
+Windup = 0.14
+Active = 0.3
+Recovery = 1.13
+ComboWindow = Vector2(0, 1.5699999)
+metadata/_custom_type_script = "uid://mu7ojbt2ha6e"
+
+[sub_resource type="Resource" id="Resource_8b5ts"]
+script = ExtResource("4_w1dxm")
+BaseDamage = 5.0
+KnockbackPower = 20.0
+HitStopDuration = 0.2
+HitStopFactor = 70.0
+SlashSprite = ExtResource("6_fvp65")
+WipeOutDuration = 0.3
+WipeArcDegrees = 330.0
+AttackAudio = ExtResource("1_8fhwl")
+ImpactAudio = ExtResource("2_la72m")
+Windup = 0.14
+Active = 0.12
+Recovery = 0.6
+ComboWindow = Vector2(0, 0.86)
+metadata/_custom_type_script = "uid://mu7ojbt2ha6e"
+
+[resource]
+script = ExtResource("7_wxp0v")
+WeaponName = "sword_1handed"
+Attacks = Array[Object]([SubResource("Resource_5bi44"), SubResource("Resource_0bp6h"), SubResource("Resource_8b5ts")])
+metadata/_custom_type_script = "uid://bow7tk70sv7fk"

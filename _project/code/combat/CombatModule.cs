@@ -74,7 +74,9 @@ public partial class CombatModule : Node
         KnockbackPower = attackData.KnockbackPower,
         HitStopDuration = attackData.HitStopDuration,
         HitStopFactor = attackData.HitStopFactor,
-        SourcePosition = _core.GlobalPosition
+        SourcePosition = _core.GlobalPosition,
+        AttackAudio = attackData.AttackAudio,
+        ImpactAudio = attackData.ImpactAudio
         };
     }
 }

@@ -20,9 +20,20 @@ public partial class VFXModule : Node
 			_flashTween.Kill();
 		}
 
+		float flashDuration = _core.Status.HitFlashTimer;
+		float gapDuration = _core.Status.HitFlashGap;
+
 		_flashTween = CreateTween();
+
+		// First flash
 		_core.BodyMesh.MaterialOverride = _core.FlashMaterial;
-		_flashTween.TweenInterval(_core.Status.HitFlashTimer);
+		_flashTween.TweenInterval(flashDuration);
+		_flashTween.TweenCallback(Callable.From(() => _core.BodyMesh.MaterialOverride = null));
+
+		// Gap, then second flash
+		_flashTween.TweenInterval(gapDuration);
+		_flashTween.TweenCallback(Callable.From(() => _core.BodyMesh.MaterialOverride = _core.FlashMaterial));
+		_flashTween.TweenInterval(flashDuration);
 		_flashTween.TweenCallback(Callable.From(() => _core.BodyMesh.MaterialOverride = null));
 	}
 }

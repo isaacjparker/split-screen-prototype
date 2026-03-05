@@ -59,10 +59,11 @@ public partial class AttackingState : ActorState
 	public override void ProcessState(float delta)
     {
         _core.Motor.ProcessDashMovement(delta);
-
         _status.ComboTimer += delta;
 
         UpdateSlashVfx();
+
+        float endOfActive = _status.CurrentAttack.Windup + _status.CurrentAttack.Active;
 
         // Check input immediately to act on in this frame
         if (_status.ComboTimer >= _status.CurrentAttack.ComboWindow.X && _status.ComboTimer <= _status.CurrentAttack.ComboWindow.Y)
@@ -73,20 +74,21 @@ public partial class AttackingState : ActorState
             }
         }
 
-        if (!_status.HitboxActive && _status.ComboTimer >= _status.CurrentAttack.Windup)
+        // Activate hitbox at windup end - scoped to active window to prevent re-firing after deactivation
+        if (!_status.HitboxActive && _status.ComboTimer >= _status.CurrentAttack.Windup && _status.ComboTimer < endOfActive)
         {
             ActivateHitbox();
         }
 
-        float endOfActive = _status.CurrentAttack.Windup + _status.CurrentAttack.Active;
-
+        // Deactivate hitbox at end of active window
+        if (_status.HitboxActive && _status.ComboTimer >= endOfActive)
+        {
+            DeactivateHitbox();
+        }
+        
+        // Post-active: combo cancel and movement cancel
         if (_status.ComboTimer >= endOfActive)
         {
-            if (_status.HitboxActive)
-            {
-                DeactivateHitbox();
-            }
-
             // Interrupt recovery phase for combo if possible
             if (_status.NextAttackQueued && IsNextAttackAvailable())
             {
@@ -96,7 +98,6 @@ public partial class AttackingState : ActorState
 
             // Check for movement cancellation
             Vector3 moveDir = _core.ActorInput.GetMovementDirection();
-
             if (moveDir.LengthSquared() > 0.01f)
             {
                 ReturnToLocomotion();
@@ -104,8 +105,8 @@ public partial class AttackingState : ActorState
             }
         }
 
+        // Recovery complete - natural end of attack
         float totalDuration = endOfActive + _status.CurrentAttack.Recovery;
-
         if (_status.ComboTimer >= totalDuration)
         {
             TryAdvanceCombo();  // This will fail queue check and naturally return to Idle
@@ -115,6 +116,7 @@ public partial class AttackingState : ActorState
 
     public override void ExitState()
     {
+        DeactivateHitbox();
         _core.HitBox.ProcessMode = Node.ProcessModeEnum.Disabled;
 
         if (_core.SlashVfx != null)
@@ -159,8 +161,9 @@ public partial class AttackingState : ActorState
     private void ActivateHitbox()
     {
         _status.HitboxActive = true;
-        _core.Status.ActivePayload = _core.Combat.BuildAttackPayload(_status.CurrentAttack);
+        _status.ActivePayload = _core.Combat.BuildAttackPayload(_status.CurrentAttack);
         _core.HitBox.ProcessMode = Node.ProcessModeEnum.Inherit;
+        AudioManager.Instance.CreateAudio(_core.Status.ActivePayload.AttackAudio);
     }
 
     private void DeactivateHitbox()

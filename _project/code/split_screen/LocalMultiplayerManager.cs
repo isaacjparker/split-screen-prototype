@@ -17,7 +17,7 @@ public partial class LocalMultiplayerManager : Node
     // Runtime
     private readonly HashSet<int> _connectedDeviceIds = new();
     private readonly Dictionary<int, int> _deviceIdToPlayerSlot = new();
-    private readonly Dictionary<int, ActorCore> _playerSlotToInstance = new Dictionary<int, ActorCore>();
+    public readonly Dictionary<int, ActorCore> PlayerSlotToInstance = new Dictionary<int, ActorCore>();
     private Node _playersRootNode = default;
 
     // Actions
@@ -120,7 +120,7 @@ public partial class LocalMultiplayerManager : Node
 
     private void SpawnKeyboardPlayer()
     {
-        if (_playerSlotToInstance.ContainsKey(KeyboardPlayerSlot))
+        if (PlayerSlotToInstance.ContainsKey(KeyboardPlayerSlot))
         {
             return;
         }
@@ -138,7 +138,7 @@ public partial class LocalMultiplayerManager : Node
             return;
         }
 
-        _playerSlotToInstance[KeyboardPlayerSlot] = playerInstance;
+        PlayerSlotToInstance[KeyboardPlayerSlot] = playerInstance;
 
         PlayerJoinedEvent?.Invoke(playerInstance, KeyboardPlayerSlot);
     }
@@ -168,7 +168,7 @@ public partial class LocalMultiplayerManager : Node
             return;
         }
 
-        _playerSlotToInstance[playerSlot] = playerInstance;
+        PlayerSlotToInstance[playerSlot] = playerInstance;
         _deviceIdToPlayerSlot[deviceId] = playerSlot;
 
         GD.Print($"Device {deviceId} joined as PlayerSlot {playerSlot}.");
@@ -191,7 +191,7 @@ public partial class LocalMultiplayerManager : Node
         // Then remove the data from the manager
         _deviceIdToPlayerSlot.Remove(deviceId);
 
-        if (_playerSlotToInstance.TryGetValue(playerSlot, out ActorCore playerInstance))
+        if (PlayerSlotToInstance.TryGetValue(playerSlot, out ActorCore playerInstance))
         {
             // Now it is safe to remove the physical node from the scene
             if (playerInstance != null && IsInstanceValid(playerInstance))
@@ -199,7 +199,7 @@ public partial class LocalMultiplayerManager : Node
                 playerInstance.QueueFree();
             }
 
-            _playerSlotToInstance.Remove(playerSlot);
+            PlayerSlotToInstance.Remove(playerSlot);
         }
     }
 
@@ -208,7 +208,7 @@ public partial class LocalMultiplayerManager : Node
         // Slot 0 is reserved for keyboard in this prototype.
         for (int playerSlot = 1; playerSlot < MaximumPlayerCount; playerSlot++)
         {
-            if (!_playerSlotToInstance.ContainsKey(playerSlot))
+            if (!PlayerSlotToInstance.ContainsKey(playerSlot))
             {
                 return playerSlot;
             }

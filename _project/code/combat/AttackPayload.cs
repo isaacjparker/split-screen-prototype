@@ -8,4 +8,6 @@ public struct AttackPayload
     public float HitStopDuration;
     public float HitStopFactor;
     public Vector3 SourcePosition;
+    public SoundEffectConfig AttackAudio;
+    public SoundEffectConfig ImpactAudio;
 }

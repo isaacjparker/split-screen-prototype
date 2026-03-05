@@ -36,6 +36,7 @@ public partial class StatusModule : Node
     [Export] public float HitStopTimer = 0f;
     [Export] public float HitStopFactor = 0f;
     [Export] public float HitFlashTimer = 0.1f;
+    [Export] public float HitFlashGap = 0.05f;
     public AttackData CurrentAttack;
     public bool HitboxActive = false;
     public bool NextAttackQueued = false;
@@ -133,6 +134,12 @@ public partial class StatusModule : Node
         // Safety check: Don't freeze if we hit ourselves (e.g. our own HurtBox)
         if (area.Owner == _core) return;
 
+        if (area.Owner is ActorCore enemy)
+        {
+            GD.Print("Creating HitBox audio");
+            AudioManager.Instance.CreateAudio(ActivePayload.ImpactAudio);
+        }
+        
         // We successfully hit a target. Trigger our own HitStop (Freeze).
         // Note: This assumes our HitBox only masks with HurtBoxes.
         _core.TriggerHitStop(ActivePayload.HitStopDuration, ActivePayload.HitStopFactor);

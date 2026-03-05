@@ -6,7 +6,7 @@
 [ext_resource type="Script" uid="uid://cdl31mqlcnall" path="res://_project/code/combat/CombatModule.cs" id="2_dvsr0"]
 [ext_resource type="PackedScene" uid="uid://us4hyhqbbyy4" path="res://_project/scenes/weapons/sword_1_handed.tscn" id="3_bxt2d"]
 [ext_resource type="Script" uid="uid://b8m3cw5117u1o" path="res://_project/code/modules/StatusModule.cs" id="5_bxt2d"]
-[ext_resource type="Resource" uid="uid://bc2p1xr1ir88e" path="res://_project/data/weapons/sword_1handed.tres" id="6_mhhix"]
+[ext_resource type="Resource" uid="uid://bc2p1xr1ir88e" path="res://_project/resources/config/weapons/sword_1handed.tres" id="6_mhhix"]
 [ext_resource type="Script" uid="uid://biuic736i78u5" path="res://_project/code/modules/PlayerInput.cs" id="8_gsska"]
 [ext_resource type="Script" uid="uid://cpeekwg6q0qh2" path="res://_project/code/modules/VFXModule.cs" id="8_mhhix"]
 [ext_resource type="Material" uid="uid://csyhv3ykw0brb" path="res://_project/materials/slash_wipe_mat.tres" id="9_c6j5r"]

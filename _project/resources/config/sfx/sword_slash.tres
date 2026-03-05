@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="SoundEffectConfig" load_steps=3 format=3 uid="uid://due7bij1e38nh"]
+
+[ext_resource type="Script" uid="uid://jgkh3mhu6k4i" path="res://_project/code/_config/SoundEffectConfig.cs" id="1_lw1rm"]
+[ext_resource type="AudioStream" uid="uid://d2lc4p3i7w57m" path="res://_project/assets/audio/mixkit-fast-sword-whoosh-2792.wav" id="1_y3gkh"]
+
+[resource]
+script = ExtResource("1_lw1rm")
+SoundEffect = ExtResource("1_y3gkh")
+PitchRandomness = 0.211
+metadata/_custom_type_script = "uid://jgkh3mhu6k4i"
