@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="SlashVFX" load_steps=3 format=3 uid="uid://cebwt7mpdkywu"]
+
+[ext_resource type="PackedScene" uid="uid://4web8dcr3rmu" path="res://_project/scenes/vfx/attack_vfx/slash_vfx.tscn" id="1_dqmec"]
+[ext_resource type="Script" uid="uid://d2jbvfs2oxjsg" path="res://_project/code/_config/SlashVFX.cs" id="1_wckq3"]
+
+[resource]
+script = ExtResource("1_wckq3")
+SlashScene = ExtResource("1_dqmec")
+metadata/_custom_type_script = "uid://d2jbvfs2oxjsg"

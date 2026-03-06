@@ -23,6 +23,10 @@ public partial class ActorCore : CharacterBody3D
     public event Action<float, float> OnCameraShake;
     public event Action<float> OnHitStop;
     public event Action<float, float> OnDash;
+    public event Action<ActorCore> OnAttackStarted;
+    public event Action<ActorCore> OnAttackActive;
+    public event Action<ActorCore> OnAttackEnded;
+
 
 
     public override void _Ready()
@@ -134,4 +138,8 @@ public partial class ActorCore : CharacterBody3D
         OnCameraShake?.Invoke(Status.CamShakeDuration, camShakeMagnitude);
         OnHitStop?.Invoke(hitStopDuration);
     }
+
+    public void RaiseAttackStarted() => OnAttackStarted?.Invoke(this);
+    public void RaiseAttackActive()  => OnAttackActive?.Invoke(this);
+    public void RaiseAttackEnded()   => OnAttackEnded?.Invoke(this);
 }

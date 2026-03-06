@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=3 uid="uid://vdpv3kjh4su0"]
+[gd_scene load_steps=37 format=3 uid="uid://vdpv3kjh4su0"]
 
 [ext_resource type="Script" uid="uid://c73ql6q4klmmv" path="res://_project/code/combat/ActorCore.cs" id="1_gsska"]
 [ext_resource type="Script" uid="uid://bxdenqcj5hdec" path="res://_project/code/combat/StateMachine.cs" id="2_bvb84"]
@@ -9,8 +9,6 @@
 [ext_resource type="Resource" uid="uid://bc2p1xr1ir88e" path="res://_project/resources/config/weapons/sword_1handed.tres" id="6_mhhix"]
 [ext_resource type="Script" uid="uid://biuic736i78u5" path="res://_project/code/modules/PlayerInput.cs" id="8_gsska"]
 [ext_resource type="Script" uid="uid://cpeekwg6q0qh2" path="res://_project/code/modules/VFXModule.cs" id="8_mhhix"]
-[ext_resource type="Material" uid="uid://csyhv3ykw0brb" path="res://_project/materials/slash_wipe_mat.tres" id="9_c6j5r"]
-[ext_resource type="Texture2D" uid="uid://d2gi2brtbnhds" path="res://_project/assets/sprites/slash_back_02.png" id="9_mhhix"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_wel1o"]
 
@@ -294,7 +292,7 @@ script = ExtResource("1_gsska")
 BodyMesh = NodePath("BodyMesh")
 HitBox = NodePath("HitBox")
 HurtBox = NodePath("HurtBox")
-SlashVfx = NodePath("SlashVFX")
+SlashVfx = NodePath("")
 
 [node name="BodyMesh" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -319,6 +317,8 @@ script = ExtResource("2_dvsr0")
 
 [node name="StatusModule" type="Node" parent="."]
 script = ExtResource("5_bxt2d")
+MaxTargetScanRange = 10.0
+MaxTargetLeashRange = 12.0
 WeaponData = ExtResource("6_mhhix")
 DashWhiffDistance = 5.0
 CamCatchUpAccel = 8.0
@@ -330,12 +330,6 @@ script = ExtResource("8_gsska")
 
 [node name="VFXModule" type="Node" parent="."]
 script = ExtResource("8_mhhix")
-
-[node name="SlashVFX" type="Sprite3D" parent="."]
-transform = Transform3D(-1, 8.742278e-08, -3.821371e-15, 0, -4.371139e-08, -1, -8.742278e-08, -1, 4.371139e-08, 0, 1, 0)
-visible = false
-material_override = ExtResource("9_c6j5r")
-texture = ExtResource("9_mhhix")
 
 [node name="HandSlotRight" type="Node3D" parent="."]
 transform = Transform3D(-0.3012479, 0.55907595, -0.7724532, 0.93040663, 0.34971657, -0.109734386, 0.20878987, -0.75175184, -0.62552017, 0.6, 1.0718913, 0.7186857)

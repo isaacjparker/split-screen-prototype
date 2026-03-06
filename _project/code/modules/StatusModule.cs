@@ -40,6 +40,7 @@ public partial class StatusModule : Node
     public AttackData CurrentAttack;
     public bool HitboxActive = false;
     public bool NextAttackQueued = false;
+    public Node3D AttackVfxNode;
 
     [ExportGroup("Dash")]
     [Export] public float MaxDashDistance = 5.0f;

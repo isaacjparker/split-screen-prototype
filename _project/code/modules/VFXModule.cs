@@ -8,7 +8,20 @@ public partial class VFXModule : Node
 	public void Initialise(ActorCore core)
 	{
 		_core = core;
+
+		_core.OnAttackStarted += HandleAttackStarted;
+		_core.OnAttackActive += HandleAttackActive;
+		_core.OnAttackEnded += HandleAttackEnded;
 	}
+
+    public override void _ExitTree()
+    {
+        if (_core == null) return;
+
+		_core.OnAttackStarted -= HandleAttackStarted;
+		_core.OnAttackActive -= HandleAttackActive;
+		_core.OnAttackEnded -= HandleAttackEnded;
+    }
 
 	public void PlayHitFlash()
 	{
@@ -35,5 +48,30 @@ public partial class VFXModule : Node
 		_flashTween.TweenCallback(Callable.From(() => _core.BodyMesh.MaterialOverride = _core.FlashMaterial));
 		_flashTween.TweenInterval(flashDuration);
 		_flashTween.TweenCallback(Callable.From(() => _core.BodyMesh.MaterialOverride = null));
+	}
+
+	private void HandleAttackStarted(ActorCore core)
+	{
+		AttackVFX vfx = core.Status.CurrentAttack?.VFX;
+		if (vfx == null) return;
+
+		core.Status.AttackVfxNode = vfx.Equip(core);
+	}
+
+	private void HandleAttackActive(ActorCore core)
+	{
+		AttackVFX vfx = core.Status.CurrentAttack?.VFX;
+		if (vfx == null) return;
+
+		vfx.Apply(core);
+	}
+
+	private void HandleAttackEnded(ActorCore core)
+	{
+		AttackVFX vfx = core.Status.CurrentAttack?.VFX;
+		if (vfx == null) return;
+
+		vfx.Unequip(core);
+		core.Status.AttackVfxNode = null;
 	}
 }

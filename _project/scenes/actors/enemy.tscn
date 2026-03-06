@@ -68,6 +68,8 @@ script = ExtResource("3_c4egs")
 
 [node name="StatusModule" type="Node" parent="."]
 script = ExtResource("4_0v7gv")
+MaxTargetScanRange = 4.0
+MaxTargetLeashRange = 6.0
 
 [node name="InputModule" type="Node" parent="."]
 script = ExtResource("6_1irq2")

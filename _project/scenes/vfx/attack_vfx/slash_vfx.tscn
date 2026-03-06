@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://4web8dcr3rmu"]
+
+[ext_resource type="Material" uid="uid://csyhv3ykw0brb" path="res://_project/materials/slash_wipe_mat.tres" id="1_3panv"]
+[ext_resource type="Texture2D" uid="uid://d2gi2brtbnhds" path="res://_project/assets/sprites/slash_back_02.png" id="2_03gqv"]
+
+[node name="SlashVFX" type="Sprite3D"]
+transform = Transform3D(-1, 8.742278e-08, -3.821371e-15, 0, -4.371139e-08, -1, -8.742278e-08, -1, 4.371139e-08, 0, 0, 0)
+visible = false
+material_override = ExtResource("1_3panv")
+texture = ExtResource("2_03gqv")
