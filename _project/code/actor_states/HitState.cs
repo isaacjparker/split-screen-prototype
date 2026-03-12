@@ -17,7 +17,7 @@ public partial class HitState : ActorState
     {
         GD.Print($"Entered HitState. Knockback Power: {_knockbackPower}");
 
-        _core.VFX.PlayHitFlash();
+        _core.HitFlash.PlayHitFlash();
 
         // Play Animation (optional)
         _currentVelocity = _core.Motor.CalculateKnockbackVelocity(_sourcePos, _knockbackPower);

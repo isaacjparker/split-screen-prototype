@@ -1,13 +1,21 @@
-[gd_resource type="Resource" script_class="WeaponData" load_steps=12 format=3 uid="uid://bc2p1xr1ir88e"]
+[gd_resource type="Resource" script_class="WeaponData" load_steps=17 format=3 uid="uid://bc2p1xr1ir88e"]
 
 [ext_resource type="Resource" uid="uid://due7bij1e38nh" path="res://_project/resources/config/sfx/sword_slash.tres" id="1_8fhwl"]
 [ext_resource type="Resource" uid="uid://dhtm3br4ljy73" path="res://_project/resources/config/sfx/sword_impact.tres" id="2_la72m"]
+[ext_resource type="PackedScene" uid="uid://4web8dcr3rmu" path="res://_project/scenes/vfx/attack_vfx/slash_vfx.tscn" id="3_8fhwl"]
 [ext_resource type="Texture2D" uid="uid://d2gi2brtbnhds" path="res://_project/assets/sprites/slash_back_02.png" id="3_s0isr"]
-[ext_resource type="Resource" uid="uid://cebwt7mpdkywu" path="res://_project/resources/config/vfx/sword_slash_vfx.tres" id="4_la72m"]
 [ext_resource type="Script" uid="uid://mu7ojbt2ha6e" path="res://_project/code/_config/AttackData.cs" id="4_w1dxm"]
+[ext_resource type="Script" uid="uid://d2jbvfs2oxjsg" path="res://_project/code/_config/SlashVFX.cs" id="5_la72m"]
 [ext_resource type="Texture2D" uid="uid://cunw4mi22s0j5" path="res://_project/assets/sprites/slash_back_03.png" id="5_o0qtq"]
 [ext_resource type="Texture2D" uid="uid://lmuagxk52u0a" path="res://_project/assets/sprites/slash_back_01.png" id="6_fvp65"]
 [ext_resource type="Script" uid="uid://bow7tk70sv7fk" path="res://_project/code/_config/WeaponData.cs" id="7_wxp0v"]
+[ext_resource type="PackedScene" uid="uid://r8chyb58522s" path="res://_project/scenes/weapons/slash_weapon.tscn" id="9_w1dxm"]
+
+[sub_resource type="Resource" id="Resource_s0isr"]
+script = ExtResource("5_la72m")
+SlashTemplate = ExtResource("3_8fhwl")
+SlashTexture = ExtResource("3_s0isr")
+metadata/_custom_type_script = "uid://d2jbvfs2oxjsg"
 
 [sub_resource type="Resource" id="Resource_5bi44"]
 script = ExtResource("4_w1dxm")
@@ -15,8 +23,7 @@ BaseDamage = 5.0
 KnockbackPower = 10.0
 HitStopDuration = 0.2
 HitStopFactor = 70.0
-VFX = ExtResource("4_la72m")
-SlashSprite = ExtResource("3_s0isr")
+VFX = SubResource("Resource_s0isr")
 AttackAudio = ExtResource("1_8fhwl")
 ImpactAudio = ExtResource("2_la72m")
 Windup = 0.14
@@ -25,15 +32,20 @@ Recovery = 1.13
 ComboWindow = Vector2(0, 1.39)
 metadata/_custom_type_script = "uid://mu7ojbt2ha6e"
 
+[sub_resource type="Resource" id="Resource_w1dxm"]
+script = ExtResource("5_la72m")
+SlashTemplate = ExtResource("3_8fhwl")
+SlashTexture = ExtResource("5_o0qtq")
+FlipH = true
+metadata/_custom_type_script = "uid://d2jbvfs2oxjsg"
+
 [sub_resource type="Resource" id="Resource_0bp6h"]
 script = ExtResource("4_w1dxm")
 BaseDamage = 5.0
 KnockbackPower = 14.0
 HitStopDuration = 0.2
 HitStopFactor = 70.0
-VFX = ExtResource("4_la72m")
-SlashSprite = ExtResource("5_o0qtq")
-FlipH = true
+VFX = SubResource("Resource_w1dxm")
 AttackAudio = ExtResource("1_8fhwl")
 ImpactAudio = ExtResource("2_la72m")
 Windup = 0.14
@@ -42,14 +54,19 @@ Recovery = 1.13
 ComboWindow = Vector2(0, 1.5699999)
 metadata/_custom_type_script = "uid://mu7ojbt2ha6e"
 
+[sub_resource type="Resource" id="Resource_o0qtq"]
+script = ExtResource("5_la72m")
+SlashTemplate = ExtResource("3_8fhwl")
+SlashTexture = ExtResource("6_fvp65")
+metadata/_custom_type_script = "uid://d2jbvfs2oxjsg"
+
 [sub_resource type="Resource" id="Resource_8b5ts"]
 script = ExtResource("4_w1dxm")
 BaseDamage = 5.0
 KnockbackPower = 20.0
 HitStopDuration = 0.2
 HitStopFactor = 70.0
-VFX = ExtResource("4_la72m")
-SlashSprite = ExtResource("6_fvp65")
+VFX = SubResource("Resource_o0qtq")
 AttackAudio = ExtResource("1_8fhwl")
 ImpactAudio = ExtResource("2_la72m")
 Windup = 0.14
@@ -61,5 +78,6 @@ metadata/_custom_type_script = "uid://mu7ojbt2ha6e"
 [resource]
 script = ExtResource("7_wxp0v")
 WeaponName = "sword_1handed"
+WeaponBehaviourScene = ExtResource("9_w1dxm")
 Attacks = Array[Object]([SubResource("Resource_5bi44"), SubResource("Resource_0bp6h"), SubResource("Resource_8b5ts")])
 metadata/_custom_type_script = "uid://bow7tk70sv7fk"

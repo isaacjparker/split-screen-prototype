@@ -5,6 +5,5 @@
 
 [node name="SlashVFX" type="Sprite3D"]
 transform = Transform3D(-1, 8.742278e-08, -3.821371e-15, 0, -4.371139e-08, -1, -8.742278e-08, -1, 4.371139e-08, 0, 0, 0)
-visible = false
 material_override = ExtResource("1_3panv")
 texture = ExtResource("2_03gqv")

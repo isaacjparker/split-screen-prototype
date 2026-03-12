@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://r8chyb58522s"]
+
+[ext_resource type="Script" uid="uid://jr8esth3idit" path="res://_project/code/weapons/SlashWeapon.cs" id="1_xubqh"]
+
+[node name="SlashWeapon" type="Node"]
+script = ExtResource("1_xubqh")

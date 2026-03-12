@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://bvar8uq5qe1l2"]
 
-[ext_resource type="Script" uid="uid://bk07qvxontej5" path="res://_project/code/split_screen/CameraRig.cs" id="1_eive2"]
-[ext_resource type="Script" uid="uid://b22d5ue20c4eq" path="res://_project/code/split_screen/CameraController.cs" id="2_kq7y7"]
+[ext_resource type="Script" uid="uid://bk07qvxontej5" path="res://_project/code/cameras/CameraRig.cs" id="1_eive2"]
+[ext_resource type="Script" uid="uid://b22d5ue20c4eq" path="res://_project/code/cameras/CameraController.cs" id="2_kq7y7"]
 
 [node name="CameraRig" type="SubViewportContainer"]
 anchors_preset = 15

@@ -12,8 +12,6 @@ public partial class AttackData : Resource
     public float HitStopFactor = 100.0f;
     [Export] public float CamShakeMagnitude = 0.5f;
     [Export] public AttackVFX VFX;
-    [Export] public Texture2D SlashSprite;
-    [Export] public bool FlipH = false;
     [Export] public SoundEffectConfig AttackAudio;
     [Export] public SoundEffectConfig ImpactAudio;
     private float _windup;

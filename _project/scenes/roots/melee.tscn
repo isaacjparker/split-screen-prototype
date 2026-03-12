@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://ct6858b4ps6el" path="res://_project/scenes/environment/arena.tscn" id="1_058t1"]
 [ext_resource type="PackedScene" uid="uid://b3tdk06n5inos" path="res://_project/scenes/managers/local_multiplayer_manager.tscn" id="2_rkvuc"]
 [ext_resource type="PackedScene" uid="uid://c1fyfxg64s1l2" path="res://_project/scenes/actors/enemy.tscn" id="3_rkvuc"]
-[ext_resource type="Script" uid="uid://bbccca6klpx4q" path="res://_project/code/split_screen/AudioManager.cs" id="4_56h8e"]
+[ext_resource type="Script" uid="uid://bbccca6klpx4q" path="res://_project/code/managers/AudioManager.cs" id="4_56h8e"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_rkvuc"]
 
@@ -29,7 +29,7 @@ volumetric_fog_density = 0.005
 _spawnPoints = []
 
 [node name="Enemy" parent="." instance=ExtResource("3_rkvuc")]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, -10)
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 19.239845, 0, -20.086311)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.7240515, 0.43893665, -0.5320564, 0, 0.7713803, 0.6363744, 0.6897459, -0.46076784, 0.55851907, 0, 11.32319, 0)

@@ -1,8 +1,11 @@
-[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://csyhv3ykw0brb"]
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://csyhv3ykw0brb"]
 
 [ext_resource type="Shader" uid="uid://dy473gecn8br6" path="res://_project/shaders/slash_wipe.gdshader" id="1_yos44"]
+[ext_resource type="Texture2D" uid="uid://lmuagxk52u0a" path="res://_project/assets/sprites/slash_back_01.png" id="2_j3ku2"]
 
 [resource]
 render_priority = 0
 shader = ExtResource("1_yos44")
-shader_parameter/progress = 0.0
+shader_parameter/slash_texture = ExtResource("2_j3ku2")
+shader_parameter/progress = 1.0
+shader_parameter/arc_degrees = 260.00001235

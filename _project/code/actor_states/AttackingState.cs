@@ -13,7 +13,7 @@ public partial class AttackingState : ActorState
 
     public override void EnterState()
     {
-        WeaponData weaponData = _core.Status.WeaponData;
+        WeaponData weaponData = _core.Status.EquippedWeapon;
         int index = _core.Status.ComboIndex;
 
         if (index >= weaponData.Attacks.Length)
@@ -150,7 +150,7 @@ public partial class AttackingState : ActorState
         }
 
         // Automatic Targeting Logic: Scan for a target immediately upon exiting attack
-        CharacterBody3D foundTarget = CombatUtils.GetClosestTargetInCone(
+        ActorCore foundTarget = CombatUtils.GetClosestActorInCone(
             _core.GlobalPosition,
             -_core.GlobalTransform.Basis.Z,
             _core.Status.MaxTargetScanRange,
@@ -172,6 +172,6 @@ public partial class AttackingState : ActorState
 
     private bool IsNextAttackAvailable()
     {
-        return (_core.Status.ComboIndex + 1) < _core.Status.WeaponData.Attacks.Length;
+        return (_core.Status.ComboIndex + 1) < _core.Status.EquippedWeapon.Attacks.Length;
     }
 }

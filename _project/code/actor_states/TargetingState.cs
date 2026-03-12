@@ -47,7 +47,7 @@ public partial class TargetingState : ActorState
             {
                 _scanTimer = _core.Status.TargetingPollingRate;
                 
-                CharacterBody3D potentialTarget = CombatUtils.GetClosestTargetInCone(
+                ActorCore potentialTarget = CombatUtils.GetClosestActorInCone(
                     _core.GlobalPosition,
                     -_core.GlobalTransform.Basis.Z,
                     _status.MaxTargetScanRange,

@@ -51,7 +51,7 @@ public partial class IdleMoveState : ActorState
 
     private bool TryMoveToTargetingState()
     {
-        CharacterBody3D foundTarget = CombatUtils.GetClosestTargetInCone(
+        ActorCore foundTarget = CombatUtils.GetClosestActorInCone(
                 _core.GlobalPosition,
                 -_core.GlobalTransform.Basis.Z,
                 _status.MaxTargetScanRange,

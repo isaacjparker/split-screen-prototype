@@ -1,10 +1,10 @@
 [gd_scene load_steps=6 format=3 uid="uid://b3tdk06n5inos"]
 
-[ext_resource type="Script" uid="uid://blas4kah2b0lj" path="res://_project/code/split_screen/LocalMultiplayerManager.cs" id="1_adiww"]
+[ext_resource type="Script" uid="uid://blas4kah2b0lj" path="res://_project/code/managers/LocalMultiplayerManager.cs" id="1_adiww"]
 [ext_resource type="PackedScene" uid="uid://vdpv3kjh4su0" path="res://_project/scenes/actors/player_brain.tscn" id="2_iprew"]
-[ext_resource type="Script" uid="uid://dts3nd8hnua6l" path="res://_project/code/split_screen/CameraManager.cs" id="3_jt543"]
-[ext_resource type="Script" uid="uid://bk07qvxontej5" path="res://_project/code/split_screen/CameraRig.cs" id="4_q327c"]
-[ext_resource type="Script" uid="uid://b22d5ue20c4eq" path="res://_project/code/split_screen/CameraController.cs" id="5_5dfwy"]
+[ext_resource type="Script" uid="uid://dts3nd8hnua6l" path="res://_project/code/managers/CameraManager.cs" id="3_jt543"]
+[ext_resource type="Script" uid="uid://bk07qvxontej5" path="res://_project/code/cameras/CameraRig.cs" id="4_q327c"]
+[ext_resource type="Script" uid="uid://b22d5ue20c4eq" path="res://_project/code/cameras/CameraController.cs" id="5_5dfwy"]
 
 [node name="LocalMultiplayerManager" type="Node" node_paths=PackedStringArray("_spawnPoints")]
 script = ExtResource("1_adiww")
