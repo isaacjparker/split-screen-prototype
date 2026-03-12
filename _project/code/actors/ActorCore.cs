@@ -7,9 +7,9 @@ public partial class ActorCore : CharacterBody3D
 
     [ExportGroup("Components")]
     [Export] public MeshInstance3D BodyMesh;
+    [Export] public MeshInstance3D FaceMesh;
     [Export] public Area3D HitBox;
     [Export] public Area3D HurtBox;
-    [Export] public Material FlashMaterial;
     
 
     public InputModule ActorInput { get; private set; }
@@ -26,6 +26,7 @@ public partial class ActorCore : CharacterBody3D
     public event Action<ActorCore> OnAttackStarted;
     public event Action<ActorCore> OnAttackActive;
     public event Action<ActorCore> OnAttackEnded;
+    public event Action<ActorCore> OnDeath;
 
 
 
@@ -81,6 +82,7 @@ public partial class ActorCore : CharacterBody3D
             return;
         }
 
+        ActorInput.Initialise(this);
         Status.Initialise(this);
         Motor.Initialise(this);
         Combat.Initialise(this);
@@ -103,6 +105,13 @@ public partial class ActorCore : CharacterBody3D
         
 
         Status.OnKnockbackReceived += HandleKnockbackEvent;
+
+        // Visuals
+        if (Status.BodyMaterial != null)
+            BodyMesh.SetSurfaceOverrideMaterial(0, Status.BodyMaterial);
+
+        if (Status.FaceMaterial != null)
+            FaceMesh.SetSurfaceOverrideMaterial(0, Status.FaceMaterial);
     }
 
     public override void _Process(double delta)
@@ -156,4 +165,5 @@ public partial class ActorCore : CharacterBody3D
     public void RaiseAttackStarted() => OnAttackStarted?.Invoke(this);
     public void RaiseAttackActive()  => OnAttackActive?.Invoke(this);
     public void RaiseAttackEnded()   => OnAttackEnded?.Invoke(this);
+    public void RaiseDeath() => OnDeath?.Invoke(this);
 }

@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://vdpv3kjh4su0"]
+[gd_scene load_steps=18 format=3 uid="uid://vdpv3kjh4su0"]
 
 [ext_resource type="Script" uid="uid://c73ql6q4klmmv" path="res://_project/code/actors/ActorCore.cs" id="1_gsska"]
 [ext_resource type="Script" uid="uid://bxdenqcj5hdec" path="res://_project/code/actors/StateMachine.cs" id="2_bvb84"]
@@ -9,9 +9,6 @@
 [ext_resource type="Script" uid="uid://cdcn0vyyykrfl" path="res://_project/code/systems/EquipmentModule.cs" id="8_c6j5r"]
 [ext_resource type="Script" uid="uid://biuic736i78u5" path="res://_project/code/systems/PlayerInput.cs" id="8_gsska"]
 [ext_resource type="Script" uid="uid://d4fhpdqd6gijf" path="res://_project/code/modules/HitFlash.cs" id="9_8bvrd"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8bvrd"]
-albedo_color = Color(1, 0, 0, 1)
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_wel1o"]
 
@@ -35,12 +32,12 @@ height = 2.2
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_gsska"]
 
-[node name="ActorCore" type="CharacterBody3D" node_paths=PackedStringArray("BodyMesh", "HitBox", "HurtBox")]
+[node name="ActorCore" type="CharacterBody3D" node_paths=PackedStringArray("BodyMesh", "FaceMesh", "HitBox", "HurtBox")]
 script = ExtResource("1_gsska")
 BodyMesh = NodePath("BodyMesh")
+FaceMesh = NodePath("FaceMesh")
 HitBox = NodePath("HitBox")
 HurtBox = NodePath("HurtBox")
-FlashMaterial = SubResource("StandardMaterial3D_8bvrd")
 
 [node name="BodyMesh" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -73,7 +70,7 @@ CamCatchUpAccel = 8.0
 CamShakeMagnitude = 0.5
 CamDashDragDuration = 1.0
 
-[node name="InputModule" type="Node" parent="."]
+[node name="InputModule" type="Node" parent="." groups=["players"]]
 script = ExtResource("8_gsska")
 
 [node name="EquipmentModule" type="Node" parent="."]

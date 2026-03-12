@@ -6,21 +6,9 @@
 [ext_resource type="Script" uid="uid://bk07qvxontej5" path="res://_project/code/cameras/CameraRig.cs" id="4_q327c"]
 [ext_resource type="Script" uid="uid://b22d5ue20c4eq" path="res://_project/code/cameras/CameraController.cs" id="5_5dfwy"]
 
-[node name="LocalMultiplayerManager" type="Node" node_paths=PackedStringArray("_spawnPoints")]
+[node name="LocalMultiplayerManager" type="Node"]
 script = ExtResource("1_adiww")
 _playerScene = ExtResource("2_iprew")
-_spawnPoints = [NodePath("PlayerSpawn1"), NodePath("PlayerSpawn2"), NodePath("PlayerSpawn3"), NodePath("PlayerSpawn4")]
-
-[node name="PlayerSpawn1" type="Node3D" parent="."]
-
-[node name="PlayerSpawn2" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
-
-[node name="PlayerSpawn3" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
-
-[node name="PlayerSpawn4" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 2)
 
 [node name="CameraManager" type="Node" parent="." node_paths=PackedStringArray("_localMultiplayerManager", "_cameraRigs")]
 script = ExtResource("3_jt543")

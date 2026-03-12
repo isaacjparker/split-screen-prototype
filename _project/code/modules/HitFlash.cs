@@ -13,7 +13,7 @@ public partial class HitFlash : Node
 
 	public void PlayHitFlash()
 	{
-		if (_core.BodyMesh == null || _core.FlashMaterial == null) return;
+		if (_core.BodyMesh == null || _core.Status.HitFlashMaterial == null) return;
 
 		// Kill previous tween if we get hit again while flashing
 		if (_flashTween != null && _flashTween.IsValid())
@@ -27,13 +27,13 @@ public partial class HitFlash : Node
 		_flashTween = CreateTween();
 
 		// First flash
-		_core.BodyMesh.MaterialOverride = _core.FlashMaterial;
+		_core.BodyMesh.MaterialOverride = _core.Status.HitFlashMaterial;
 		_flashTween.TweenInterval(flashDuration);
 		_flashTween.TweenCallback(Callable.From(() => _core.BodyMesh.MaterialOverride = null));
 
 		// Gap, then second flash
 		_flashTween.TweenInterval(gapDuration);
-		_flashTween.TweenCallback(Callable.From(() => _core.BodyMesh.MaterialOverride = _core.FlashMaterial));
+		_flashTween.TweenCallback(Callable.From(() => _core.BodyMesh.MaterialOverride = _core.Status.HitFlashMaterial));
 		_flashTween.TweenInterval(flashDuration);
 		_flashTween.TweenCallback(Callable.From(() => _core.BodyMesh.MaterialOverride = null));
 	}

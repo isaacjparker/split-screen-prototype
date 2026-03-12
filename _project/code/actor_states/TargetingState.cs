@@ -11,7 +11,6 @@ public partial class TargetingState : ActorState
 
     public override void EnterState()
     {
-        
     }
 
 	public override void ProcessState(float delta)

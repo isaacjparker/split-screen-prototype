@@ -1,13 +1,13 @@
-[gd_scene load_steps=21 format=3 uid="uid://c1fyfxg64s1l2"]
+[gd_scene load_steps=21 format=3 uid="uid://x1cr52wllc2n"]
 
-[ext_resource type="Script" uid="uid://c73ql6q4klmmv" path="res://_project/code/actors/ActorCore.cs" id="1_0v7gv"]
-[ext_resource type="Script" uid="uid://d312txxrfn5j3" path="res://_project/code/systems/MotorModule.cs" id="2_x7wej"]
-[ext_resource type="Script" uid="uid://cdl31mqlcnall" path="res://_project/code/systems/CombatModule.cs" id="3_c4egs"]
-[ext_resource type="Script" uid="uid://bxdenqcj5hdec" path="res://_project/code/actors/StateMachine.cs" id="3_lm0av"]
-[ext_resource type="Script" uid="uid://b8m3cw5117u1o" path="res://_project/code/systems/StatusModule.cs" id="4_0v7gv"]
-[ext_resource type="Script" uid="uid://dogxudvyat1et" path="res://_project/code/systems/AIInput.cs" id="6_1irq2"]
-[ext_resource type="Script" uid="uid://cdcn0vyyykrfl" path="res://_project/code/systems/EquipmentModule.cs" id="7_dddod"]
-[ext_resource type="Script" uid="uid://d4fhpdqd6gijf" path="res://_project/code/modules/HitFlash.cs" id="7_e83c6"]
+[ext_resource type="Script" uid="uid://c73ql6q4klmmv" path="res://_project/code/actors/ActorCore.cs" id="1_oryjq"]
+[ext_resource type="Script" uid="uid://bxdenqcj5hdec" path="res://_project/code/actors/StateMachine.cs" id="2_1p47s"]
+[ext_resource type="Script" uid="uid://d312txxrfn5j3" path="res://_project/code/systems/MotorModule.cs" id="3_itpmw"]
+[ext_resource type="Script" uid="uid://cdl31mqlcnall" path="res://_project/code/systems/CombatModule.cs" id="4_fj2no"]
+[ext_resource type="Script" uid="uid://b8m3cw5117u1o" path="res://_project/code/systems/StatusModule.cs" id="5_3oiwy"]
+[ext_resource type="Script" uid="uid://dogxudvyat1et" path="res://_project/code/systems/AIInput.cs" id="6_3lgeu"]
+[ext_resource type="Script" uid="uid://cdcn0vyyykrfl" path="res://_project/code/systems/EquipmentModule.cs" id="7_405mr"]
+[ext_resource type="Script" uid="uid://d4fhpdqd6gijf" path="res://_project/code/modules/HitFlash.cs" id="8_dyk4l"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sime2"]
 
@@ -43,7 +43,7 @@ height = 2.2
 radius = 0.6
 
 [node name="Actor" type="CharacterBody3D" node_paths=PackedStringArray("BodyMesh", "FaceMesh", "HitBox", "HurtBox") groups=["enemies"]]
-script = ExtResource("1_0v7gv")
+script = ExtResource("1_oryjq")
 BodyMesh = NodePath("BodyMesh")
 FaceMesh = NodePath("FaceMesh")
 HitBox = NodePath("HitBox")
@@ -62,30 +62,31 @@ transform = Transform3D(0.6, 0, 0, 0, 0.2, 0, 0, 0, 0.4, 0, 1.4, -0.4)
 mesh = SubResource("BoxMesh_dy5t4")
 
 [node name="StateMachine" type="Node" parent="."]
-script = ExtResource("3_lm0av")
+script = ExtResource("2_1p47s")
 
 [node name="MotorModule" type="Node" parent="."]
-script = ExtResource("2_x7wej")
+script = ExtResource("3_itpmw")
 
 [node name="CombatModule" type="Node" parent="."]
-script = ExtResource("3_c4egs")
+script = ExtResource("4_fj2no")
 
 [node name="StatusModule" type="Node" parent="."]
-script = ExtResource("4_0v7gv")
+script = ExtResource("5_3oiwy")
 BodyMaterial = SubResource("StandardMaterial3D_e83c6")
 FaceMaterial = SubResource("StandardMaterial3D_dddod")
 HitFlashMaterial = SubResource("StandardMaterial3D_ifnxb")
-MaxTargetScanRange = 4.0
-MaxTargetLeashRange = 6.0
+MaxTargetScanRange = 200.0
+MaxTargetLeashRange = 210.0
+TargetGroup = "dummies"
 
 [node name="InputModule" type="Node" parent="."]
-script = ExtResource("6_1irq2")
+script = ExtResource("6_3lgeu")
 
 [node name="EquipmentModule" type="Node" parent="."]
-script = ExtResource("7_dddod")
+script = ExtResource("7_405mr")
 
 [node name="HitFlash" type="Node" parent="."]
-script = ExtResource("7_e83c6")
+script = ExtResource("8_dyk4l")
 
 [node name="HitBox" type="Area3D" parent="."]
 process_mode = 4

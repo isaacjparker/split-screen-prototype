@@ -9,6 +9,11 @@ public partial class StatusModule : Node
     [Export] public float MaxHealth = 100.0f;
     [Export] public float KnockbackResistance = 0.0f;
 
+    [ExportGroup("Visuals")]
+    [Export] public Material BodyMaterial;
+    [Export] public Material FaceMaterial;
+    [Export] public Material HitFlashMaterial;
+
     [ExportGroup("Locomotion")]
     [Export] public float TimeScale = 1.0f;
     [Export] public float Gravity = -9.8f;
