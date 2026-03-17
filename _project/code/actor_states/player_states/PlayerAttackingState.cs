@@ -1,14 +1,14 @@
 using Godot;
 using System;
 
-public partial class AttackingState : ActorState
+public partial class PlayerAttackingState : ActorState
 {
     private readonly ActorState _previousState;
 
 
-    public AttackingState(ActorCore core, ActorState previousState) : base(core)
+    public PlayerAttackingState(ActorCore core, ActorState previousState) : base(core)
     {
-        _previousState = previousState ?? new IdleMoveState(core);
+        _previousState = previousState ?? new PlayerIdleMoveState(core);
     }
 
     public override void EnterState()
@@ -46,7 +46,7 @@ public partial class AttackingState : ActorState
         // Check input immediately to act on in this frame
         if (_status.ComboTimer >= _status.CurrentAttack.ComboWindow.X && _status.ComboTimer <= _status.CurrentAttack.ComboWindow.Y)
         {
-            if (_core.ActorInput.IsAttackRequested())
+            if (_core.StateMachine.IsAttackRequested())
             {
                 _status.NextAttackQueued = true;
             }
@@ -75,7 +75,7 @@ public partial class AttackingState : ActorState
             }
 
             // Check for movement cancellation
-            Vector3 moveDir = _core.ActorInput.GetMovementDirection();
+            Vector3 moveDir = _core.StateMachine.GetMovementDirection();
             if (moveDir.LengthSquared() > 0.01f)
             {
                 ReturnToLocomotion();
@@ -123,7 +123,7 @@ public partial class AttackingState : ActorState
             _core.Status.ComboIndex++;
 
             // Pass the original previous state forward to the next attack in the chain
-            _core.StateMachine.ChangeState(new AttackingState(_core, _previousState));
+            _core.StateMachine.ChangeState(new PlayerAttackingState(_core, _previousState));
             return;
         }
         else
@@ -142,10 +142,10 @@ public partial class AttackingState : ActorState
         {
             if (_core.Status.CurrentTarget != null && GodotObject.IsInstanceValid(_core.Status.CurrentTarget))
             {
-                _core.StateMachine.ChangeState(new TargetingState(_core));
+                _core.StateMachine.ChangeState(new PlayerTargetingState(_core));
                 return;
             }
-            _core.StateMachine.ChangeState(new IdleMoveState(_core));
+            _core.StateMachine.ChangeState(new PlayerIdleMoveState(_core));
             return;
         }
 
@@ -162,11 +162,11 @@ public partial class AttackingState : ActorState
         if (foundTarget != null)
         {
             _core.Status.CurrentTarget = foundTarget;
-            _core.StateMachine.ChangeState(new TargetingState(_core));
+            _core.StateMachine.ChangeState(new PlayerTargetingState(_core));
         }
         else
         {
-            _core.StateMachine.ChangeState(new IdleMoveState(_core));
+            _core.StateMachine.ChangeState(new PlayerIdleMoveState(_core));
         }
     }
 

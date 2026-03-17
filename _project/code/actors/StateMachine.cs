@@ -3,14 +3,14 @@ using System;
 
 public partial class StateMachine : Node
 {
-	public ActorState CurrentState { get; private set; }
-	public ActorState PreviousState { get; private set; }
+    protected ActorCore _core;
 
-    public void Initialise(ActorState startingState)
+	public ActorState CurrentState { get; protected set; }
+	public ActorState PreviousState { get; protected set; }
+
+    public virtual void Initialise(ActorCore core)
     {
-        CurrentState = startingState;
-        PreviousState = startingState;
-        CurrentState?.EnterState();
+        _core = core;
     }
 
     public void ChangeState(ActorState newState)
@@ -25,4 +25,14 @@ public partial class StateMachine : Node
     {
         CurrentState?.ProcessState(delta);
     }
+
+    public virtual ActorState CreateHitState(Vector3 sourcePos, float power)
+    {
+        return null;
+    }
+
+    public virtual Vector3 GetMovementDirection() => Vector3.Zero;
+    public virtual bool IsAttackRequested() => false;
+    public virtual bool IsTargetLockHeld() => false;
+    public virtual bool IsTargetLockRequested() => false;
 }

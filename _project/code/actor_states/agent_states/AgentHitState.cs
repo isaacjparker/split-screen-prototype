@@ -1,15 +1,15 @@
 using Godot;
 using System;
 
-public partial class HitState : ActorState
+public partial class AgentHitState : ActorState
 {
-    private Vector3 _sourcePos;
+	private Vector3 _sourcePos;
     private float _knockbackPower;
     private Vector3 _currentVelocity;
 
-    public HitState(ActorCore core, Vector3 sourcePos, float power) : base(core)
+    public AgentHitState(ActorCore core, Vector3 sourcePos, float power) : base(core)
     {
-        _sourcePos = sourcePos;
+		_sourcePos = sourcePos;
         _knockbackPower = power;
     }
 
@@ -60,7 +60,7 @@ public partial class HitState : ActorState
         // 4. Check exit condition (Horizontal only)
         if (horizontal.LengthSquared() < 0.1f)
         {
-            ReturnToIdleMove();
+            ReturnFromHit();
         }
     }
 
@@ -71,10 +71,18 @@ public partial class HitState : ActorState
         _core.Velocity = _currentVelocity;
     }
 
-    private void ReturnToIdleMove()
+	private void ReturnFromHit()
     {
-        _core.StateMachine.ChangeState(new IdleMoveState(_core));
+		// Target re-prioritisation can go here later as well.
+		
+        if (_status.CurrentTarget != null && Node.IsInstanceValid(_status.CurrentTarget))
+        {
+            _core.StateMachine.ChangeState(new AgentPursueState(_core));
+        }
+        else
+        {
+            _status.CurrentTarget = null;
+            _core.StateMachine.ChangeState(new AgentIdleState(_core));
+        }
     }
-
-
 }

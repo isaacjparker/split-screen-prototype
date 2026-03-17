@@ -1,11 +1,11 @@
 using Godot;
 using System;
 
-public partial class TargetingState : ActorState
+public partial class PlayerTargetingState : ActorState
 {
     private float _scanTimer = 0f;
 
-	public TargetingState(ActorCore core) : base(core)
+	public PlayerTargetingState(ActorCore core) : base(core)
     {
     }
 
@@ -18,13 +18,13 @@ public partial class TargetingState : ActorState
         if (_core.Status.CurrentTarget == null || !GodotObject.IsInstanceValid(_core.Status.CurrentTarget))
         {
             _core.Status.CurrentTarget = null;
-            _core.StateMachine.ChangeState(new IdleMoveState(_core));
+            _core.StateMachine.ChangeState(new PlayerIdleMoveState(_core));
             return;
         }
 
-        if (_core.ActorInput.IsAttackRequested())
+        if (_core.StateMachine.IsAttackRequested())
         {
-            _core.StateMachine.ChangeState(new AttackingState(_core, this));
+            _core.StateMachine.ChangeState(new PlayerAttackingState(_core, this));
             return;
         }
 
@@ -36,7 +36,7 @@ public partial class TargetingState : ActorState
             if (distToTarget > _core.Status.MaxTargetLeashRange)
             {
                 _core.Status.CurrentTarget = null;
-                _core.StateMachine.ChangeState(new IdleMoveState(_core));
+                _core.StateMachine.ChangeState(new PlayerIdleMoveState(_core));
                 return;
             }
 
@@ -67,14 +67,14 @@ public partial class TargetingState : ActorState
                 }
             }
         }
-        else if (!_core.ActorInput.IsTargetLockHeld())
+        else if (!_core.StateMachine.IsTargetLockHeld())
         {
             _core.Status.CurrentTarget = null;
-            _core.StateMachine.ChangeState(new IdleMoveState(_core));
+            _core.StateMachine.ChangeState(new PlayerIdleMoveState(_core));
             return;
         }
 
-        Vector3 moveDir = _core.ActorInput.GetMovementDirection();
+        Vector3 moveDir = _core.StateMachine.GetMovementDirection();
         _core.Motor.ProcessTargetingLocomotion(moveDir, _core.Status.CurrentTarget, _status.MaxSpeed, delta);
     }
 

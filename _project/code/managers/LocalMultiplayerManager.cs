@@ -127,10 +127,10 @@ public partial class LocalMultiplayerManager : Node
 
         ActorCore playerInstance = CreatePlayerInstance(KeyboardPlayerSlot);
 
-        if (playerInstance.ActorInput is PlayerInput playerInput)
+        if (playerInstance.StateMachine is PlayerSM playerSM)
         {
-            playerInput.PlayerSlot = KeyboardPlayerSlot;
-            playerInput.AssignInputDevice(0);
+            playerSM.PlayerSlot = KeyboardPlayerSlot;
+            playerSM.AssignInputDevice(0);
         }
         else
         {
@@ -157,10 +157,10 @@ public partial class LocalMultiplayerManager : Node
 
         ActorCore playerInstance = CreatePlayerInstance(playerSlot);
 
-        if (playerInstance.ActorInput is PlayerInput playerInput)
+        if (playerInstance.StateMachine is PlayerSM playerSM)
         {
-            playerInput.PlayerSlot = playerSlot;
-            playerInput.AssignInputDevice(deviceId);
+            playerSM.PlayerSlot = playerSlot;
+            playerSM.AssignInputDevice(deviceId);
         }
         else
         {

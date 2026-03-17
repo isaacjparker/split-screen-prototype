@@ -12,7 +12,7 @@ public partial class ActorCore : CharacterBody3D
     [Export] public Area3D HurtBox;
     
 
-    public InputModule ActorInput { get; private set; }
+    //public InputModule ActorInput { get; private set; }
     public StatusModule Status { get; private set; }
     public MotorModule Motor { get; private set; }
     public CombatModule Combat { get; private set; }
@@ -32,7 +32,7 @@ public partial class ActorCore : CharacterBody3D
 
     public override void _Ready()
     {
-        ActorInput = GetNode<InputModule>("InputModule");
+        //ActorInput = GetNode<InputModule>("InputModule");
         Status = GetNode<StatusModule>("StatusModule");
         Motor = GetNode<MotorModule>("MotorModule");
         Combat = GetNode<CombatModule>("CombatModule");
@@ -40,11 +40,11 @@ public partial class ActorCore : CharacterBody3D
         HitFlash = GetNode<HitFlash>("HitFlash");
         StateMachine = GetNode<StateMachine>("StateMachine");
 
-        if (ActorInput == null)
-        {
-            GD.PrintErr("ActorCore: ActorInput not found.");
-            return;
-        }
+        //if (ActorInput == null)
+        //{
+            //GD.PrintErr("ActorCore: ActorInput not found.");
+            //return;
+        //}
 
         if (Status == null)
         {
@@ -82,13 +82,13 @@ public partial class ActorCore : CharacterBody3D
             return;
         }
 
-        ActorInput.Initialise(this);
+        //ActorInput.Initialise(this);
         Status.Initialise(this);
         Motor.Initialise(this);
         Combat.Initialise(this);
         Equipment.Initialise(this);
         HitFlash.Initialise(this);
-        StateMachine.Initialise(new IdleMoveState(this));
+        StateMachine.Initialise(this);
 
         if (HitBox != null && GodotObject.IsInstanceValid(HitBox))
         { 
@@ -144,7 +144,7 @@ public partial class ActorCore : CharacterBody3D
 
     public void HandleKnockbackEvent(Vector3 sourcePos, float power)
     {
-        StateMachine.ChangeState(new HitState(this, sourcePos, power));
+        StateMachine.ChangeState(StateMachine.CreateHitState(sourcePos, power));
     }
 
     public void TriggerDashCam(float dragFactor, float duration)

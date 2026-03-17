@@ -1,11 +1,11 @@
 using Godot;
 using System;
 
-public partial class IdleMoveState : ActorState
+public partial class PlayerIdleMoveState : ActorState
 {
     private float _scanTimer = 0f;
 
-    public IdleMoveState(ActorCore core) : base(core)
+    public PlayerIdleMoveState(ActorCore core) : base(core)
     {
     }
 
@@ -16,13 +16,13 @@ public partial class IdleMoveState : ActorState
 
 	public override void ProcessState(float delta)
     {
-        Vector3 moveDir = _core.ActorInput.GetMovementDirection();
+        Vector3 moveDir = _core.StateMachine.GetMovementDirection();
         _core.Motor.ProcessLocomotion(moveDir, _status.MaxSpeed, delta);
 
         // Check for state transitions
-        if (_core.ActorInput.IsAttackRequested())
+        if (_core.StateMachine.IsAttackRequested())
         {
-            _core.StateMachine.ChangeState(new AttackingState(_core, this));
+            _core.StateMachine.ChangeState(new PlayerAttackingState(_core, this));
             return;
         }
 
@@ -37,7 +37,7 @@ public partial class IdleMoveState : ActorState
             }
         }
 
-        if (_core.ActorInput.IsTargetLockRequested())
+        if (_core.StateMachine.IsTargetLockRequested())
         {
             TryMoveToTargetingState();
             // If no target found, stay in IdleMove state
@@ -63,7 +63,7 @@ public partial class IdleMoveState : ActorState
             if (foundTarget != null)
             {
                 _core.Status.CurrentTarget = foundTarget;
-                _core.StateMachine.ChangeState(new TargetingState(_core));
+                _core.StateMachine.ChangeState(new PlayerTargetingState(_core));
                 return true;
             }
 
