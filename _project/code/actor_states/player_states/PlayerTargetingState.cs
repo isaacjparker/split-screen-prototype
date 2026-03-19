@@ -11,6 +11,7 @@ public partial class PlayerTargetingState : ActorState
 
     public override void EnterState()
     {
+        GD.Print($"Entered PlayerTargetingState, target: {_status.CurrentTarget}");
     }
 
 	public override void ProcessState(float delta)
@@ -25,6 +26,12 @@ public partial class PlayerTargetingState : ActorState
         if (_core.StateMachine.IsAttackRequested())
         {
             _core.StateMachine.ChangeState(new PlayerAttackingState(_core, this));
+            return;
+        }
+
+        if (_core.StateMachine.IsDashRequested() && _status.DefaultDashCooldownTimer <= 0f)
+        {
+            _core.StateMachine.ChangeState(new PlayerDashState(_core, this));
             return;
         }
 
@@ -47,12 +54,11 @@ public partial class PlayerTargetingState : ActorState
                 _scanTimer = _core.Status.TargetingPollingRate;
                 
                 ActorCore potentialTarget = CombatUtils.GetClosestActorInCone(
-                    _core.GlobalPosition,
+                    _core,
                     -_core.GlobalTransform.Basis.Z,
                     _status.MaxTargetScanRange,
                     _status.MaxTargetScanAngle,
-                    _status.TargetGroup,
-                    _core.GetTree()
+                    _status.Faction
                 );
 
                 if (potentialTarget != null && potentialTarget != _core.Status.CurrentTarget)

@@ -57,6 +57,11 @@ public partial class AgentCombatState : ActorState
 		_attackDelayTimer -= delta;
 		if (_attackDelayTimer <= 0f)
 		{
+			if (_status.EquippedWeapon == null)
+			{
+				_attackDelayTimer = _rng.RandfRange(1.0f, 3.0f);
+				return;
+			}
 			_core.StateMachine.ChangeState(new AgentAttackingState(_core));
 			return;
 		}

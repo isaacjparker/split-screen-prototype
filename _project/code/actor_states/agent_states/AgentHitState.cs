@@ -73,7 +73,18 @@ public partial class AgentHitState : ActorState
 
 	private void ReturnFromHit()
     {
-		// Target re-prioritisation can go here later as well.
+        // Re-prioritise target
+		ActorCore newTarget = CombatUtils.GetHighestPriorityTarget(
+            _core,
+            -_core.GlobalTransform.Basis.Z, 
+            _status.MaxTargetScanRange,
+            _status.MaxTargetScanAngle
+        );
+        if (newTarget != null)
+        {
+            _status.CurrentTarget = newTarget;
+            _core.StateMachine.ChangeState(new AgentPursueState(_core));
+        }
 		
         if (_status.CurrentTarget != null && Node.IsInstanceValid(_status.CurrentTarget))
         {

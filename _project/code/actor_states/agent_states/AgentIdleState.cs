@@ -22,13 +22,11 @@ public partial class AgentIdleState : ActorState
 		{
 			_scanTimer = _status.TargetingPollingRate;
 
-			ActorCore foundTarget = CombatUtils.GetClosestActorInCone(
-				_core.GlobalPosition,
-				-_core.GlobalTransform.Basis.Z,
+			ActorCore foundTarget = CombatUtils.GetHighestPriorityTarget(
+				_core,
+				-_core.GlobalTransform.Basis.Z, 
 				_status.MaxTargetScanRange,
-				_status.MaxTargetScanAngle,
-				_status.TargetGroup,
-				_core.GetTree()
+				_status.MaxTargetScanAngle
 			);
 
 			if (foundTarget != null)

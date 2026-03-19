@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://x1cr52wllc2n"]
+[gd_scene load_steps=23 format=3 uid="uid://x1cr52wllc2n"]
 
 [ext_resource type="Script" uid="uid://c73ql6q4klmmv" path="res://_project/code/actors/ActorCore.cs" id="1_oryjq"]
 [ext_resource type="Script" uid="uid://jtajvpqrfc5u" path="res://_project/code/actors/AgentSM.cs" id="2_oryjq"]
@@ -8,6 +8,8 @@
 [ext_resource type="Resource" uid="uid://bc2p1xr1ir88e" path="res://_project/resources/config/weapons/sword_1handed.tres" id="6_oryjq"]
 [ext_resource type="Script" uid="uid://cdcn0vyyykrfl" path="res://_project/code/systems/EquipmentModule.cs" id="7_405mr"]
 [ext_resource type="Script" uid="uid://d4fhpdqd6gijf" path="res://_project/code/modules/HitFlash.cs" id="8_dyk4l"]
+[ext_resource type="Script" uid="uid://bfpguxj3tucxf" path="res://_project/code/runtime_sets/ActorRuntimeSetMember.cs" id="9_1p47s"]
+[ext_resource type="Resource" uid="uid://dfjkal2hkw76b" path="res://_project/resources/runtime_sets/actor_runtime_set.tres" id="10_itpmw"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sime2"]
 
@@ -72,12 +74,16 @@ script = ExtResource("4_fj2no")
 
 [node name="StatusModule" type="Node" parent="."]
 script = ExtResource("5_3oiwy")
+MaxHealth = 10.0
 BodyMaterial = SubResource("StandardMaterial3D_e83c6")
 FaceMaterial = SubResource("StandardMaterial3D_dddod")
 HitFlashMaterial = SubResource("StandardMaterial3D_ifnxb")
 MaxTargetScanRange = 200.0
+MaxTargetScanAngle = 150.0
 MaxTargetLeashRange = 210.0
-TargetGroup = "dummies"
+Faction = 1
+ProximityWeight = 0.5
+FactionWeight = 0.8
 DefaultWeapon = ExtResource("6_oryjq")
 
 [node name="EquipmentModule" type="Node" parent="."]
@@ -85,6 +91,10 @@ script = ExtResource("7_405mr")
 
 [node name="HitFlash" type="Node" parent="."]
 script = ExtResource("8_dyk4l")
+
+[node name="ActorRuntimeSetMember" type="Node" parent="."]
+script = ExtResource("9_1p47s")
+RuntimeSet = ExtResource("10_itpmw")
 
 [node name="HitBox" type="Area3D" parent="."]
 process_mode = 4

@@ -95,7 +95,7 @@ public partial class PlayerAttackingState : ActorState
     public override void ExitState()
     {
         DeactivateHitbox();
-        _core.HitBox.ProcessMode = Node.ProcessModeEnum.Disabled;
+        _core.SetHitBoxEnabled(false);
 
         _core.RaiseAttackEnded();
     }
@@ -104,7 +104,7 @@ public partial class PlayerAttackingState : ActorState
     {
         _status.HitboxActive = true;
         _status.ActivePayload = _core.Combat.BuildAttackPayload(_status.CurrentAttack);
-        _core.HitBox.ProcessMode = Node.ProcessModeEnum.Inherit;
+        _core.SetHitBoxEnabled(true);
         AudioManager.Instance.CreateAudio(_core.Status.ActivePayload.AttackAudio);
     
         _core.RaiseAttackActive();
@@ -113,7 +113,7 @@ public partial class PlayerAttackingState : ActorState
     private void DeactivateHitbox()
     {
         _status.HitboxActive = false;
-        _core.HitBox.ProcessMode = Node.ProcessModeEnum.Disabled;
+        _core.SetHitBoxEnabled(false);
     }
 
     private void TryAdvanceCombo()
@@ -151,12 +151,11 @@ public partial class PlayerAttackingState : ActorState
 
         // Automatic Targeting Logic: Scan for a target immediately upon exiting attack
         ActorCore foundTarget = CombatUtils.GetClosestActorInCone(
-            _core.GlobalPosition,
+            _core,
             -_core.GlobalTransform.Basis.Z,
             _core.Status.MaxTargetScanRange,
             _core.Status.MaxTargetScanAngle,
-            _core.Status.TargetGroup,
-            _core.GetTree()
+            _core.Status.Faction
         );
 
         if (foundTarget != null)

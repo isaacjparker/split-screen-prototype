@@ -1,15 +1,15 @@
-[gd_scene load_steps=22 format=3 uid="uid://vdpv3kjh4su0"]
+[gd_scene load_steps=22 format=3 uid="uid://ds2lhpp1u7x0v"]
 
-[ext_resource type="Script" uid="uid://c73ql6q4klmmv" path="res://_project/code/actors/ActorCore.cs" id="1_gsska"]
-[ext_resource type="Script" uid="uid://b83ne7o63q7vw" path="res://_project/code/actors/PlayerSM.cs" id="2_8bvrd"]
-[ext_resource type="Script" uid="uid://d312txxrfn5j3" path="res://_project/code/systems/MotorModule.cs" id="2_bxt2d"]
-[ext_resource type="Script" uid="uid://cdl31mqlcnall" path="res://_project/code/systems/CombatModule.cs" id="2_dvsr0"]
-[ext_resource type="Script" uid="uid://b8m3cw5117u1o" path="res://_project/code/systems/StatusModule.cs" id="5_bxt2d"]
-[ext_resource type="Resource" uid="uid://bc2p1xr1ir88e" path="res://_project/resources/config/weapons/sword_1handed.tres" id="6_mhhix"]
-[ext_resource type="Script" uid="uid://cdcn0vyyykrfl" path="res://_project/code/systems/EquipmentModule.cs" id="8_c6j5r"]
-[ext_resource type="Script" uid="uid://d4fhpdqd6gijf" path="res://_project/code/modules/HitFlash.cs" id="9_8bvrd"]
-[ext_resource type="Script" uid="uid://bfpguxj3tucxf" path="res://_project/code/runtime_sets/ActorRuntimeSetMember.cs" id="9_mhhix"]
-[ext_resource type="Resource" uid="uid://dfjkal2hkw76b" path="res://_project/resources/runtime_sets/actor_runtime_set.tres" id="10_mhhix"]
+[ext_resource type="Script" uid="uid://c73ql6q4klmmv" path="res://_project/code/actors/ActorCore.cs" id="1_jyi35"]
+[ext_resource type="Script" uid="uid://b83ne7o63q7vw" path="res://_project/code/actors/PlayerSM.cs" id="2_gs0vf"]
+[ext_resource type="Script" uid="uid://d312txxrfn5j3" path="res://_project/code/systems/MotorModule.cs" id="3_hn7ga"]
+[ext_resource type="Script" uid="uid://cdl31mqlcnall" path="res://_project/code/systems/CombatModule.cs" id="4_utykl"]
+[ext_resource type="Script" uid="uid://b8m3cw5117u1o" path="res://_project/code/systems/StatusModule.cs" id="5_81v3a"]
+[ext_resource type="Resource" uid="uid://bc2p1xr1ir88e" path="res://_project/resources/config/weapons/sword_1handed.tres" id="6_q5ax8"]
+[ext_resource type="Script" uid="uid://cdcn0vyyykrfl" path="res://_project/code/systems/EquipmentModule.cs" id="7_vq6jy"]
+[ext_resource type="Script" uid="uid://d4fhpdqd6gijf" path="res://_project/code/modules/HitFlash.cs" id="8_dj8ae"]
+[ext_resource type="Script" uid="uid://bfpguxj3tucxf" path="res://_project/code/runtime_sets/ActorRuntimeSetMember.cs" id="9_gdco3"]
+[ext_resource type="Resource" uid="uid://dfjkal2hkw76b" path="res://_project/resources/runtime_sets/actor_runtime_set.tres" id="10_2g2r3"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_wel1o"]
 
@@ -42,7 +42,7 @@ height = 2.2
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_gsska"]
 
 [node name="ActorCore" type="CharacterBody3D" node_paths=PackedStringArray("BodyMesh", "FaceMesh", "HitBox", "HurtBox")]
-script = ExtResource("1_gsska")
+script = ExtResource("1_jyi35")
 BodyMesh = NodePath("BodyMesh")
 FaceMesh = NodePath("FaceMesh")
 HitBox = NodePath("HitBox")
@@ -61,37 +61,38 @@ transform = Transform3D(0.6, 0, 0, 0, 0.2, 0, 0, 0, 0.4, 0, 1.4, -0.4)
 mesh = SubResource("BoxMesh_dy5t4")
 
 [node name="StateMachine" type="Node" parent="."]
-script = ExtResource("2_8bvrd")
+script = ExtResource("2_gs0vf")
 
 [node name="MotorModule" type="Node" parent="."]
-script = ExtResource("2_bxt2d")
+script = ExtResource("3_hn7ga")
 
 [node name="CombatModule" type="Node" parent="."]
-script = ExtResource("2_dvsr0")
+script = ExtResource("4_utykl")
 
 [node name="StatusModule" type="Node" parent="."]
-script = ExtResource("5_bxt2d")
+script = ExtResource("5_81v3a")
 BodyMaterial = SubResource("StandardMaterial3D_c6j5r")
 FaceMaterial = SubResource("StandardMaterial3D_s0u42")
 HitFlashMaterial = SubResource("StandardMaterial3D_mhhix")
 MaxTargetScanRange = 10.0
+MaxTargetScanAngle = 150.0
 MaxTargetLeashRange = 12.0
 Faction = 0
-DefaultWeapon = ExtResource("6_mhhix")
-DashWhiffDistance = 5.0
+DefaultWeapon = ExtResource("6_q5ax8")
+DashWhiffDistance = 2.0
 CamCatchUpAccel = 8.0
 CamShakeMagnitude = 0.5
 CamDashDragDuration = 1.0
 
 [node name="EquipmentModule" type="Node" parent="."]
-script = ExtResource("8_c6j5r")
+script = ExtResource("7_vq6jy")
 
 [node name="HitFlash" type="Node" parent="."]
-script = ExtResource("9_8bvrd")
+script = ExtResource("8_dj8ae")
 
 [node name="ActorRuntimeSetMember" type="Node" parent="."]
-script = ExtResource("9_mhhix")
-RuntimeSet = ExtResource("10_mhhix")
+script = ExtResource("9_gdco3")
+RuntimeSet = ExtResource("10_2g2r3")
 
 [node name="HitBox" type="Area3D" parent="."]
 process_mode = 4

@@ -12,6 +12,23 @@ public partial class CombatModule : Node
         _status = _core.Status;
     }
 
+    public DashPayload BuildDefaultDash(Vector3 inputDirection)
+    {
+        Vector3 dashDir = inputDirection;
+        dashDir.Y = 0;
+
+        // If no input, dash forward
+        if (dashDir.LengthSquared() < 0.01f)
+        {
+            dashDir = -_core.GlobalTransform.Basis.Z;
+        }
+
+        dashDir = dashDir.Normalized();
+
+        Vector3 dashTarget = _core.GlobalPosition + (dashDir * _status.DefaultDashDistance);
+        return new DashPayload(dashTarget, _status.DefaultDashDuration, 0f, true);
+    }
+
     public DashPayload BuildMeleeDash(ActorCore lockedTarget = null)
     {
         ActorCore finalTarget = lockedTarget;
@@ -22,12 +39,11 @@ public partial class CombatModule : Node
 			Vector3 forward = -_core.GlobalTransform.Basis.Z;
 
         	finalTarget = CombatUtils.GetClosestActorInCone(
-				_core.GlobalPosition, 
+				_core, 
 				forward,
 				_status.MaxDashDistance,
 				_status.DashCone,
-				_status.TargetGroup,
-				GetTree()
+				_status.Faction
 			);
 		}
 
@@ -61,15 +77,12 @@ public partial class CombatModule : Node
         return dashPayload;
     }
 
-    // TODO: Don't use parameter here -
-    // We need modules to cache the runtime data source
-    // But currently this is PlayerBrain which won't extend to enemies
-    // So instead of refactoring our data approach right now
-    // Come back later and change it so as to avoid parameters like this.
+    
     public AttackPayload BuildAttackPayload(AttackData attackData)
     {
         return new AttackPayload 
         {
+        SourceActor = _core,
         BaseDamage = attackData.BaseDamage,
         KnockbackPower = attackData.KnockbackPower,
         HitStopDuration = attackData.HitStopDuration,

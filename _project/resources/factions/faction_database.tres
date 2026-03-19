@@ -1,0 +1,47 @@
+[gd_resource type="Resource" script_class="FactionDatabase" load_steps=9 format=3 uid="uid://bag1hsfphrn1x"]
+
+[ext_resource type="Script" uid="uid://yxvow3uxbhb3" path="res://_project/code/factions/FactionRelationship.cs" id="1_bdajx"]
+[ext_resource type="Script" uid="uid://dtgg1axwraa43" path="res://_project/code/factions/FactionDatabase.cs" id="1_cyypp"]
+
+[sub_resource type="Resource" id="Resource_032hk"]
+script = ExtResource("1_bdajx")
+FactionB = 1
+Relation = 0
+metadata/_custom_type_script = "uid://yxvow3uxbhb3"
+
+[sub_resource type="Resource" id="Resource_rtpdl"]
+script = ExtResource("1_bdajx")
+FactionB = 2
+Relation = 2
+metadata/_custom_type_script = "uid://yxvow3uxbhb3"
+
+[sub_resource type="Resource" id="Resource_av0ul"]
+script = ExtResource("1_bdajx")
+FactionA = 1
+Relation = 0
+metadata/_custom_type_script = "uid://yxvow3uxbhb3"
+
+[sub_resource type="Resource" id="Resource_to1hd"]
+script = ExtResource("1_bdajx")
+FactionA = 1
+FactionB = 2
+Relation = 0
+metadata/_custom_type_script = "uid://yxvow3uxbhb3"
+
+[sub_resource type="Resource" id="Resource_00luf"]
+script = ExtResource("1_bdajx")
+FactionA = 2
+Relation = 2
+metadata/_custom_type_script = "uid://yxvow3uxbhb3"
+
+[sub_resource type="Resource" id="Resource_5a8x0"]
+script = ExtResource("1_bdajx")
+FactionA = 2
+FactionB = 1
+Relation = 0
+metadata/_custom_type_script = "uid://yxvow3uxbhb3"
+
+[resource]
+script = ExtResource("1_cyypp")
+Relationships = Array[Object]([SubResource("Resource_032hk"), SubResource("Resource_rtpdl"), SubResource("Resource_av0ul"), SubResource("Resource_to1hd"), SubResource("Resource_00luf"), SubResource("Resource_5a8x0")])
+metadata/_custom_type_script = "uid://dtgg1axwraa43"

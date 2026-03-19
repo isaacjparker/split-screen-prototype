@@ -3,6 +3,7 @@ using System;
 
 public struct AttackPayload
 {
+    public ActorCore SourceActor;
     public float BaseDamage;
     public float KnockbackPower;
     public float HitStopDuration;

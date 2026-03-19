@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://y5gqlt8n1tyv"]
+
+[ext_resource type="Script" uid="uid://c0ick72elfods" path="res://_project/code/runtime_sets/RuntimeSets.cs" id="1_4lm7m"]
+[ext_resource type="Resource" uid="uid://dfjkal2hkw76b" path="res://_project/resources/runtime_sets/actor_runtime_set.tres" id="2_tr4vp"]
+
+[node name="RuntimeSets" type="Node"]
+script = ExtResource("1_4lm7m")
+Actors = ExtResource("2_tr4vp")

@@ -54,7 +54,7 @@ public partial class AgentAttackingState : ActorState
     public override void ExitState()
     {
         DeactivateHitbox();
-		_core.HitBox.ProcessMode = Node.ProcessModeEnum.Disabled;
+		_core.SetHitBoxEnabled(false);
 
 		_status.ComboIndex = 0;
 		_core.RaiseAttackEnded();
@@ -64,7 +64,7 @@ public partial class AgentAttackingState : ActorState
 	{
 		_status.HitboxActive = true;
 		_status.ActivePayload = _core.Combat.BuildAttackPayload(_status.CurrentAttack);
-		_core.HitBox.ProcessMode = Node.ProcessModeEnum.Inherit;
+		_core.SetHitBoxEnabled(true);
 		AudioManager.Instance.CreateAudio(_core.Status.ActivePayload.AttackAudio);
 
 		_core.RaiseAttackActive();
@@ -73,7 +73,7 @@ public partial class AgentAttackingState : ActorState
 	private void DeactivateHitbox()
 	{
 		_status.HitboxActive = false;
-		_core.HitBox.ProcessMode = Node.ProcessModeEnum.Disabled;
+		_core.SetHitBoxEnabled(false);
 	}
 
 	private void ReturnToCombat()

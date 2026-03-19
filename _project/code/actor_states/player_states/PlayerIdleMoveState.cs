@@ -1,5 +1,4 @@
 using Godot;
-using System;
 
 public partial class PlayerIdleMoveState : ActorState
 {
@@ -23,6 +22,12 @@ public partial class PlayerIdleMoveState : ActorState
         if (_core.StateMachine.IsAttackRequested())
         {
             _core.StateMachine.ChangeState(new PlayerAttackingState(_core, this));
+            return;
+        }
+
+        if (_core.StateMachine.IsDashRequested() && _status.DefaultDashCooldownTimer <= 0f)
+        {
+            _core.StateMachine.ChangeState(new PlayerDashState(_core, this));
             return;
         }
 
@@ -52,12 +57,11 @@ public partial class PlayerIdleMoveState : ActorState
     private bool TryMoveToTargetingState()
     {
         ActorCore foundTarget = CombatUtils.GetClosestActorInCone(
-                _core.GlobalPosition,
+                _core,
                 -_core.GlobalTransform.Basis.Z,
                 _status.MaxTargetScanRange,
                 _status.MaxTargetScanAngle,
-                _status.TargetGroup,
-                _core.GetTree()
+                _status.Faction
             );
 
             if (foundTarget != null)

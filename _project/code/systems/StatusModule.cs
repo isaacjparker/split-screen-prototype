@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Reflection.Metadata.Ecma335;
 
 public partial class StatusModule : Node
 {
@@ -27,11 +28,16 @@ public partial class StatusModule : Node
     [Export] public bool ManualTargeting = false;
     [Export] public float TargetingPollingRate = 0.1f;
     [Export] public float MaxTargetScanRange = 16.0f;
-    [Export] public float MaxTargetScanAngle = 180.0f;
+    [Export] public float MaxTargetScanAngle = 150.0f;
     [Export] public float MaxTargetLeashRange = 18.0f;
     [Export] public float MaxTargetSwapDifference = 2.0f;
-    [Export] public string TargetGroup = "enemies";
+    [Export] public Faction Faction = Faction.Dummy;
     [Export] public ActorCore CurrentTarget;
+    [Export] public float ProximityWeight = 1.0f;
+    [Export] public float FactionWeight = 1.0f;
+    [Export] public float ThreatWeight = 1.0f;
+    [Export] public float ThreatPerHit = 10.0f;
+    [Export] public float ThreatDecayRate = 3.0f;
 
     [ExportGroup("Combat")]
     public int ComboIndex = 0;
@@ -48,13 +54,19 @@ public partial class StatusModule : Node
     public bool NextAttackQueued = false;
     public Sprite3D AttackVfxNode;
 
-    [ExportGroup("Dash")]
+    [ExportGroup("Attack Dash")]
     [Export] public float MaxDashDistance = 5.0f;
     [Export] public float DashCone = 90.0f;
     [Export] public float DashDuration = 0.2f;
     [Export] public float DashStopOffset = 1.5f;
     [Export] public float DashWhiffDistance = 1.0f;
     [Export] public float DashWhiffDuration = 0.15f;
+
+    [ExportGroup("Default Dash")]
+    [Export] public float DefaultDashDistance = 5.0f;
+    [Export] public float DefaultDashDuration = 0.2f;
+    [Export] public float DefaultDashCooldown = 0.6f;
+    public float DefaultDashCooldownTimer = 0f;
     public DashPayload CurrentDashPayload;
 
     [ExportGroup("Camera")]
@@ -69,6 +81,7 @@ public partial class StatusModule : Node
 
     public float CurrentHealth { get; private set; }
     public AttackPayload ActivePayload; // Set by AttackingState
+    public ThreatTable ThreatTable {get; private set;} = new ThreatTable();
 
     public void Initialise(ActorCore core)
     {
@@ -90,11 +103,17 @@ public partial class StatusModule : Node
     }
 
     public event Action<float, float> OnHealthChanged;
-    public event Action OnZeroHealth;
     public event Action<Vector3, float> OnKnockbackReceived;
+
+    public void ProcessThreats(float delta)
+    {
+        ThreatTable.Decay(delta, ThreatDecayRate);
+    }
 
     public void ApplyDamage(AttackPayload payload)
     {
+        if (CurrentHealth <= 0) return;     // Don't apply damage to dead actor
+
         CurrentHealth = Mathf.Clamp(CurrentHealth - payload.BaseDamage, 0.0f, MaxHealth);
         OnHealthChanged?.Invoke(CurrentHealth, payload.BaseDamage);
 
@@ -107,9 +126,14 @@ public partial class StatusModule : Node
             OnKnockbackReceived?.Invoke(payload.SourcePosition, effectiveKnockback);
         }
 
+        if (payload.SourceActor != null)
+        {
+            ThreatTable.AddThreat(payload.SourceActor, ThreatPerHit);
+        }
+
         if (CurrentHealth <= 0)
         {
-            OnZeroHealth?.Invoke();
+            _core.HandleDeathEvent();
         }
     }
     public void ApplyHealing(float healAmount) 
@@ -130,6 +154,8 @@ public partial class StatusModule : Node
         {
             // Prevent self-damage if collision layers aren't perfect
             if (attacker == _core) return;
+            
+            if (!FactionManager.IsHostile(attacker.Status.Faction, _core.Status.Faction)) return;
 
             ApplyDamage(attacker.Status.ActivePayload);
         }
@@ -141,9 +167,9 @@ public partial class StatusModule : Node
         // Safety check: Don't freeze if we hit ourselves (e.g. our own HurtBox)
         if (area.Owner == _core) return;
 
-        if (area.Owner is ActorCore enemy)
+        if (area.Owner is ActorCore target)
         {
-            GD.Print("Creating HitBox audio");
+            if (!FactionManager.IsHostile(_core.Status.Faction, target.Status.Faction)) return;
             AudioManager.Instance.CreateAudio(ActivePayload.ImpactAudio);
         }
         

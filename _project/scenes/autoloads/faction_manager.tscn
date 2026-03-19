@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://lqe3agoeb6ey"]
+
+[ext_resource type="Script" uid="uid://ddqeom1l7npfw" path="res://_project/code/factions/FactionManager.cs" id="1_h6340"]
+[ext_resource type="Resource" uid="uid://bag1hsfphrn1x" path="res://_project/resources/factions/faction_database.tres" id="2_sv04h"]
+
+[node name="FactionManager" type="Node"]
+script = ExtResource("1_h6340")
+FactionDatabase = ExtResource("2_sv04h")

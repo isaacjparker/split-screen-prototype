@@ -15,4 +15,9 @@ public partial class AgentSM : StateMachine
     {
         return new AgentHitState(_core, sourcePos, power);
     }
+
+    public override ActorState CreateDeathState()
+    {
+        return new AgentDeathState(_core);
+    }
 }

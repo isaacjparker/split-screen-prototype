@@ -7,11 +7,12 @@ public partial class PlayerSM : StateMachine
 	[Export] private int _inputDeviceId;
 
 	// Input cache
-	private StringName _moveLeft, _moveRight, _moveUp, _moveDown, _startButton, _targetButton, _meleeAttack;
+	private StringName _moveLeft, _moveRight, _moveUp, _moveDown, _startButton, _targetButton, _meleeAttack, _dashDefault;
 
 	public override bool IsAttackRequested() => Input.IsActionJustPressed(_meleeAttack);
     public override bool IsTargetLockHeld() => Input.IsActionPressed(_targetButton);
     public override bool IsTargetLockRequested() => Input.IsActionJustPressed(_targetButton);
+    public override bool IsDashRequested() => Input.IsActionJustPressed(_dashDefault);
 
     public override void Initialise(ActorCore core)
     {
@@ -31,6 +32,11 @@ public partial class PlayerSM : StateMachine
     {
         return new PlayerHitState(_core, sourcePos, power);
     }
+
+    public override ActorState CreateDeathState()
+    {
+        return new PlayerDeathState(_core);
+    }
  
     public void AssignInputDevice(int deviceId)
     {
@@ -42,5 +48,6 @@ public partial class PlayerSM : StateMachine
         _startButton = $"start_{deviceId}";
         _targetButton = $"target_{deviceId}";
         _meleeAttack = $"melee_attack_{deviceId}";
+        _dashDefault = $"dash_{deviceId}";
     }
 }

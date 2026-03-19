@@ -94,7 +94,7 @@ public partial class ActorCore : CharacterBody3D
         { 
             if (HitBox.ProcessMode != Node.ProcessModeEnum.Disabled)
             { 
-                HitBox.ProcessMode = Node.ProcessModeEnum.Disabled;
+                SetHitBoxEnabled(false);
             }
         }
 
@@ -116,25 +116,34 @@ public partial class ActorCore : CharacterBody3D
 
     public override void _Process(double delta)
     {
+        float fDelta = (float)delta;
+
         if (Status.HitStopTimer > 0)
         {
-            Status.HitStopTimer -= (float)delta;
+            Status.HitStopTimer -= fDelta;
         }
+
+        Status.ProcessThreats(fDelta);
     }
 
     public override void _PhysicsProcess(double delta)
     {
+        float fDelta = (float)delta;
+
         if (Status.HitStopTimer > 0)
         {
             // Factor 100 = 100% stop (0.0 scale). Factor 0 = 0% stop (1.0 scale).
             Status.TimeScale = 1.0f - Mathf.Clamp(Status.HitStopFactor / 100.0f, 0.0f, 1.0f);
-            StateMachine.ProcessState((float)delta * Status.TimeScale);
+            StateMachine.ProcessState(fDelta * Status.TimeScale);
         }
         else
         {
             Status.TimeScale = 1.0f;
-            StateMachine.ProcessState((float)delta);
+            StateMachine.ProcessState(fDelta);
         }
+
+        if (Status.DefaultDashCooldownTimer > 0f)
+            Status.DefaultDashCooldownTimer -= fDelta;
     }
 
     public override void _ExitTree()
@@ -145,6 +154,12 @@ public partial class ActorCore : CharacterBody3D
     public void HandleKnockbackEvent(Vector3 sourcePos, float power)
     {
         StateMachine.ChangeState(StateMachine.CreateHitState(sourcePos, power));
+    }
+
+    public void HandleDeathEvent()
+    {
+        StateMachine.ChangeState(StateMachine.CreateDeathState());
+        OnDeath?.Invoke(this);
     }
 
     public void TriggerDashCam(float dragFactor, float duration)
@@ -162,8 +177,19 @@ public partial class ActorCore : CharacterBody3D
         OnHitStop?.Invoke(hitStopDuration);
     }
 
+    public void SetHitBoxEnabled(bool enabled)
+    {
+        if (HitBox != null)
+            HitBox.SetDeferred("process_mode", (int)(enabled ? Node.ProcessModeEnum.Inherit : Node.ProcessModeEnum.Disabled));
+    }
+
+    public void SetHurtBoxEnabled(bool enabled)
+    {
+        if (HurtBox != null)
+            HurtBox.SetDeferred("process_mode", (int)(enabled ? Node.ProcessModeEnum.Inherit : Node.ProcessModeEnum.Disabled));
+    }
+
     public void RaiseAttackStarted() => OnAttackStarted?.Invoke(this);
     public void RaiseAttackActive()  => OnAttackActive?.Invoke(this);
     public void RaiseAttackEnded()   => OnAttackEnded?.Invoke(this);
-    public void RaiseDeath() => OnDeath?.Invoke(this);
 }
