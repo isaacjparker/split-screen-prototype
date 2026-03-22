@@ -105,7 +105,7 @@ public static class CombatUtils
             float dot = forward.Dot(directionToTarget);
             float angle = Mathf.RadToDeg(Mathf.Acos(dot));
 
-            if (angle > maxAngleDegrees) continue;
+            if (angle > maxAngleDegrees * 0.5f) continue;
 
             if (requireLineOfSight && !HasLineOfSight(self, actor)) continue;
 

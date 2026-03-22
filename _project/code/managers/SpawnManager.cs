@@ -56,18 +56,26 @@ public partial class SpawnManager : Node
 		
 
 		CurrentEnemies.Add(spawnedEnemy);
-		spawnedEnemy.OnDeath += DespawnEnemy;
+		spawnedEnemy.OnDeath += OnEnemyDeath;
 
 		RaiseEnemySpawned(spawnedEnemy);
 	}
 
-	private void DespawnEnemy(ActorCore core)
+	private void OnEnemyDeath(ActorCore core)
 	{
 		if (!CurrentEnemies.Contains(core)) return;
 
-		core.OnDeath -= DespawnEnemy;
+		core.OnDeath -= OnEnemyDeath;
 		CurrentEnemies.Remove(core);
-		core.QueueFree();
+
+		// Despawn after delay
+		Tween tween = CreateTween();
+		tween.TweenInterval(20.0f);			// TODO: Magic number - replace
+		tween.TweenCallback(Callable.From(() =>
+		{
+			if (IsInstanceValid(core))
+				core.QueueFree();
+		}));
 	}
 
 	private Vector3 GetRandomBoundaryPoint()

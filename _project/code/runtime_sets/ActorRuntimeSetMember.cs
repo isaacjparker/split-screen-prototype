@@ -23,6 +23,7 @@ public partial class ActorRuntimeSetMember : Node
 		}
 
 		RuntimeSet.Add(_actor);
+		_actor.OnDeath += RemoveFromRuntimeSet;
 	}
 
     public override void _ExitTree()
@@ -32,4 +33,9 @@ public partial class ActorRuntimeSetMember : Node
 			RuntimeSet.Remove(_actor);
 		}
     }
+
+	private void RemoveFromRuntimeSet(ActorCore actor)
+	{
+		RuntimeSet.Remove(actor);
+	}
 }

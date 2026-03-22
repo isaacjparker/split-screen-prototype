@@ -8,6 +8,7 @@ public partial class ActorCore : CharacterBody3D
     [ExportGroup("Components")]
     [Export] public MeshInstance3D BodyMesh;
     [Export] public MeshInstance3D FaceMesh;
+    [Export] public CollisionShape3D CollisionShape;
     [Export] public Area3D HitBox;
     [Export] public Area3D HurtBox;
     
@@ -80,6 +81,11 @@ public partial class ActorCore : CharacterBody3D
         {
             GD.PrintErr("ActorCore: StateMachine not found.");
             return;
+        }
+
+        if (CollisionShape == null)
+        {
+            GD.PrintErr("ActorCore: CollisonShape not assigned.");
         }
 
         //ActorInput.Initialise(this);
@@ -175,6 +181,12 @@ public partial class ActorCore : CharacterBody3D
         Status.HitStopFactor = hitStopFactor;
         OnCameraShake?.Invoke(Status.CamShakeDuration, camShakeMagnitude);
         OnHitStop?.Invoke(hitStopDuration);
+    }
+
+    public void SetCollisionShapeEnabled(bool enabled)
+    {
+        if (CollisionShape != null)
+            CollisionShape.SetDeferred("disabled", !enabled);
     }
 
     public void SetHitBoxEnabled(bool enabled)

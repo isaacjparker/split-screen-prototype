@@ -1,7 +1,9 @@
-[gd_scene load_steps=23 format=3 uid="uid://x1cr52wllc2n"]
+[gd_scene load_steps=30 format=3 uid="uid://x1cr52wllc2n"]
 
 [ext_resource type="Script" uid="uid://c73ql6q4klmmv" path="res://_project/code/actors/ActorCore.cs" id="1_oryjq"]
+[ext_resource type="Shader" uid="uid://cgwwys27l3vec" path="res://_project/shaders/mesh_melt.gdshader" id="2_fj2no"]
 [ext_resource type="Script" uid="uid://jtajvpqrfc5u" path="res://_project/code/actors/AgentSM.cs" id="2_oryjq"]
+[ext_resource type="Shader" uid="uid://cipok7nofdqq7" path="res://_project/shaders/mesh_magma.gdshader" id="3_3oiwy"]
 [ext_resource type="Script" uid="uid://d312txxrfn5j3" path="res://_project/code/systems/MotorModule.cs" id="3_itpmw"]
 [ext_resource type="Script" uid="uid://cdl31mqlcnall" path="res://_project/code/systems/CombatModule.cs" id="4_fj2no"]
 [ext_resource type="Script" uid="uid://b8m3cw5117u1o" path="res://_project/code/systems/StatusModule.cs" id="5_3oiwy"]
@@ -11,24 +13,76 @@
 [ext_resource type="Script" uid="uid://bfpguxj3tucxf" path="res://_project/code/runtime_sets/ActorRuntimeSetMember.cs" id="9_1p47s"]
 [ext_resource type="Resource" uid="uid://dfjkal2hkw76b" path="res://_project/resources/runtime_sets/actor_runtime_set.tres" id="10_itpmw"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sime2"]
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_3oiwy"]
+frequency = 0.03
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_3lgeu"]
+width = 256
+height = 256
+noise = SubResource("FastNoiseLite_3oiwy")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_405mr"]
+render_priority = 0
+shader = ExtResource("2_fj2no")
+shader_parameter/progress = 0.0
+shader_parameter/squash_strength = 2.5
+shader_parameter/spread_strength = 1.8
+shader_parameter/noise_strength = 0.3
+shader_parameter/spread_end = 0.70000002999012
+shader_parameter/noise_tex = SubResource("NoiseTexture2D_3lgeu")
+shader_parameter/albedo_color = Color(0, 0, 0, 1)
+shader_parameter/mesh_height = 2.0
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_wel1o"]
-material = SubResource("StandardMaterial3D_sime2")
+material = SubResource("ShaderMaterial_405mr")
+rings = 16
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_r27b2"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hski7"]
-albedo_color = Color(0, 0, 0, 1)
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_3lgeu"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_405mr"]
+width = 256
+height = 128
+noise = SubResource("FastNoiseLite_3lgeu")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dyk4l"]
+render_priority = 0
+shader = ExtResource("3_3oiwy")
+shader_parameter/ColorParameter = Color(0.7200564, 0.17763215, 0, 1)
+shader_parameter/Falloff = 5.0
+shader_parameter/Noise_Texsture = SubResource("NoiseTexture2D_405mr")
+shader_parameter/Midtones = 0.4
+shader_parameter/Highlights = 0.05
+shader_parameter/Multiplier = 1.0
+shader_parameter/Aplha = 1.0
+shader_parameter/Roughness = 0.1
+shader_parameter/Emmision_Strength = 1.0
+shader_parameter/Bump_Strength = 0.1
 
 [sub_resource type="BoxMesh" id="BoxMesh_dy5t4"]
-material = SubResource("StandardMaterial3D_hski7")
+material = SubResource("ShaderMaterial_dyk4l")
+size = Vector3(0.6, 0.2, 0.4)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_e83c6"]
-albedo_color = Color(0, 0, 0, 1)
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_fj2no"]
+frequency = 0.03
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dddod"]
-albedo_color = Color(1, 0, 0, 1)
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_3oiwy"]
+width = 256
+height = 256
+noise = SubResource("FastNoiseLite_fj2no")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3lgeu"]
+render_priority = 0
+shader = ExtResource("2_fj2no")
+shader_parameter/progress = 0.0
+shader_parameter/squash_strength = 2.5
+shader_parameter/spread_strength = 1.8
+shader_parameter/noise_strength = 0.3
+shader_parameter/spread_end = 0.7
+shader_parameter/noise_tex = SubResource("NoiseTexture2D_3oiwy")
+shader_parameter/albedo_color = Color(0, 0, 0, 1)
+shader_parameter/mesh_height = 2.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ifnxb"]
 
@@ -44,10 +98,11 @@ height = 2.2
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_8yq2o"]
 radius = 0.6
 
-[node name="Actor" type="CharacterBody3D" node_paths=PackedStringArray("BodyMesh", "FaceMesh", "HitBox", "HurtBox") groups=["enemies"]]
+[node name="Actor" type="CharacterBody3D" node_paths=PackedStringArray("BodyMesh", "FaceMesh", "CollisionShape", "HitBox", "HurtBox") groups=["enemies"]]
 script = ExtResource("1_oryjq")
 BodyMesh = NodePath("BodyMesh")
 FaceMesh = NodePath("FaceMesh")
+CollisionShape = NodePath("CollisionShape3D")
 HitBox = NodePath("HitBox")
 HurtBox = NodePath("HurtBox")
 
@@ -60,7 +115,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_r27b2")
 
 [node name="FaceMesh" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.6, 0, 0, 0, 0.2, 0, 0, 0, 0.4, 0, 1.4, -0.4)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, -0.4)
 mesh = SubResource("BoxMesh_dy5t4")
 
 [node name="StateMachine" type="Node" parent="."]
@@ -75,11 +130,10 @@ script = ExtResource("4_fj2no")
 [node name="StatusModule" type="Node" parent="."]
 script = ExtResource("5_3oiwy")
 MaxHealth = 10.0
-BodyMaterial = SubResource("StandardMaterial3D_e83c6")
-FaceMaterial = SubResource("StandardMaterial3D_dddod")
+BodyMaterial = SubResource("ShaderMaterial_3lgeu")
+FaceMaterial = SubResource("ShaderMaterial_dyk4l")
 HitFlashMaterial = SubResource("StandardMaterial3D_ifnxb")
 MaxTargetScanRange = 200.0
-MaxTargetScanAngle = 150.0
 MaxTargetLeashRange = 210.0
 Faction = 1
 ProximityWeight = 0.5

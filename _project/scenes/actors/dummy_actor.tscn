@@ -45,10 +45,11 @@ height = 2.2
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_8yq2o"]
 radius = 0.6
 
-[node name="Actor" type="CharacterBody3D" node_paths=PackedStringArray("BodyMesh", "FaceMesh", "HitBox", "HurtBox") groups=["dummies"]]
+[node name="Actor" type="CharacterBody3D" node_paths=PackedStringArray("BodyMesh", "FaceMesh", "CollisionShape", "HitBox", "HurtBox") groups=["dummies"]]
 script = ExtResource("1_vs5wu")
 BodyMesh = NodePath("BodyMesh")
 FaceMesh = NodePath("FaceMesh")
+CollisionShape = NodePath("CollisionShape3D")
 HitBox = NodePath("HitBox")
 HurtBox = NodePath("HurtBox")
 

@@ -41,10 +41,11 @@ height = 2.2
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_gsska"]
 
-[node name="ActorCore" type="CharacterBody3D" node_paths=PackedStringArray("BodyMesh", "FaceMesh", "HitBox", "HurtBox")]
+[node name="ActorCore" type="CharacterBody3D" node_paths=PackedStringArray("BodyMesh", "FaceMesh", "CollisionShape", "HitBox", "HurtBox")]
 script = ExtResource("1_jyi35")
 BodyMesh = NodePath("BodyMesh")
 FaceMesh = NodePath("FaceMesh")
+CollisionShape = NodePath("CollisionShape3D")
 HitBox = NodePath("HitBox")
 HurtBox = NodePath("HurtBox")
 
@@ -75,7 +76,6 @@ BodyMaterial = SubResource("StandardMaterial3D_c6j5r")
 FaceMaterial = SubResource("StandardMaterial3D_s0u42")
 HitFlashMaterial = SubResource("StandardMaterial3D_mhhix")
 MaxTargetScanRange = 10.0
-MaxTargetScanAngle = 150.0
 MaxTargetLeashRange = 12.0
 Faction = 0
 DefaultWeapon = ExtResource("6_q5ax8")
