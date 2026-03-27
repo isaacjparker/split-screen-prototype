@@ -1,0 +1,198 @@
+# step_1_0_tasks
+Project : Split Screen Prototype
+Created : 2026-03-25
+====================
+
+## Overview
+-----------
+
+Task list for Prototype Roadmap Step 1.0: Establish Core Tension.
+Step 1.0 ends with a loop test. Step 1.5 builds on this foundation once the tension loop
+is validated.
+
+Target window : 5 working days
+Main scope risk : Enemy system (Task 3) is the most interconnected task.
+
+Naming conventions used in this document:
+	Patrolling enemy  : enemy actor, exists in exploration rooms during the day
+	Wave enemy        : enemy actor, spawns and attacks at night
+	Allied Guard NPC  : friendly actor in the spawn room, death = game over
+	Guard state       : shared AI behaviour used by both patrolling enemies AND the
+						Allied Guard NPC (stationary or patrol, engage targets in range)
+
+
+## Deferred to Step 1.5
+-----------------------
+
+The following were discussed and intentionally deferred to keep Step 1.0 scoped:
+	- Ranged weapon system and data-driven ranged weapon
+	- Allied guard companions (named guard NPC type)
+	- Resource nodes (replacing single-use chests)
+	- Buildable wall open/close animation and player-passthrough visual treatment
+	- Procedural map generation (deferred to Step 2)
+
+
+## Tasks
+--------
+
+--- TASK 1 : Global Timer + Day/Night Visual ---
+
+Context:
+	Foundational system. Wave spawning, chest spawning, and enemy state transitions
+	all depend on this timer. Build this first.
+
+	1.1  Create a global day/night timer (autoload or scene-level singleton)
+	1.2  Animate DirectionalLight3D colour and angle tied to the timer to represent
+		 day transitioning to night and back
+
+
+--- TASK 2 : Map - Room & Corridor Prefabs + Layout ---
+
+Context:
+	Fixed map only at this stage. Procedural generation is deferred to Step 2.
+	The "placeable" collision layer on corridor floors is the only mechanism the wall
+	placement system uses to identify valid placement zones. No wall-specific data is
+	stored on room or corridor prefabs - rooms can be reused freely when the placement
+	implementation changes later.
+	The player spawn room contains the Allied Guard NPC and never spawns any enemies
+	(patrolling or wave).
+
+	2.1  Create exploration room prefabs
+	2.2  Create corridor prefabs with corridor floors assigned to the "placeable"
+		 collision layer
+	2.3  Define pre-determined chest spawn point locations within room prefabs
+		 (used at runtime by the chest spawn system in Task 6)
+	2.4  Create player spawn room prefab (no enemy spawning, contains Allied Guard NPC)
+	2.5  Arrange all prefabs into a single fixed map layout
+	2.6  Bake NavMesh across the full layout and verify enemy pathfinding is functional
+
+
+--- TASK 3 : Enemy System - Patrolling Enemies + Wave Behaviour ---
+
+Context:
+	The guard state is shared between patrolling enemies and the Allied Guard NPC.
+	Clearing a room during the day stops the daytime patrolling threat but does NOT
+	stop night waves from that room. A wall is also required to fully neutralise a room.
+	This creates a deliberate two-step investment: clear a room (daytime effort) + wall
+	its corridor (resource cost) = fully safe room. This should emerge naturally from
+	the loop test in Task 7.
+
+	Rooms without a wall always contribute wave enemies at night regardless of cleared
+	status. The player spawn room never spawns enemies of any kind.
+
+	3.1  Tie enemy AI pathfinding to the baked NavMesh (from Task 2.6)
+	3.2  Implement guard state: stationary or patrol within a defined area, engage
+		 targets within range. This state is shared by patrolling enemies and the
+		 Allied Guard NPC.
+	3.3  Patrolling enemies: spawn in exploration rooms at the start of each day
+		 using the guard state
+	3.4  Room clearing: if all patrolling enemies in a room are killed during the
+		 daytime phase (not during the night wave), flag that room as 'clear' using
+		 the existing runtime set system. Cleared rooms do not respawn patrolling
+		 enemies on subsequent days. Killing patrolling enemies after they have
+		 switched to wave behaviour at night does not count toward clearing.
+	3.5  Night transition: at the start of night, all living patrolling enemies switch
+		 from guard state to wave attack behaviour and pathfind toward the Allied
+		 Guard NPC in the spawn room
+	3.6  Wave spawner: triggered at the start of night. Spawns wave enemies in all
+		 rooms that do not have a walled corridor. Player spawn room is exempt.
+		 Wave enemy count scales over time. Tune scaling during loop test (Task 7).
+
+
+--- TASK 4 : Allied Guard NPC + Lose Condition ---
+
+Context:
+	The Allied Guard NPC is the objective the player is defending. It uses the same
+	guard state as patrolling enemies. Its appearance is a placeholder for this step -
+	visual identity is addressed in a later roadmap step.
+
+	4.1  Create Allied Guard NPC actor with a placeholder mesh coloured gold to
+		 indicate importance
+	4.2  Place Allied Guard NPC in the player spawn room
+	4.3  Apply guard state to the Allied Guard NPC (shared with patrolling enemies)
+	4.4  Allied Guard NPC uses the existing health and death state system
+	4.5  Allied Guard NPC death triggers the game over condition
+	4.6  Game over UI: a simple screen displayed on Allied Guard NPC death,
+		 with a single restart button
+
+
+--- TASK 5 : Buildable Walls ---
+
+Context:
+	The wall leverages the existing data-driven melee combat system to deal damage
+	to enemies that approach it - no ranged weapon system is required for this step.
+	Two melee components facing opposite directions means the wall attacks enemies
+	from either side without needing orientation logic. Monitor for double-damage
+	issues if both components fire simultaneously on the same enemy.
+
+	Players pass through walls freely via collision layer separation - no open/close
+	logic is needed at this stage. A visual treatment (likely an animation) is
+	deferred to Step 1.5.
+
+	Each player has their own placement component and world-space indicator.
+	In split-screen these are separate subviewport objects so each player sees
+	only their own indicator.
+
+	A player can stand in a room and sphere cast into an adjacent corridor to place
+	a wall without entering the corridor. Placement is only valid on the "placeable"
+	collision layer - corridors have this on their floors, rooms do not.
+
+	5.1  Wall actor prefab: elongated cube mesh with two melee combat components
+		 facing opposite directions. No movement, locomotion, or dash. Uses the
+		 existing data-driven melee weapon system.
+	5.2  Wall physics collision: wall collision mask blocks the enemy collision layer
+		 only. Player collision mask does not include the wall layer.
+	5.3  Wall health and death state: walls are destructible using the existing
+		 health/death system. A destroyed wall re-opens that corridor to wave
+		 spawning.
+	5.4  Shared resource file: expose a grid resolution value. This is the only
+		 map-related data the placement system reads externally.
+	5.5  Per-player wall placement component:
+			 - Sphere cast forward from player position to a defined max placement range
+			 - Check that the hit surface is on the "placeable" collision layer
+			 - Snap candidate position to grid using resolution from shared resource file
+			 - Spawn and update a per-player world-space UI indicator at the snapped
+			   position (one indicator node per player, scoped to that player's subviewport)
+	         - On confirm input: check universal resource counter has sufficient
+	           resources, deduct cost, spawn wall at snapped position
+
+
+--- TASK 6 : Resource System + UI ---
+
+Context:
+	The resource pool is universal - one shared counter for all players. This creates
+	cooperative tension around wall placement decisions, which is intentional.
+	Chest spawn points are pre-determined in the map prefabs (Task 2.3) and selected
+	from at runtime, so the system does not need to reason about geometry.
+
+	6.1  Central chest spawn system: at the start of each day, randomly select from
+	     pre-determined spawn points (Task 2.3) and place chest actor(s)
+	6.2  At the start of night, despawn all chests whether opened or unopened
+	6.3  Chest actor: a collectible item. Player interaction adds to the universal
+	     resource counter.
+	6.4  Universal resource counter: one shared resource pool for all players.
+	     All collections add to it; all wall placements deduct from it.
+	6.5  Resource counter UI: adaptive position based on player count, tied to
+	     the existing camera rig / viewport system:
+	         1 player  : bottom corner
+	         2 players : bottom centre
+	         3 players : centre
+	         4 players : centre
+
+
+--- TASK 7 : Loop Test ---
+
+Context:
+	The purpose of Step 1.0 is to answer the core tension questions below.
+	Do not proceed to Step 1.5 until these questions have been honestly evaluated.
+	Write up findings as a dated note regardless of outcome.
+
+	7.1  Play the full loop:
+	         Spawn -> explore during day (fight patrolling enemies, collect chests)
+	         -> return to spawn room -> place walls -> defend at night -> repeat
+	7.2  Evaluate core tension questions:
+	         - Does pushing out feel tense?
+	         - Does returning feel satisfying?
+	         - Does the day/night structure create meaningful pacing?
+	         - Does wall placement feel like a meaningful decision?
+	7.3  Write up findings in a dated note before proceeding to Step 1.5

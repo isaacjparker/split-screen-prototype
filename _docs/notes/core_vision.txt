@@ -1,0 +1,35 @@
+# core_vision
+Project : Split Screen Prototype
+Created : 2026-03-23
+====================
+
+## Notes
+--------
+
+Working game title: Nobility
+
+A cooperative local multiplayer action RPG with village building, procedural maps, and deep 
+player expression. The game is fundamentally about the player as author; of their character,
+their village, their strategy, and the emergent story created.
+
+Replayability and identity come from player choices, not handcrafted content. Two players
+are able to have very different experiences and see themselves reflected in their worlds
+in different ways, without major variations in content.
+
+
+Features:
+	Top-down 3D action RPG
+	Accessible controls and gameplay
+	Low-poly, stylised, readable visual language
+	1-4 player local split screen co-op
+	Shared player progression
+	Procedural explorable maps
+	"Village as player build"
+	Player expression through village and character build
+
+Mechanics:
+	Melee, Ranged, Magic combat
+	Village building
+	NPC recruitment
+	Player XP
+	Single resource

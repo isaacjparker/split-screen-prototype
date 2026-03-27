@@ -1,0 +1,54 @@
+# core_tensions
+Project : Split Screen Prototype
+Created : 2026-03-25
+====================
+
+## Overview
+-----------
+
+Describing the core tensions in different games which inspire this prototype or are related in some way.
+These tensions may not be objectively 'correct' but are my thoughts and reflections on the nature of these games.
+These thoughts are iterative and may very well change in the future.
+
+
+## Notes
+--------
+
+I feel many strategy and strategy-like games have a core tension involving:
+	Time vs Space vs Resources.
+Which of these three the game limits or provides in abundance, changes the core tension of that game.
+
+For example, a game can have abundant resources to solve a spatial problem under time pressure.
+
+Examples:
+
+1. Kingdom (Noio)
+Abundance: Resources
+Limits: Time
+To Solve: A spatial problem
+
+Kingdom technically has abundant resources as by the end game, farms will provide infinite coins and
+villagers will spawn for ever. With this resource, players manage their play space under time pressure. 
+Players cannot sit back and chill in their village, they must be acting at any available moment to use 
+their resources to manage their space.
+
+
+2. Dungeon of the Endless (Amplitude)
+Abundance: Time
+Limits: Resources
+To solve: A spatial problem
+
+DotE feels like a similar game to Kingdom at ffirst glance and in many ways it is; it's a spatial
+problem solved through the balance of resources and time.
+However, with DotE, resources are limites. In any given level or run, there is no way to sit tight
+and earn infinite resources. Meanwhile, the timing and pacing of th egame is entirely up to the player.
+The player can take a whole hour to plan their next room-opening if they wish.
+
+
+3. Thronefall (Jonas Tyroller)
+Abundance: Time
+Limits: Resources
+To solve: A spatial problem
+
+Despite being inspired by Kingdom, Thronefall is much more like DotE. In Thronefall, players do not have
+an infinite faucet of money, but as in DotE, they can progress and manage timing at their own pace.

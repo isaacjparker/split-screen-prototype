@@ -1,0 +1,7 @@
+# local_multiplayer_design
+Project : Split Screen Prototype
+Created : 2026-03-23
+====================
+
+## Notes
+--------

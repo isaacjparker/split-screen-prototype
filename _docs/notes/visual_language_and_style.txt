@@ -1,0 +1,40 @@
+# visual_language_and_style
+Project : Split Screen Prototype
+Created : 2026-03-23
+====================
+
+## Notes
+--------
+
+NB: This is not my area of strength. All of this is open to change.
+
+# Core References
+- Death's Door - primary visual inspiration for combat: strong silhouettes, limited palette,
+readable animations and strong contrast with limited use of satruated colours to identify important
+elements.
+- Pyre (Supergiant) - Colour as identity and great contrats between environment and characters.
+- Still looking for more visual references. Visual identity of this game is a known gap.
+
+# Colour Language
+A deliberate visual hierarchy where colour, value, and silhouette each carry specific meaning:
+	- Environment - muted, earthy, slightly desaturated mid-tones.
+	- Enemies - black silhouettes (threat, danger, the unknown).
+	- Player characters - vivid assigned colours (identity, ownership, readability).
+	- Bosses / Elites - Still have the black silhouette, but with animated fire outline shader
+	in distinct colours for various threats. Reserved colours that cannot be used by players?
+	- Village scenes - warmer, more colourful, richer detail than combat zones. The player has more
+	time and mental space to appreciate and consider these.
+
+# Enemy design Principles
+- Small pool of enemy types - variety comes from player build, not enemy roster.
+- Differentiation through shape, size, and movement (not colour).
+- Boss/Elite tier signalled by outline shader, shape, and size - but still the balck silhouette.
+- Shader behaviour can carry information - slow pulse = tanky, rapid flicker = aggressive.
+- Kingdom - limited types of greed enemy. Restraint in this is a feature.
+
+# Technical targets
+- Target: comfortable 60fps on Steam Deck
+- 4-player split screen = each viewport gets approx 25% of GPU budget - scene complexity must be modest.
+- 4K TV docked mode - clean geomtry and strong colours scale well, avoid high-frequency texture detail.
+- SSAO, SSR, and screen-sapce effects may degrade in split screen. Test thouroughly if using.
+- Stylised lighting over realistic PBR.

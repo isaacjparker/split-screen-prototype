@@ -8,21 +8,30 @@
 
 config_version=5
 
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
+
 [application]
 
 config/name="Split Screen Prototype"
 run/main_scene="uid://jssfihe3gpnw"
-config/features=PackedStringArray("4.5", "C#", "Forward Plus")
+config/features=PackedStringArray("4.6", "C#", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
 
 FactionManager="*res://_project/scenes/autoloads/faction_manager.tscn"
 RuntimeSets="*res://_project/scenes/autoloads/runtime_sets.tscn"
+DayNightCycleManager="*uid://c8dhptjjq107u"
 
 [dotnet]
 
 project/assembly_name="Split Screen Prototype"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/note_creator/plugin.cfg")
 
 [input]
 
@@ -204,3 +213,4 @@ dash_3={
 3d_physics/layer_1="Physics"
 3d_physics/layer_2="HitBox"
 3d_physics/layer_3="HurtBox"
+3d_physics/layer_5="MapFloorCells"

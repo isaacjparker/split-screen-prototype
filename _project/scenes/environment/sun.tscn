@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://cfqv5s3celbjq"]
+
+[ext_resource type="Script" uid="uid://b6t8v122a476g" path="res://_project/code/runtime_sets/SunRuntimeSetMember.cs" id="2_xy3oe"]
+[ext_resource type="Resource" uid="uid://cxgtpo27ahra6" path="res://_project/resources/runtime_sets/sun_runtime_set.tres" id="3_5bm2t"]
+
+[node name="Sun" type="DirectionalLight3D" unique_id=868266997]
+transform = Transform3D(0.7240515, 0.43893665, -0.5320564, 0, 0.7713803, 0.6363744, 0.6897459, -0.46076784, 0.55851907, 0, 0, 0)
+shadow_enabled = true
+
+[node name="SunRuntimeSetMember" type="Node" parent="." unique_id=1124025328]
+script = ExtResource("2_xy3oe")
+RuntimeSet = ExtResource("3_5bm2t")

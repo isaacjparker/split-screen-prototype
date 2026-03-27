@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://c8dhptjjq107u"]
+
+[ext_resource type="Script" uid="uid://cslc8ajrxo234" path="res://_project/code/managers/DayNightCycleManager.cs" id="1_cvjvc"]
+[ext_resource type="Resource" uid="uid://cxgtpo27ahra6" path="res://_project/resources/runtime_sets/sun_runtime_set.tres" id="2_obion"]
+
+[node name="DayNightCycleManager" type="Node" unique_id=1929623439]
+script = ExtResource("1_cvjvc")
+SunRuntimeSet = ExtResource("2_obion")
+ColourTransitionDuration = 4.0
+NightAngleTransitionDuration = 6.0

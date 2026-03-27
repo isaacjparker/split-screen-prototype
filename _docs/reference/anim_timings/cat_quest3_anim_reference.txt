@@ -29,8 +29,3 @@ Action length: 0.12
 Recovery length: 1.13
 
 Total: 1.39
-
-
-
-
-

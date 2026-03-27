@@ -1,0 +1,61 @@
+# _prototype_roadmap
+Project : Split Screen Prototype
+Created : 2026-03-23
+====================
+
+## Notes
+--------
+
+Already built:
+	Character Control
+	Melee Combat
+	Basic Enemy behaviour
+	Local Split Screen
+
+
+Next Steps:
+
+	1. Establish Core Tension
+	- If abundant Resources to manage Space with limited Time (Kingdom):
+	Build a minimal procedural map with buildable walls and guard NPCs
+	Add a resource found in dangerous areas to bring back
+	Add a pressure mechanic - enemy waves, day/night cycle, or expanding threat.
+	Test: Does pushing out feel tense, does returning feel satisfying?
+	Do not addd village building until this loop feels good
+
+	2. Simplest Possible Village
+	Once core tension is established, give player something to spend resources on that feeds
+	back to core loop.
+	One or two building types with clear mechanical benefits
+	Village placement as a spatial decision
+	Test: Does building the village feel like authorship or like a checklist? Do players feel
+	expressive?
+	
+	3. test Multiplayer Tension
+	With a core loop and village functionality, add a second player in a shared map
+	Test both: shared expansion from shared village vs separate expansion from separate villages
+	on opposite ends of the map
+	Test: Do they interact? Do they communicate? Does contested space (in either case) create
+	interesting decisions?
+	NO NPC Fable-like feedback juice and NO NPC personalities needed here.
+	
+	4. Introduce Meta Progression
+	Once a single run feels complete, connect it to something persistent.
+	Village persistence - insatanced or carried between runs?
+	Resources that carry over
+	Test: Does the player feel compelled to return? One more run? Does the village feel like
+	it has history?
+	
+	5. First NPC Character
+	We have guards already but add a recruitable charcater to synergise with the village
+	A single NPC type that can be encountered on runs and brought back for village functionality.
+	Test: Does the player feel pressure to find this NPC? Is there competition for the NPC between
+	players?
+	
+	6. Visual Language Prototype
+	Once the feel of th egame is establsihed, begin lcoking in visual language
+	Colour hierarchy - muted environment, black enemies, vivid player characters
+	Test boss visual differences
+	Test readability in split screen at Steam Deck resolution
+	
+	

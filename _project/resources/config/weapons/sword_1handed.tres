@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="WeaponData" load_steps=17 format=3 uid="uid://bc2p1xr1ir88e"]
+[gd_resource type="Resource" script_class="WeaponData" format=3 uid="uid://bc2p1xr1ir88e"]
 
 [ext_resource type="Resource" uid="uid://due7bij1e38nh" path="res://_project/resources/config/sfx/sword_slash.tres" id="1_8fhwl"]
 [ext_resource type="Resource" uid="uid://dhtm3br4ljy73" path="res://_project/resources/config/sfx/sword_impact.tres" id="2_la72m"]

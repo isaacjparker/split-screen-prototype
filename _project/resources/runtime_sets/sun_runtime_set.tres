@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="SunRuntimeSet" format=3 uid="uid://cxgtpo27ahra6"]
+
+[ext_resource type="Script" uid="uid://dxs6mh13d0iqj" path="res://_project/code/runtime_sets/SunRuntimeSet.cs" id="1_sh7k2"]
+
+[resource]
+script = ExtResource("1_sh7k2")
+metadata/_custom_type_script = "uid://dxs6mh13d0iqj"

@@ -15,7 +15,7 @@ public partial class PlayerHitState : ActorState
 
     public override void EnterState()
     {
-        GD.Print($"Entered HitState. Knockback Power: {_knockbackPower}");
+        //GD.Print($"Entered HitState. Knockback Power: {_knockbackPower}");
 
         _core.HitFlash.PlayHitFlash();
 

@@ -1,0 +1,30 @@
+# unsolved_problems
+Project : Split Screen Prototype
+Created : 2026-03-23
+====================
+
+## Notes
+--------
+
+Design problems
+
+1. The killer reason for local split screen has not been found. Nostalgia is not a good enough
+reason on its own.
+2. Core tension not confirmed; Timing/Sequencing (Kingdom) or Space/Resources (Dungeon of the Endless)?
+	NB: Read the core_tensions.txt for more insight intot this
+3. Shared village vs separate village sin co-op. Separate villages give stronger individual identity
+but complicate the shared world design.
+	NB: One solution to this could be in transferable characters. Each player would have their own
+	world and village on their PC. But if a friend comes over for split-screen, they can bring their
+	own charcater form their own world and contribute and progress in their friends world, before
+	returning back to their own. One advantage to this is if player choices create distinct
+	possibilites; player 1's choices lead to abundant mithril but no coal. Player 2's, lead to the
+	opposite. Joining each other's worlds gives access to the other (Pokemon effect).
+4. Visual identity / art style not yet found. Death's Door and Pyre are starting points.
+
+
+technical / Scope Problems
+
+1. The Fable NPC reacctivity is ambitious and must be th elast thing to be built.
+2. Without strict design boundaries, systems development will expand to fill any available dev time.
+3. How slow should village progressio be? Feel this out.

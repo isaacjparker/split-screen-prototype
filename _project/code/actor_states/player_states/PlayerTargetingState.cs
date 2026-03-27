@@ -11,7 +11,7 @@ public partial class PlayerTargetingState : ActorState
 
     public override void EnterState()
     {
-        GD.Print($"Entered PlayerTargetingState, target: {_status.CurrentTarget}");
+        //GD.Print($"Entered PlayerTargetingState, target: {_status.CurrentTarget}");
     }
 
 	public override void ProcessState(float delta)

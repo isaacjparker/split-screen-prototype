@@ -1,0 +1,51 @@
+# key_inspirations
+Project : Split Screen Prototype
+Created : 2026-03-23
+====================
+
+## Notes
+--------
+
+1. Kingdom (Raw Games / Noio)
+The original structural inspiration. The core design (in my interpretation) is safe zone
+expansion through careful resource timing and sequencing. The fundamental tension is between
+safety and expansion. Growing defended space is satisfying but creates the dread of losing it
+all. The game's day/night difficulty progression creates the motive for the player to choose
+expansion over safety.
+	- Teaches: Timing as tension.
+	- Multiplayer: Co-op doubles the decision density per unit time without changing mechanics.
+	Players can do more - but must coordinate in RL to be efficient.
+	- Why it didn't spawn a genre: Devs may see the purity of design and mistake it for incompleteness.
+	Just adding features / mechanics will probably break the simplicity and depth.
+
+2. Dungeon of the Endless (Amplitude Studios)
+The spatial inspiration. Rooms act as discrete units of risk in the mental model of the player.
+Resource allocation is the primary tension and the procedural map provides a fresh problem to
+solve each run.
+	- Teaches: Space and resource as the core tension (timing is controlled entirely by the player)
+	- Experts will open every room for maximum profit. Beginners will limit open rooms to reduce risk.
+	- Lighting and unlighting allow management of avenues of threat within the mental space.
+
+3. Age of Empires I & II (Ensemble Studios)
+The village  as identity. Players don't just build functionally - their self is expressed in the build
+as well. Their base becomes a self-portrait and a reflection of play style. Random maps provide a new
+spatial problem to solve each 'run'.
+	- Teaches: Base building as player expression, not just resource management.
+	- Risk: Players could become siloed in their bases, reducing player interaction.
+
+4. Cat Quest I, II & III (Gentlebros)
+Cambat accessibility inspiration. very pickup-able and enjoyable for non-action game players. Combat
+should not be the challenge - it should be approachable and expressive. The challenge is the long-term
+build and strategic choices. Even Courtney likes CQ III so that's saying something.
+	- Teaches: combat as reward and expression, not as a skill gate. (Please go away souls-likes)
+	- As the village grows more powerful, the character becomes more powerful - players then feel
+	the feedback loop.
+
+5. Fable I, II & III (Lionhead Studios)
+Inspiration for a reactive world and social texture. The world notices and comments on your choices.
+NPC's create a type of social juice feedback reflecting the player's expression back to them - hopefully
+making the player feel like their chocies mattered.
+		- Teaches: NPC reactivity as an emotional core, not just flavour.
+		- Village NPC's who comment on your build, style (visual and combat), and reputation.
+		- A bit of juice from the balcksmith is far more effective than 100 passive NPC's.
+		- This is a system that will have to be included later but may have a huge impact on game feel.

@@ -1,11 +1,14 @@
-[gd_scene load_steps=11 format=3 uid="uid://jssfihe3gpnw"]
+[gd_scene format=3 uid="uid://jssfihe3gpnw"]
 
-[ext_resource type="PackedScene" uid="uid://ct6858b4ps6el" path="res://_project/scenes/environment/arena.tscn" id="1_058t1"]
 [ext_resource type="PackedScene" uid="uid://b3tdk06n5inos" path="res://_project/scenes/managers/local_multiplayer_manager.tscn" id="2_rkvuc"]
+[ext_resource type="PackedScene" uid="uid://cfqv5s3celbjq" path="res://_project/scenes/environment/sun.tscn" id="3_v5o5i"]
 [ext_resource type="Script" uid="uid://bbccca6klpx4q" path="res://_project/code/managers/AudioManager.cs" id="4_56h8e"]
 [ext_resource type="Script" uid="uid://bcdvo2tcqqbh" path="res://_project/code/managers/SpawnManager.cs" id="5_ob23k"]
 [ext_resource type="PackedScene" uid="uid://47ei31alwia0" path="res://_project/scenes/actors/dummy_actor.tscn" id="6_mlhsd"]
 [ext_resource type="PackedScene" uid="uid://x1cr52wllc2n" path="res://_project/scenes/actors/ai_actor.tscn" id="6_ytsp0"]
+[ext_resource type="Script" uid="uid://c0w8katdniua6" path="res://_project/code/environment/MapBuilder.cs" id="8_bj57d"]
+[ext_resource type="PackedScene" uid="uid://danlrblofuukv" path="res://_project/scenes/environment/rooms/room_25x25_2o_b.tscn" id="8_v5o5i"]
+[ext_resource type="PackedScene" uid="uid://ix38ubmlfhtw" path="res://_project/scenes/environment/rooms/corridor_4x8_2o_a.tscn" id="9_v5o5i"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_rkvuc"]
 
@@ -26,44 +29,53 @@ volumetric_fog_density = 0.005
 [sub_resource type="BoxShape3D" id="BoxShape3D_ob23k"]
 size = Vector3(47, 1, 47)
 
-[node name="Melee" type="Node3D"]
+[node name="Melee" type="Node3D" unique_id=1783538337]
 
-[node name="Arena" parent="." instance=ExtResource("1_058t1")]
-
-[node name="LocalMultiplayerManager" parent="." node_paths=PackedStringArray("_spawnPoints") instance=ExtResource("2_rkvuc")]
+[node name="LocalMultiplayerManager" parent="." unique_id=1375214641 node_paths=PackedStringArray("_spawnPoints") instance=ExtResource("2_rkvuc")]
 _spawnPoints = [NodePath("../PlayerSpawn1"), NodePath("../PlayerSpawn2"), NodePath("../PlayerSpawn3"), NodePath("../PlayerSpawn4")]
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.7240515, 0.43893665, -0.5320564, 0, 0.7713803, 0.6363744, 0.6897459, -0.46076784, 0.55851907, 0, 11.32319, 0)
-shadow_enabled = true
+[node name="Sun" parent="." unique_id=868266997 instance=ExtResource("3_v5o5i")]
+transform = Transform3D(0.53582674, -0.53705853, 0.6515041, 0, 0.7716245, 0.6360782, -0.8443279, -0.3408277, 0.41345704, 0, 11.32319, 0)
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=411885957]
 environment = SubResource("Environment_ob23k")
 
-[node name="AudioManager" type="Node" parent="."]
+[node name="AudioManager" type="Node" parent="." unique_id=791298871]
 script = ExtResource("4_56h8e")
 
-[node name="SpawnManager" type="Node" parent="." node_paths=PackedStringArray("SpawnArea")]
+[node name="SpawnManager" type="Node" parent="." unique_id=1379014422 node_paths=PackedStringArray("SpawnArea")]
 script = ExtResource("5_ob23k")
 EnemyTemplate = ExtResource("6_ytsp0")
 SpawnArea = NodePath("Area3D")
 
-[node name="Area3D" type="Area3D" parent="SpawnManager"]
+[node name="Area3D" type="Area3D" parent="SpawnManager" unique_id=1376128351]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="SpawnManager/Area3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SpawnManager/Area3D" unique_id=333314281]
 shape = SubResource("BoxShape3D_ob23k")
 
-[node name="PlayerSpawn1" type="Node3D" parent="."]
+[node name="PlayerSpawn1" type="Node3D" parent="." unique_id=1919562755]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 14)
 
-[node name="PlayerSpawn2" type="Node3D" parent="."]
+[node name="PlayerSpawn2" type="Node3D" parent="." unique_id=639831235]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 14)
 
-[node name="PlayerSpawn3" type="Node3D" parent="."]
+[node name="PlayerSpawn3" type="Node3D" parent="." unique_id=399097776]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 16)
 
-[node name="PlayerSpawn4" type="Node3D" parent="."]
+[node name="PlayerSpawn4" type="Node3D" parent="." unique_id=1423903410]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 16)
 
-[node name="Actor" parent="." instance=ExtResource("6_mlhsd")]
+[node name="Actor" parent="." unique_id=898577130 instance=ExtResource("6_mlhsd")]
 transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, 0, 0)
+
+[node name="MapBuilder" type="Node3D" parent="." unique_id=2029327145]
+script = ExtResource("8_bj57d")
+FloorCollisionMask = 16
+
+[node name="Room_25x25_2o_B" parent="MapBuilder" unique_id=63349484 instance=ExtResource("8_v5o5i")]
+
+[node name="Corridor_4x8_2o_A" parent="MapBuilder" unique_id=1188460659 instance=ExtResource("9_v5o5i")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -34)
+
+[node name="Corridor_4x8_2o_A2" parent="MapBuilder" unique_id=280692992 instance=ExtResource("9_v5o5i")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -34, 0, 0)

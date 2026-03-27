@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://47ei31alwia0"]
+[gd_scene format=3 uid="uid://47ei31alwia0"]
 
 [ext_resource type="Script" uid="uid://c73ql6q4klmmv" path="res://_project/code/actors/ActorCore.cs" id="1_vs5wu"]
 [ext_resource type="Script" uid="uid://jtajvpqrfc5u" path="res://_project/code/actors/AgentSM.cs" id="2_ds14l"]
@@ -45,7 +45,7 @@ height = 2.2
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_8yq2o"]
 radius = 0.6
 
-[node name="Actor" type="CharacterBody3D" node_paths=PackedStringArray("BodyMesh", "FaceMesh", "CollisionShape", "HitBox", "HurtBox") groups=["dummies"]]
+[node name="Actor" type="CharacterBody3D" unique_id=4252908 node_paths=PackedStringArray("BodyMesh", "FaceMesh", "CollisionShape", "HitBox", "HurtBox") groups=["dummies"]]
 script = ExtResource("1_vs5wu")
 BodyMesh = NodePath("BodyMesh")
 FaceMesh = NodePath("FaceMesh")
@@ -53,28 +53,28 @@ CollisionShape = NodePath("CollisionShape3D")
 HitBox = NodePath("HitBox")
 HurtBox = NodePath("HurtBox")
 
-[node name="BodyMesh" type="MeshInstance3D" parent="."]
+[node name="BodyMesh" type="MeshInstance3D" parent="." unique_id=934595381]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 mesh = SubResource("CapsuleMesh_wel1o")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=924901947]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_r27b2")
 
-[node name="FaceMesh" type="MeshInstance3D" parent="."]
+[node name="FaceMesh" type="MeshInstance3D" parent="." unique_id=2104179474]
 transform = Transform3D(0.6, 0, 0, 0, 0.2, 0, 0, 0, 0.4, 0, 1.4, -0.4)
 mesh = SubResource("BoxMesh_dy5t4")
 
-[node name="StateMachine" type="Node" parent="."]
+[node name="StateMachine" type="Node" parent="." unique_id=538690353]
 script = ExtResource("2_ds14l")
 
-[node name="MotorModule" type="Node" parent="."]
+[node name="MotorModule" type="Node" parent="." unique_id=964919538]
 script = ExtResource("3_7ahe1")
 
-[node name="CombatModule" type="Node" parent="."]
+[node name="CombatModule" type="Node" parent="." unique_id=1142808337]
 script = ExtResource("4_cvru1")
 
-[node name="StatusModule" type="Node" parent="."]
+[node name="StatusModule" type="Node" parent="." unique_id=1091895534]
 script = ExtResource("5_muq5j")
 BodyMaterial = SubResource("StandardMaterial3D_ds14l")
 FaceMaterial = SubResource("StandardMaterial3D_7ahe1")
@@ -84,38 +84,38 @@ ManualTargeting = true
 MaxTargetScanRange = 0.0
 MaxTargetLeashRange = 6.0
 
-[node name="EquipmentModule" type="Node" parent="."]
+[node name="EquipmentModule" type="Node" parent="." unique_id=2097413938]
 script = ExtResource("7_2i22o")
 
-[node name="HitFlash" type="Node" parent="."]
+[node name="HitFlash" type="Node" parent="." unique_id=813645902]
 script = ExtResource("8_qo0wd")
 
-[node name="ActorRuntimeSetMember" type="Node" parent="."]
+[node name="ActorRuntimeSetMember" type="Node" parent="." unique_id=1865825437]
 script = ExtResource("8_ds14l")
 RuntimeSet = ExtResource("9_7ahe1")
 
-[node name="HitBox" type="Area3D" parent="."]
+[node name="HitBox" type="Area3D" parent="." unique_id=956433268]
 process_mode = 4
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -2.31)
 collision_layer = 2
 collision_mask = 4
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="HitBox"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HitBox" unique_id=1428117588]
 transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, 0, 0)
 shape = SubResource("CapsuleShape3D_e83c6")
 
-[node name="CollisionShape3D2" type="CollisionShape3D" parent="HitBox"]
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="HitBox" unique_id=1997284392]
 transform = Transform3D(-3.090862e-08, -0.70710677, -0.70710677, 1, -4.371139e-08, 0, -3.090862e-08, -0.70710677, 0.70710677, 0.979, 0, 0.721)
 shape = SubResource("CapsuleShape3D_dddod")
 
-[node name="CollisionShape3D3" type="CollisionShape3D" parent="HitBox"]
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="HitBox" unique_id=1582188524]
 transform = Transform3D(-3.090862e-08, -0.70710677, 0.70710677, 1, -4.371139e-08, 0, 3.090862e-08, 0.70710677, 0.70710677, -0.705, 0, 0.43)
 shape = SubResource("CapsuleShape3D_ifnxb")
 
-[node name="HurtBox" type="Area3D" parent="."]
+[node name="HurtBox" type="Area3D" parent="." unique_id=13219492]
 collision_layer = 4
 collision_mask = 2
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="HurtBox"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HurtBox" unique_id=959643570]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_8yq2o")

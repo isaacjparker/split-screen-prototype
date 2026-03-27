@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="FactionDatabase" load_steps=9 format=3 uid="uid://bag1hsfphrn1x"]
+[gd_resource type="Resource" script_class="FactionDatabase" format=3 uid="uid://bag1hsfphrn1x"]
 
 [ext_resource type="Script" uid="uid://yxvow3uxbhb3" path="res://_project/code/factions/FactionRelationship.cs" id="1_bdajx"]
 [ext_resource type="Script" uid="uid://dtgg1axwraa43" path="res://_project/code/factions/FactionDatabase.cs" id="1_cyypp"]

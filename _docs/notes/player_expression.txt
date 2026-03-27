@@ -1,0 +1,38 @@
+# player_expression
+Project : Split Screen Prototype
+Created : 2026-03-23
+====================
+
+## Notes
+--------
+
+1. The Village
+- Sandbox layout - player defines position and shape of safe zones
+	Alternatively: space as a resource, 'plots' that can be built on and add to the
+	space / resource tension. Plots and buildings become a resource and choosing one will
+	potentially prevent another. May create more deliberate and unique builds.
+- Buildings provide mechanical benefits and NPC housing - NPCs then compound benefits / effects
+and create the social juice feedback.
+- Building type examples (not set): blacksmith, wizard's tower, shops, houseing, etc.
+- The village is a self protrait - reflects personality and play style.
+- Village scenes can afford more colour, warmth, and detail than combat zones.
+- The village is where character customisation can be appreciated a tclose range. Eg village
+buildings will have player's primary and secondary colours.
+
+2. NPC Recruitment
+- Recruitable NPCs encourntered on runs, brought back to inhabit the village.
+- NPCs are characterful archetypes with distinct personalities.
+- They react to player choices, build decisions, and reputation.
+- They compound village benefits and effects. Players give resources and jobs to their balcksmith
+who levels up, increasing the effectiveness or speciality of their smithing building.
+- A lightweight relationship/reputation system tracks key variables.
+- Contextual dialogue referencing those variables creates the Fable-like juice.
+
+3. Character Customisation
+- Primary expression tool as combat scale: colour scheme (2-3 tones per charcater)
+- Silhouette variation through equipment and skill choice.
+- Combat build expressed through village progression and equipment choices. More powerful village -
+more powerful character.
+- Detailed customisation is best appreciated in village scenes, not combat.
+- None visual cusstomisation may add social juice. Player titles and wealth (for example) change
+social NPC feedback.

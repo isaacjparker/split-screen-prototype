@@ -1,0 +1,29 @@
+# core_loop_and_tensions
+Project : Split Screen Prototype
+Created : 2026-03-23
+====================
+
+## Notes
+--------
+
+# Design Principle
+Timing / Sequencing (Kingdom) and Space / Resources (Dungeon of the Endless) are two expressions
+of the same design principle:
+	
+	"How much can you safely expand before the next threat arrives, and what do you sacrifice to 
+	find out?"
+
+The purpose of the prototype is to find out which of these feels like the way to go. Both support
+a co-op dynamic but each one will have differencees in feel and how much it allows for player
+expression. It may be that we find a combination of the two but in any case, the question is best
+answered by feel and experimentation, not by rigid edesign or theory.
+
+# Progression Structure: Soft Meta Progression
+- Persistent village: grows across many sessons, carries identity and history
+- New procedural map each run: fresh spatial and resource problem every time.
+- Village progression is deliberately slow: Compelling reason to return across sessions.
+- Players can develop their village between sessions without friends present
+- Resources and recruits brought back from runs feed village growth.
+This structure provides a persitent space for player expression while allowing for a reset of
+tension each run. This only requires player to hold one mental model at a time - the problem space
+during a run, and the creative and expressive space between runs.
