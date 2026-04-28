@@ -16,7 +16,7 @@ public partial class AgentSM : StateMachine
         return new AgentHitState(_core, sourcePos, power);
     }
 
-    public override ActorState CreateDeathState()
+    public override ActorState CreateDeathState(Vector3 sourcePos, float knockbackPower)
     {
         return new AgentDeathState(_core);
     }

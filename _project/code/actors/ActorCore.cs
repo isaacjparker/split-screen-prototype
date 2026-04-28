@@ -21,6 +21,9 @@ public partial class ActorCore : CharacterBody3D
     public HitFlash HitFlash {get; private set;}
     public StateMachine StateMachine { get; private set; }
 
+    public Vector3 InitialSpawnPosition {get; set;}
+    public Basis InitialSpawnBasis {get; set;} = Basis.Identity;
+
     public event Action<float, float> OnCameraShake;
     public event Action<float> OnHitStop;
     public event Action<float, float> OnDash;
@@ -162,10 +165,25 @@ public partial class ActorCore : CharacterBody3D
         StateMachine.ChangeState(StateMachine.CreateHitState(sourcePos, power));
     }
 
-    public void HandleDeathEvent()
+    public void HandleDeathEvent(Vector3 sourcePos, float knockbackPower)
     {
-        StateMachine.ChangeState(StateMachine.CreateDeathState());
+        StateMachine.ChangeState(StateMachine.CreateDeathState(sourcePos, knockbackPower));
         OnDeath?.Invoke(this);
+    }
+
+    public void Reset(Vector3 position, Basis basis)
+    {
+        GlobalPosition = position;
+        Basis = basis;
+        Velocity = Vector3.Zero;
+
+        SetCollisionShapeEnabled(true);
+        SetHitBoxEnabled(false);
+        SetHurtBoxEnabled(true);
+
+        Status.Reset();
+
+        StateMachine.ChangeState(new PlayerIdleMoveState(this));
     }
 
     public void TriggerDashCam(float dragFactor, float duration)

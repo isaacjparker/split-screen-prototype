@@ -68,7 +68,7 @@ public partial class ThreatTable : Node
 		}
 	}
 
-	public void CLear()
+	public void Clear()
 	{
 		_threats.Clear();
 	}

@@ -2,7 +2,6 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Metrics;
-using System.Numerics;
 
 public partial class LocalMultiplayerManager : Node
 {
@@ -232,10 +231,14 @@ public partial class LocalMultiplayerManager : Node
         {
             Node3D spawnPoint = _spawnPoints[playerSlot];
             playerController.GlobalTransform = spawnPoint.GlobalTransform;
+            playerController.InitialSpawnPosition = spawnPoint.GlobalPosition;
+            playerController.InitialSpawnBasis = spawnPoint.GlobalTransform.Basis;
         }
         else
         { 
             playerController.GlobalTransform = Transform3D.Identity;
+            playerController.InitialSpawnPosition = Vector3.Zero;
+            playerController.InitialSpawnBasis = Basis.Identity;
             GD.Print($"Missing spawn point for PlayerSlot {playerSlot}. Spawning at origin");
         }
 

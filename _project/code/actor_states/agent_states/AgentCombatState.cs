@@ -24,7 +24,7 @@ public partial class AgentCombatState : ActorState
     {
 		ActorCore target = _status.CurrentTarget;
 
-		if (target == null || !Node.IsInstanceValid(target))
+		if (target == null || !Node.IsInstanceValid(target) || !target.Status.IsAlive)
 		{
 			_status.CurrentTarget = null;
 			_core.StateMachine.ChangeState(new AgentIdleState(_core));

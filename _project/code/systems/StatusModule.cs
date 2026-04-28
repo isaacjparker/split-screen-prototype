@@ -69,6 +69,13 @@ public partial class StatusModule : Node
     public float DefaultDashCooldownTimer = 0f;
     public DashPayload CurrentDashPayload;
 
+    [ExportGroup("Death")]
+    [Export] public float DeathKnockbackMultiplier = 1.5f;
+    [Export] public float DeathPopUpHeight = 0.5f;
+    [Export] public float DeathRotationDuration = 0.6f;
+    [Export] public float DeathhitStopDuration = 0.7f;
+    [Export] public float DeathHitStopFactor = 80.0f;
+
     [ExportGroup("Camera")]
     [Export] public float CamSmoothingAccel = 5.0f;
     [Export] public float CamCatchUpAccel = 12.0f;
@@ -82,6 +89,8 @@ public partial class StatusModule : Node
     public float CurrentHealth { get; private set; }
     public AttackPayload ActivePayload; // Set by AttackingState
     public ThreatTable ThreatTable {get; private set;} = new ThreatTable();
+
+    public bool IsAlive => CurrentHealth > 0f;
 
     public void Initialise(ActorCore core)
     {
@@ -133,7 +142,7 @@ public partial class StatusModule : Node
 
         if (CurrentHealth <= 0)
         {
-            _core.HandleDeathEvent();
+            _core.HandleDeathEvent(payload.SourcePosition, effectiveKnockback);
         }
     }
     public void ApplyHealing(float healAmount) 
@@ -176,5 +185,12 @@ public partial class StatusModule : Node
         // We successfully hit a target. Trigger our own HitStop (Freeze).
         // Note: This assumes our HitBox only masks with HurtBoxes.
         _core.TriggerHitStop(ActivePayload.HitStopDuration, ActivePayload.HitStopFactor);
+    }
+
+    public void Reset()
+    {
+        CurrentHealth = MaxHealth;
+        //ThreatTable.Clear();
+        OnHealthChanged?.Invoke(CurrentHealth, 0f);
     }
 }

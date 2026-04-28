@@ -94,6 +94,7 @@ public static class CombatUtils
         foreach(ActorCore actor in RuntimeSets.Instance.Actors.GetAll())
         {
             if (actor == self) continue;
+            if (!actor.Status.IsAlive) continue;
             if (!FactionManager.IsHostile(callerFaction, actor.Status.Faction)) continue;
 
             Vector3 toTarget = actor.GlobalPosition - self.GlobalPosition;

@@ -22,7 +22,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("4_q327c")
-CamArray = [NodePath("CameraRig/SubViewport/CameraController")]
+CamArray = [NodePath("CameraRig/SubViewport/CameraController"), null, null, null]
 
 [node name="CameraRig" type="SubViewportContainer" parent="1PContainer" unique_id=2120142970]
 layout_mode = 2
@@ -47,7 +47,7 @@ grow_horizontal = 2
 grow_vertical = 2
 columns = 2
 script = ExtResource("4_q327c")
-CamArray = [NodePath("CameraRig/SubViewport/CameraController"), NodePath("CameraRig2/SubViewport/CameraController")]
+CamArray = [NodePath("CameraRig/SubViewport/CameraController"), NodePath("CameraRig2/SubViewport/CameraController"), null, null]
 _thisRigType = 1
 
 [node name="CameraRig" type="SubViewportContainer" parent="2PContainer" unique_id=1988865600]
@@ -93,7 +93,7 @@ grow_horizontal = 2
 grow_vertical = 2
 columns = 2
 script = ExtResource("4_q327c")
-CamArray = [NodePath("CameraRig/SubViewport/CameraController"), NodePath("CameraRig2/SubViewport/CameraController"), NodePath("CameraRig3/SubViewport/CameraController")]
+CamArray = [NodePath("CameraRig/SubViewport/CameraController"), NodePath("CameraRig2/SubViewport/CameraController"), NodePath("CameraRig3/SubViewport/CameraController"), null]
 _thisRigType = 2
 
 [node name="CameraRig" type="SubViewportContainer" parent="3PContainer" unique_id=1050676705]

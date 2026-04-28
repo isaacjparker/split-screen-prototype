@@ -5,7 +5,6 @@ public partial class AgentDeathState : ActorState
 {
 	//private float _despawnTimer;
 	private float MeltDuration = 1.5f;
-	private bool _meltStarted;
 
     public AgentDeathState(ActorCore core) : base(core)
     {
@@ -93,7 +92,5 @@ public partial class AgentDeathState : ActorState
 				.SetEase(Tween.EaseType.Out)
 				.SetTrans(Tween.TransitionType.Bounce);
 		}
-
-		_meltStarted = true;
 	}
 }

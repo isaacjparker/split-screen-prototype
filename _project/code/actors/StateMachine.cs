@@ -31,7 +31,7 @@ public partial class StateMachine : Node
         return null;
     }
 
-    public virtual ActorState CreateDeathState()
+    public virtual ActorState CreateDeathState(Vector3 sourcePos, float knockbackPower)
     {
         return null;
     }
@@ -41,4 +41,5 @@ public partial class StateMachine : Node
     public virtual bool IsTargetLockHeld() => false;
     public virtual bool IsTargetLockRequested() => false;
     public virtual bool IsDashRequested() => false;
+    public virtual bool IsInteractRequested() => false;
 }

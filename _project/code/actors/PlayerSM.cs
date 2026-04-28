@@ -7,12 +7,13 @@ public partial class PlayerSM : StateMachine
 	[Export] private int _inputDeviceId;
 
 	// Input cache
-	private StringName _moveLeft, _moveRight, _moveUp, _moveDown, _startButton, _targetButton, _meleeAttack, _dashDefault;
+	private StringName _moveLeft, _moveRight, _moveUp, _moveDown, _startButton, _targetButton, _meleeAttack, _dashDefault, _interactButton;
 
 	public override bool IsAttackRequested() => Input.IsActionJustPressed(_meleeAttack);
     public override bool IsTargetLockHeld() => Input.IsActionPressed(_targetButton);
     public override bool IsTargetLockRequested() => Input.IsActionJustPressed(_targetButton);
     public override bool IsDashRequested() => Input.IsActionJustPressed(_dashDefault);
+    public override bool IsInteractRequested() => Input.IsActionJustPressed(_interactButton);
 
     public override void Initialise(ActorCore core)
     {
@@ -33,9 +34,9 @@ public partial class PlayerSM : StateMachine
         return new PlayerHitState(_core, sourcePos, power);
     }
 
-    public override ActorState CreateDeathState()
+    public override ActorState CreateDeathState(Vector3 sourcePos, float knockbackPower)
     {
-        return new PlayerDeathState(_core);
+        return new PlayerDeathState(_core, sourcePos, knockbackPower);
     }
  
     public void AssignInputDevice(int deviceId)
@@ -49,5 +50,6 @@ public partial class PlayerSM : StateMachine
         _targetButton = $"target_{deviceId}";
         _meleeAttack = $"melee_attack_{deviceId}";
         _dashDefault = $"dash_{deviceId}";
+        _interactButton = $"interact_{deviceId}";
     }
 }
