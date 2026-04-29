@@ -42,4 +42,5 @@ public partial class StateMachine : Node
     public virtual bool IsTargetLockRequested() => false;
     public virtual bool IsDashRequested() => false;
     public virtual bool IsInteractRequested() => false;
+    public virtual string GetInteractButtonName() => "[Interact]";
 }

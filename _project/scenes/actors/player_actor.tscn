@@ -10,6 +10,9 @@
 [ext_resource type="Script" uid="uid://d4fhpdqd6gijf" path="res://_project/code/modules/HitFlash.cs" id="8_dj8ae"]
 [ext_resource type="Script" uid="uid://bfpguxj3tucxf" path="res://_project/code/runtime_sets/ActorRuntimeSetMember.cs" id="9_gdco3"]
 [ext_resource type="Resource" uid="uid://dfjkal2hkw76b" path="res://_project/resources/runtime_sets/actor_runtime_set.tres" id="10_2g2r3"]
+[ext_resource type="PackedScene" uid="uid://dwpciplgm5y5g" path="res://_project/scenes/actors/components/magnet_target_module.tscn" id="11_gs0vf"]
+[ext_resource type="PackedScene" uid="uid://cj1ay4nsxtle6" path="res://_project/scenes/actors/components/progression_module.tscn" id="12_utykl"]
+[ext_resource type="PackedScene" uid="uid://b75e32re47n4g" path="res://_project/scenes/drops/magnet_drop_module.tscn" id="13_81v3a"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_wel1o"]
 
@@ -41,13 +44,16 @@ height = 2.2
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_gsska"]
 
-[node name="ActorCore" type="CharacterBody3D" unique_id=1813085196 node_paths=PackedStringArray("BodyMesh", "FaceMesh", "CollisionShape", "HitBox", "HurtBox")]
+[sub_resource type="SystemFont" id="SystemFont_utykl"]
+
+[node name="ActorCore" type="CharacterBody3D" unique_id=1813085196 node_paths=PackedStringArray("BodyMesh", "FaceMesh", "CollisionShape", "HitBox", "HurtBox", "ResetLabel")]
 script = ExtResource("1_jyi35")
 BodyMesh = NodePath("BodyMesh")
 FaceMesh = NodePath("FaceMesh")
 CollisionShape = NodePath("CollisionShape3D")
 HitBox = NodePath("HitBox")
 HurtBox = NodePath("HurtBox")
+ResetLabel = NodePath("ResetLabel")
 
 [node name="BodyMesh" type="MeshInstance3D" parent="." unique_id=428996523]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -120,3 +126,14 @@ collision_mask = 2
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HurtBox" unique_id=1785271425]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_gsska")
+
+[node name="MagnetTargetModule" parent="." unique_id=693222422 instance=ExtResource("11_gs0vf")]
+
+[node name="ProgressionModule" parent="." unique_id=311529961 instance=ExtResource("12_utykl")]
+CanDrop = false
+DropPrefab = ExtResource("13_81v3a")
+
+[node name="ResetLabel" type="Label3D" parent="." unique_id=780158295]
+pixel_size = 0.02
+billboard = 1
+font = SubResource("SystemFont_utykl")

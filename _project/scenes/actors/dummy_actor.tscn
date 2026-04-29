@@ -9,6 +9,7 @@
 [ext_resource type="Script" uid="uid://bfpguxj3tucxf" path="res://_project/code/runtime_sets/ActorRuntimeSetMember.cs" id="8_ds14l"]
 [ext_resource type="Script" uid="uid://d4fhpdqd6gijf" path="res://_project/code/modules/HitFlash.cs" id="8_qo0wd"]
 [ext_resource type="Resource" uid="uid://dfjkal2hkw76b" path="res://_project/resources/runtime_sets/actor_runtime_set.tres" id="9_7ahe1"]
+[ext_resource type="PackedScene" uid="uid://cj1ay4nsxtle6" path="res://_project/scenes/actors/components/progression_module.tscn" id="10_7ahe1"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sime2"]
 albedo_color = Color(0.39607844, 1, 1, 1)
@@ -76,6 +77,7 @@ script = ExtResource("4_cvru1")
 
 [node name="StatusModule" type="Node" parent="." unique_id=1091895534]
 script = ExtResource("5_muq5j")
+MaxHealth = 500.0
 BodyMaterial = SubResource("StandardMaterial3D_ds14l")
 FaceMaterial = SubResource("StandardMaterial3D_7ahe1")
 HitFlashMaterial = SubResource("StandardMaterial3D_vs5wu")
@@ -119,3 +121,6 @@ collision_mask = 2
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HurtBox" unique_id=959643570]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_8yq2o")
+
+[node name="ProgressionModule" parent="." unique_id=311529961 instance=ExtResource("10_7ahe1")]
+CanDrop = false

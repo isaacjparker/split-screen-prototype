@@ -28,7 +28,7 @@ public partial class PlayerDeathState : ActorState
 		StatusModule status = _core.Status;
         _rotationDuration = status.DeathRotationDuration;
 
-        _core.TriggerHitStop(status.DeathhitStopDuration, status.DeathHitStopFactor);
+        _core.TriggerHitStop(status.DeathHitStopDuration, status.DeathHitStopFactor);
 
         // Build XZ knockback with fallback
         Vector3 toPlayer = _core.GlobalPosition - _sourcePos;

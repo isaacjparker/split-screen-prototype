@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://cj1ay4nsxtle6"]
+
+[ext_resource type="Script" uid="uid://dmt43xcwm88d3" path="res://_project/code/modules/ProgressionModule.cs" id="1_n0t6n"]
+
+[node name="ProgressionModule" type="Node3D" unique_id=311529961]
+script = ExtResource("1_n0t6n")

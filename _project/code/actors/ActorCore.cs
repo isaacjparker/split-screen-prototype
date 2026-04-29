@@ -11,6 +11,7 @@ public partial class ActorCore : CharacterBody3D
     [Export] public CollisionShape3D CollisionShape;
     [Export] public Area3D HitBox;
     [Export] public Area3D HurtBox;
+    [Export] public Label3D ResetLabel;
     
 
     //public InputModule ActorInput { get; private set; }
@@ -20,6 +21,8 @@ public partial class ActorCore : CharacterBody3D
     public EquipmentModule Equipment {get; private set;}
     public HitFlash HitFlash {get; private set;}
     public StateMachine StateMachine { get; private set; }
+    public ProgressionModule Progression {get; private set;}
+    public MagnetTargetModule MagnetTarget {get; private set;}
 
     public Vector3 InitialSpawnPosition {get; set;}
     public Basis InitialSpawnBasis {get; set;} = Basis.Identity;
@@ -43,6 +46,8 @@ public partial class ActorCore : CharacterBody3D
         Equipment = GetNode<EquipmentModule>("EquipmentModule");
         HitFlash = GetNode<HitFlash>("HitFlash");
         StateMachine = GetNode<StateMachine>("StateMachine");
+        Progression = GetNode<ProgressionModule>("ProgressionModule");
+        MagnetTarget = GetNodeOrNull<MagnetTargetModule>("MagnetTarget");
 
         //if (ActorInput == null)
         //{
@@ -86,6 +91,12 @@ public partial class ActorCore : CharacterBody3D
             return;
         }
 
+        if (Progression == null)
+        {
+            GD.PrintErr("ActorCore: ProgressionModule not found.");
+            return;
+        }
+
         if (CollisionShape == null)
         {
             GD.PrintErr("ActorCore: CollisonShape not assigned.");
@@ -113,7 +124,14 @@ public partial class ActorCore : CharacterBody3D
         }
         
 
+        Status.OnDeath += HandleDeathEvent;
         Status.OnKnockbackReceived += HandleKnockbackEvent;
+        Status.OnHealthChanged += HandleHealthChanged;
+
+        if (MagnetTarget != null)
+        {
+            MagnetTarget.OnAbsorb += HandleDropAbsorbed;
+        }
 
         // Visuals
         if (Status.BodyMaterial != null)
@@ -157,7 +175,14 @@ public partial class ActorCore : CharacterBody3D
 
     public override void _ExitTree()
     {
+        Status.OnDeath -= HandleDeathEvent;
         Status.OnKnockbackReceived -= HandleKnockbackEvent;
+        Status.OnHealthChanged -= HandleHealthChanged;
+
+        if (MagnetTarget != null)
+        {
+            MagnetTarget.OnAbsorb -= HandleDropAbsorbed;
+        }
     }
 
     public void HandleKnockbackEvent(Vector3 sourcePos, float power)
@@ -165,10 +190,22 @@ public partial class ActorCore : CharacterBody3D
         StateMachine.ChangeState(StateMachine.CreateHitState(sourcePos, power));
     }
 
+    public void HandleHealthChanged(float currentHealth, float change)
+    {
+        if (change <= 0f) return;
+        Progression.HandleDamageDealt(Status.MaxHealth, change);
+    }
+
     public void HandleDeathEvent(Vector3 sourcePos, float knockbackPower)
     {
+        Progression.HandleDeath();
         StateMachine.ChangeState(StateMachine.CreateDeathState(sourcePos, knockbackPower));
         OnDeath?.Invoke(this);
+    }
+
+    public void HandleDropAbsorbed(MagnetDropModule drop)
+    {
+        Progression.AddExperience(drop.Value);
     }
 
     public void Reset(Vector3 position, Basis basis)
@@ -182,6 +219,7 @@ public partial class ActorCore : CharacterBody3D
         SetHurtBoxEnabled(true);
 
         Status.Reset();
+        Progression.Reset();
 
         StateMachine.ChangeState(new PlayerIdleMoveState(this));
     }

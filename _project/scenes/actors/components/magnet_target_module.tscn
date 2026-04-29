@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://dwpciplgm5y5g"]
+
+[ext_resource type="Script" uid="uid://dovsnuvjrvcxk" path="res://_project/code/modules/MagnetDrop/MagnetTargetModule.cs" id="1_a2n7s"]
+
+[node name="MagnetTargetModule" type="Node3D" unique_id=693222422]
+script = ExtResource("1_a2n7s")

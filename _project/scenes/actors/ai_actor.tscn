@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://x1cr52wllc2n"]
+[gd_scene format=3 uid="uid://x1cr52wllc2n"]
 
 [ext_resource type="Script" uid="uid://c73ql6q4klmmv" path="res://_project/code/actors/ActorCore.cs" id="1_oryjq"]
 [ext_resource type="Shader" uid="uid://cgwwys27l3vec" path="res://_project/shaders/mesh_melt.gdshader" id="2_fj2no"]
@@ -12,6 +12,8 @@
 [ext_resource type="Script" uid="uid://d4fhpdqd6gijf" path="res://_project/code/modules/HitFlash.cs" id="8_dyk4l"]
 [ext_resource type="Script" uid="uid://bfpguxj3tucxf" path="res://_project/code/runtime_sets/ActorRuntimeSetMember.cs" id="9_1p47s"]
 [ext_resource type="Resource" uid="uid://dfjkal2hkw76b" path="res://_project/resources/runtime_sets/actor_runtime_set.tres" id="10_itpmw"]
+[ext_resource type="PackedScene" uid="uid://cj1ay4nsxtle6" path="res://_project/scenes/actors/components/progression_module.tscn" id="13_405mr"]
+[ext_resource type="PackedScene" uid="uid://b75e32re47n4g" path="res://_project/scenes/drops/magnet_drop_module.tscn" id="14_dyk4l"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_3oiwy"]
 frequency = 0.03
@@ -98,7 +100,7 @@ height = 2.2
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_8yq2o"]
 radius = 0.6
 
-[node name="Actor" type="CharacterBody3D" node_paths=PackedStringArray("BodyMesh", "FaceMesh", "CollisionShape", "HitBox", "HurtBox") groups=["enemies"]]
+[node name="Actor" type="CharacterBody3D" unique_id=143499876 node_paths=PackedStringArray("BodyMesh", "FaceMesh", "CollisionShape", "HitBox", "HurtBox") groups=["enemies"]]
 script = ExtResource("1_oryjq")
 BodyMesh = NodePath("BodyMesh")
 FaceMesh = NodePath("FaceMesh")
@@ -106,30 +108,30 @@ CollisionShape = NodePath("CollisionShape3D")
 HitBox = NodePath("HitBox")
 HurtBox = NodePath("HurtBox")
 
-[node name="BodyMesh" type="MeshInstance3D" parent="."]
+[node name="BodyMesh" type="MeshInstance3D" parent="." unique_id=818752366]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 mesh = SubResource("CapsuleMesh_wel1o")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=2115617631]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_r27b2")
 
-[node name="FaceMesh" type="MeshInstance3D" parent="."]
+[node name="FaceMesh" type="MeshInstance3D" parent="." unique_id=769956013]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, -0.4)
 mesh = SubResource("BoxMesh_dy5t4")
 
-[node name="StateMachine" type="Node" parent="."]
+[node name="StateMachine" type="Node" parent="." unique_id=1615881505]
 script = ExtResource("2_oryjq")
 
-[node name="MotorModule" type="Node" parent="."]
+[node name="MotorModule" type="Node" parent="." unique_id=1634064239]
 script = ExtResource("3_itpmw")
 
-[node name="CombatModule" type="Node" parent="."]
+[node name="CombatModule" type="Node" parent="." unique_id=1393373976]
 script = ExtResource("4_fj2no")
 
-[node name="StatusModule" type="Node" parent="."]
+[node name="StatusModule" type="Node" parent="." unique_id=578134879]
 script = ExtResource("5_3oiwy")
-MaxHealth = 10.0
+MaxHealth = 20.0
 BodyMaterial = SubResource("ShaderMaterial_3lgeu")
 FaceMaterial = SubResource("ShaderMaterial_dyk4l")
 HitFlashMaterial = SubResource("StandardMaterial3D_ifnxb")
@@ -140,38 +142,41 @@ ProximityWeight = 0.5
 FactionWeight = 0.8
 DefaultWeapon = ExtResource("6_oryjq")
 
-[node name="EquipmentModule" type="Node" parent="."]
+[node name="EquipmentModule" type="Node" parent="." unique_id=720028467]
 script = ExtResource("7_405mr")
 
-[node name="HitFlash" type="Node" parent="."]
+[node name="HitFlash" type="Node" parent="." unique_id=1007957636]
 script = ExtResource("8_dyk4l")
 
-[node name="ActorRuntimeSetMember" type="Node" parent="."]
+[node name="ActorRuntimeSetMember" type="Node" parent="." unique_id=1169359714]
 script = ExtResource("9_1p47s")
 RuntimeSet = ExtResource("10_itpmw")
 
-[node name="HitBox" type="Area3D" parent="."]
+[node name="HitBox" type="Area3D" parent="." unique_id=758440691]
 process_mode = 4
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -2.31)
 collision_layer = 2
 collision_mask = 4
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="HitBox"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HitBox" unique_id=561219591]
 transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, 0, 0)
 shape = SubResource("CapsuleShape3D_e83c6")
 
-[node name="CollisionShape3D2" type="CollisionShape3D" parent="HitBox"]
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="HitBox" unique_id=1230433025]
 transform = Transform3D(-3.090862e-08, -0.70710677, -0.70710677, 1, -4.371139e-08, 0, -3.090862e-08, -0.70710677, 0.70710677, 0.979, 0, 0.721)
 shape = SubResource("CapsuleShape3D_dddod")
 
-[node name="CollisionShape3D3" type="CollisionShape3D" parent="HitBox"]
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="HitBox" unique_id=303284227]
 transform = Transform3D(-3.090862e-08, -0.70710677, 0.70710677, 1, -4.371139e-08, 0, 3.090862e-08, 0.70710677, 0.70710677, -0.705, 0, 0.43)
 shape = SubResource("CapsuleShape3D_ifnxb")
 
-[node name="HurtBox" type="Area3D" parent="."]
+[node name="HurtBox" type="Area3D" parent="." unique_id=362346648]
 collision_layer = 4
 collision_mask = 2
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="HurtBox"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HurtBox" unique_id=76905743]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_8yq2o")
+
+[node name="ProgressionModule" parent="." unique_id=311529961 instance=ExtResource("13_405mr")]
+DropPrefab = ExtResource("14_dyk4l")

@@ -23,6 +23,8 @@ tonemap_exposure = 0.7
 ssao_enabled = true
 ssil_enabled = true
 sdfgi_enabled = true
+glow_enabled = true
+glow_bloom = 0.1
 volumetric_fog_enabled = true
 volumetric_fog_density = 0.005
 

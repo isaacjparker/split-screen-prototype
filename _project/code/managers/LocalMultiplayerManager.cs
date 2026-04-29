@@ -8,6 +8,8 @@ public partial class LocalMultiplayerManager : Node
     // Inspector
     [Export] private PackedScene _playerScene = default;
     [Export] private Node3D[] _spawnPoints = Array.Empty<Node3D>();
+    [Export] private bool _debugForceSpawnExtraPlayers = false;
+    [Export] private int _debugForceSpawnPlayerCount = 4;
 
     // Config
     private const int MaximumPlayerCount = 4;
@@ -44,6 +46,11 @@ public partial class LocalMultiplayerManager : Node
 
         // Always spawn Player 0 (keyboard + device 0 action set).
         SpawnKeyboardPlayer();
+
+        if (_debugForceSpawnExtraPlayers)
+        {
+            ForceSpawnDebugPlayers();
+        }
     }
 
     public override void _PhysicsProcess(double delta)
@@ -140,6 +147,36 @@ public partial class LocalMultiplayerManager : Node
         PlayerSlotToInstance[KeyboardPlayerSlot] = playerInstance;
 
         PlayerJoinedEvent?.Invoke(playerInstance, KeyboardPlayerSlot);
+    }
+
+    private void ForceSpawnDebugPlayers()
+    {
+        int target = Mathf.Clamp(_debugForceSpawnPlayerCount, 1, MaximumPlayerCount);
+
+        for (int playerSlot = 1; playerSlot < target; playerSlot++)
+        {
+            if (PlayerSlotToInstance.ContainsKey(playerSlot)) continue;
+
+            ActorCore playerInstance = CreatePlayerInstance(playerSlot);
+
+            if (playerInstance.StateMachine is PlayerSM playerSM)
+            {
+                playerSM.PlayerSlot = playerSlot;
+                // Use a fake deviceID well outside real range
+                playerSM.AssignInputDevice(100 + playerSlot);
+            }
+            else
+            {
+                GD.PrintErr($"Debug force-spawn failed for slot {playerSlot}: ActorCore has no PlayerSM");
+                continue;
+            }
+
+            PlayerSlotToInstance[playerSlot] = playerInstance;
+
+            GD.Print($"Debug force-spawned PlayerSlot {playerSlot} with fake device ID {100 + playerSlot}.");
+
+            PlayerJoinedEvent?.Invoke(playerInstance, playerSlot);
+        }
     }
 
     private void JoinPlayer(int deviceId)

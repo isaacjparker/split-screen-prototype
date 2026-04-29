@@ -29,7 +29,7 @@ public partial class PlayerTargetingState : ActorState
             return;
         }
 
-        if (_core.StateMachine.IsDashRequested() && _status.DefaultDashCooldownTimer <= 0f)
+        if (_core.StateMachine.IsInteractRequested() && _status.DefaultDashCooldownTimer <= 0f)
         {
             _core.StateMachine.ChangeState(new PlayerDashState(_core, this));
             return;

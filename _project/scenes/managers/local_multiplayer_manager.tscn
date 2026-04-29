@@ -13,7 +13,7 @@ _playerScene = ExtResource("2_iprew")
 [node name="CameraManager" type="Node" parent="." unique_id=286668756 node_paths=PackedStringArray("_localMultiplayerManager", "_cameraRigs")]
 script = ExtResource("3_jt543")
 _localMultiplayerManager = NodePath("..")
-_cameraRigs = [NodePath("../1PContainer"), NodePath("../2PContainer"), NodePath("../3PContainer"), null]
+_cameraRigs = [NodePath("../1PContainer"), NodePath("../2PContainer"), NodePath("../3PContainer"), NodePath("../4PContainer")]
 
 [node name="1PContainer" type="GridContainer" parent="." unique_id=994942254 node_paths=PackedStringArray("CamArray")]
 anchors_preset = 15
@@ -29,7 +29,7 @@ layout_mode = 2
 
 [node name="SubViewport" type="SubViewport" parent="1PContainer/CameraRig" unique_id=802293355]
 handle_input_locally = false
-size = Vector2i(1152, 648)
+size = Vector2i(1920, 1080)
 render_target_update_mode = 4
 
 [node name="CameraController" type="Camera3D" parent="1PContainer/CameraRig/SubViewport" unique_id=1511501242]
@@ -142,6 +142,86 @@ size = Vector2i(2, 2)
 render_target_update_mode = 0
 
 [node name="CameraController" type="Camera3D" parent="3PContainer/CameraRig3/SubViewport" unique_id=2037463930]
+transform = Transform3D(1, 0, 0, 0, 0.8660254, 0.5, 0, -0.5, 0.8660254, 0, 10, 10)
+script = ExtResource("5_5dfwy")
+_camOffset = Vector3(0, 10, 10)
+_lookAtOffset = Vector3(0, 0.8, 0)
+
+[node name="4PContainer" type="GridContainer" parent="." unique_id=595811206 node_paths=PackedStringArray("CamArray")]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+columns = 2
+script = ExtResource("4_q327c")
+CamArray = [NodePath("CameraRig/SubViewport/CameraController"), NodePath("CameraRig2/SubViewport/CameraController"), NodePath("CameraRig3/SubViewport/CameraController"), NodePath("CameraRig4/SubViewport/CameraController")]
+_thisRigType = 3
+
+[node name="CameraRig" type="SubViewportContainer" parent="4PContainer" unique_id=1655619855]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="4PContainer/CameraRig" unique_id=1067155493]
+handle_input_locally = false
+size = Vector2i(2, 2)
+render_target_update_mode = 0
+
+[node name="CameraController" type="Camera3D" parent="4PContainer/CameraRig/SubViewport" unique_id=1645392170]
+transform = Transform3D(1, 0, 0, 0, 0.8660254, 0.5, 0, -0.5, 0.8660254, 0, 10, 10)
+script = ExtResource("5_5dfwy")
+_camOffset = Vector3(0, 10, 10)
+_lookAtOffset = Vector3(0, 0.8, 0)
+
+[node name="CameraRig2" type="SubViewportContainer" parent="4PContainer" unique_id=1136667525]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="4PContainer/CameraRig2" unique_id=1822020899]
+handle_input_locally = false
+size = Vector2i(2, 2)
+render_target_update_mode = 0
+
+[node name="CameraController" type="Camera3D" parent="4PContainer/CameraRig2/SubViewport" unique_id=1852786908]
+transform = Transform3D(1, 0, 0, 0, 0.8660254, 0.5, 0, -0.5, 0.8660254, 0, 10, 10)
+script = ExtResource("5_5dfwy")
+_camOffset = Vector3(0, 10, 10)
+_lookAtOffset = Vector3(0, 0.8, 0)
+
+[node name="CameraRig3" type="SubViewportContainer" parent="4PContainer" unique_id=826578348]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="4PContainer/CameraRig3" unique_id=1939852985]
+handle_input_locally = false
+size = Vector2i(2, 2)
+render_target_update_mode = 0
+
+[node name="CameraController" type="Camera3D" parent="4PContainer/CameraRig3/SubViewport" unique_id=1614156554]
+transform = Transform3D(1, 0, 0, 0, 0.8660254, 0.5, 0, -0.5, 0.8660254, 0, 10, 10)
+script = ExtResource("5_5dfwy")
+_camOffset = Vector3(0, 10, 10)
+_lookAtOffset = Vector3(0, 0.8, 0)
+
+[node name="CameraRig4" type="SubViewportContainer" parent="4PContainer" unique_id=687649069]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="4PContainer/CameraRig4" unique_id=105253571]
+handle_input_locally = false
+size = Vector2i(2, 2)
+render_target_update_mode = 0
+
+[node name="CameraController" type="Camera3D" parent="4PContainer/CameraRig4/SubViewport" unique_id=1125109164]
 transform = Transform3D(1, 0, 0, 0, 0.8660254, 0.5, 0, -0.5, 0.8660254, 0, 10, 10)
 script = ExtResource("5_5dfwy")
 _camOffset = Vector3(0, 10, 10)

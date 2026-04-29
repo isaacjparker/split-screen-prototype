@@ -7,12 +7,11 @@ public partial class PlayerSM : StateMachine
 	[Export] private int _inputDeviceId;
 
 	// Input cache
-	private StringName _moveLeft, _moveRight, _moveUp, _moveDown, _startButton, _targetButton, _meleeAttack, _dashDefault, _interactButton;
+	private StringName _moveLeft, _moveRight, _moveUp, _moveDown, _startButton, _targetButton, _meleeAttack, _interactButton;
 
 	public override bool IsAttackRequested() => Input.IsActionJustPressed(_meleeAttack);
     public override bool IsTargetLockHeld() => Input.IsActionPressed(_targetButton);
     public override bool IsTargetLockRequested() => Input.IsActionJustPressed(_targetButton);
-    public override bool IsDashRequested() => Input.IsActionJustPressed(_dashDefault);
     public override bool IsInteractRequested() => Input.IsActionJustPressed(_interactButton);
 
     public override void Initialise(ActorCore core)
@@ -21,6 +20,11 @@ public partial class PlayerSM : StateMachine
         CurrentState = new PlayerIdleMoveState(_core);
         PreviousState = CurrentState;
         CurrentState?.EnterState();
+    }
+
+    public override string GetInteractButtonName()
+    {
+        return "A";
     }
 
 	public override Vector3 GetMovementDirection()
@@ -49,7 +53,6 @@ public partial class PlayerSM : StateMachine
         _startButton = $"start_{deviceId}";
         _targetButton = $"target_{deviceId}";
         _meleeAttack = $"melee_attack_{deviceId}";
-        _dashDefault = $"dash_{deviceId}";
         _interactButton = $"interact_{deviceId}";
     }
 }

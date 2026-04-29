@@ -73,7 +73,7 @@ public partial class StatusModule : Node
     [Export] public float DeathKnockbackMultiplier = 1.5f;
     [Export] public float DeathPopUpHeight = 0.5f;
     [Export] public float DeathRotationDuration = 0.6f;
-    [Export] public float DeathhitStopDuration = 0.7f;
+    [Export] public float DeathHitStopDuration = 0.7f;
     [Export] public float DeathHitStopFactor = 80.0f;
 
     [ExportGroup("Camera")]
@@ -112,6 +112,7 @@ public partial class StatusModule : Node
     }
 
     public event Action<float, float> OnHealthChanged;
+    public event Action<Vector3, float> OnDeath;
     public event Action<Vector3, float> OnKnockbackReceived;
 
     public void ProcessThreats(float delta)
@@ -142,7 +143,8 @@ public partial class StatusModule : Node
 
         if (CurrentHealth <= 0)
         {
-            _core.HandleDeathEvent(payload.SourcePosition, effectiveKnockback);
+            //_core.HandleDeathEvent(payload.SourcePosition, effectiveKnockback);
+            OnDeath?.Invoke(payload.SourcePosition, effectiveKnockback);
         }
     }
     public void ApplyHealing(float healAmount) 
