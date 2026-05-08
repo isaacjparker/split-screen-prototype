@@ -1134,13 +1134,6 @@ shadow_mesh = SubResource("ArrayMesh_7h3ck")
 [sub_resource type="BoxShape3D" id="BoxShape3D_shqd3"]
 size = Vector3(3.0000026, 0.5, 3.000001)
 
-[sub_resource type="NavigationMesh" id="NavigationMesh_l21wh"]
-vertices = PackedVector3Array(-1, 0.5, -1, -1, 0.5, 1, 1, 0.5, 1, 1, 0.5, -1)
-polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1)]
-
-[sub_resource type="PlaneMesh" id="PlaneMesh_2lakd"]
-size = Vector2(3, 3)
-
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f5wiv"]
 resource_name = "forest"
 albedo_texture = ExtResource("1_bmjpp")
@@ -1183,13 +1176,6 @@ shadow_mesh = SubResource("ArrayMesh_tt4ad")
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_00p3v"]
 points = PackedVector3Array(-1.2162789, -0.37692145, 1.4242086, -0.043214492, -0.4610052, -1.2200972, -0.2923578, -0.41859528, -1.1690079, 1.4651486, 0, 1.464949, 1.5217571, -0.5523324, 0.47386461, 1.4610726, -0.0010828017, -1.0019144, -0.9763356, -0.009230229, -0.20104615, -0.8352198, -0.72702533, 1.0849245, 1.0850874, -0.72702533, -0.8349245, -0.81667507, -0.6221847, -0.77561307, -1.0020214, -0.0011433681, 1.4606454, 0.4739687, -0.5523324, 1.5215521, -0.41187534, -0.0874859, -1.0727268, 1.4719745, -0.3349791, -1.2217743, -1.2136813, -0.5024137, -0.0002666043, -1.1255025, -0.1684845, -0.41680187, 1.5217571, -0.028616935, 1.5215521, 1.0404248, -0.6265157, -1.164871, -1.2294313, -0.20785096, 1.4793714, -0.7344428, -0.66293246, -0.73443055, -1.1649439, -0.62651974, 1.0402799, 1.4796293, -0.20784475, -1.2294283, -0.6928759, -0.0082773445, -0.7338636, -0.9790473, -0.5399421, 1.4334202, 1.4334575, -0.53991973, -0.9786211, -0.878006, -0.20971753, -0.83609086, -0.035976358, -0.6576793, -1.0415325, -1.0456918, -0.65874416, -0.03634685, -1.1548492, -0.087584384, 0.04249088, -0.08422207, -0.12572512, -1.172594, -1.047734, -0.37690347, -0.6287233, -0.20130904, -0.009180865, -0.9762014)
 
-[sub_resource type="NavigationMesh" id="NavigationMesh_2lakd"]
-vertices = PackedVector3Array(-0.5, 0.5, -0.5, -0.5, 0.5, 1, 1, 0.5, 1, 1, 0.5, -0.5)
-polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1)]
-
-[sub_resource type="PlaneMesh" id="PlaneMesh_gc2oo"]
-size = Vector2(2.5, 2.5)
-
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qa0gw"]
 resource_name = "forest"
 albedo_texture = ExtResource("1_bmjpp")
@@ -1231,13 +1217,6 @@ shadow_mesh = SubResource("ArrayMesh_g1w28")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_r05w3"]
 size = Vector3(3.0000007, 0.7051859, 2.75)
-
-[sub_resource type="NavigationMesh" id="NavigationMesh_gc2oo"]
-vertices = PackedVector3Array(-1, 0.5, -0.5, -1, 0.5, 1, 1, 0.5, 1, 1, 0.5, -0.5)
-polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1)]
-
-[sub_resource type="PlaneMesh" id="PlaneMesh_bmhfy"]
-size = Vector2(3, 2.5)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ljmis"]
 resource_name = "forest"
@@ -1323,10 +1302,6 @@ shadow_mesh = SubResource("ArrayMesh_ok6pl")
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_3otas"]
 points = PackedVector3Array(1.2162583, -0.37692204, 1.4242467, -1.4718215, -0.33497834, -1.2218167, -1.4794321, -0.20784432, -1.229428, -1.5215521, -0.028616935, 1.5215521, 0.93191975, -0.010441372, -0.40327144, -1.0851125, -0.72702533, -0.8348817, 0.7758296, -0.6221966, -0.8166525, 0.83511245, -0.72702533, 1.0848817, -1.5215521, -0.5523324, 0.473762, 1.0019933, -0.0011274096, 1.4609728, -1.4608936, -0.001077426, -1.0019048, -0.47393292, -0.5523324, 1.5215521, 0.41677973, -0.16843848, -1.125484, 1.2136136, -0.5024127, -0.00040339027, 0.04156285, -0.5855446, -1.1685405, 1.1186743, -0.21089585, -0.49663958, -1.464949, 0, 1.4649545, 1.2294283, -0.20784475, 1.4796973, 0.20116635, -0.009170312, -0.9762058, 0.73438, -0.6629459, -0.73441565, 1.1650523, -0.6265008, 1.0401812, -1.2821064, -0.58329564, -1.1144433, 1.1726793, -0.12575506, -0.08386678, 0.9787906, -0.539912, 1.4334704, 0.79163253, -0.028616935, 1.5218253, 1.0417081, -0.6577309, -0.035685893, 0.08359731, -0.12622496, -1.1697673, 0.8187646, -0.08925832, -0.81853557, 0.6290133, -0.37690744, -1.0476289, 0.042825595, -0.4610369, -1.220498, -1.4334202, -0.5399421, -0.9787266, -1.0404433, -0.6265151, -1.1648576)
 
-[sub_resource type="NavigationMesh" id="NavigationMesh_k5i11"]
-vertices = PackedVector3Array(-1, 0.5, -0.5, -1, 0.5, 1, 0.5, 0.5, 1, 0.5, 0.5, -0.5)
-polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1)]
-
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7dyav"]
 resource_name = "forest"
 albedo_texture = ExtResource("1_bmjpp")
@@ -1368,13 +1343,6 @@ shadow_mesh = SubResource("ArrayMesh_ck4q3")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_rtt0i"]
 size = Vector3(2.75, 0.7051859, 3)
-
-[sub_resource type="NavigationMesh" id="NavigationMesh_w85lu"]
-vertices = PackedVector3Array(-0.5, 0.5, -1, -0.5, 0.5, 1, 1, 0.5, 1, 1, 0.5, -1)
-polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1)]
-
-[sub_resource type="PlaneMesh" id="PlaneMesh_vxot5"]
-size = Vector2(2.5, 3)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5186n"]
 resource_name = "forest"
@@ -1418,12 +1386,6 @@ shadow_mesh = SubResource("ArrayMesh_m5xs2")
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_ay1l1"]
 points = PackedVector3Array(-0.00024163723, -0.4541304, -1.23471, -0.00024163723, -0.25005442, -1.2313259, 0.2622671, -0.38546935, -1.1979684, -0.00024163723, -0.62843966, -1.1617103, -0.2625088, -0.38546935, -1.1979684, -0.00024163723, -0.10006261, -1.1769387, 0.47812378, -0.25005442, -1.1549422, -0.47860724, -0.25005442, -1.1549422, 0.6613482, -0.38546935, -1.0326314, 0.26033342, -0.55323946, -1.1252104, 0.6110703, -0.55323946, -0.9796945, 0.8104899, -0.6251701, -0.81073165, -0.00024163723, -0.6958747, -0.9857375, -0.81073165, -0.6251701, -0.81073165, -0.611312, -0.55323946, -0.9796945, -0.26057506, -0.55323946, -1.1252104, -0.66158986, -0.38546935, -1.0326314, -0.00024163723, 0, -1.0002408, 0.38264406, 0, -0.92409873, 0.4500842, -0.10006261, -1.0872602, -0.4505676, -0.10006261, -1.0872602, -0.38288575, 0, -0.92409873, 0.8320031, -0.10006261, -0.83224475, 0.8706784, -0.25005442, -0.8709201, -0.8709201, -0.25005442, -0.8709201, -0.83224475, -0.10006261, -0.83224475, 0.86221814, -0.4535855, -0.8624599, 1.0323896, -0.38546935, -0.66158986, 0.97945285, -0.55323946, -0.611312, 1.1614685, -0.62843966, -0.00024163723, 0.9854958, -0.6958747, -0.00024163723, 0.68672895, -0.6866109, -0.6869706, -0.9857375, -0.6958747, -0.00024163723, -0.6869706, -0.6866109, -0.6869706, -0.8624599, -0.4535855, -0.8624599, -1.1617103, -0.62843966, -0.00024163723, -0.9796945, -0.55323946, -0.611312, -1.0326314, -0.38546935, -0.66158986, 0.7070334, 0, -0.70727515, -0.70727515, 0, -0.70727515, 1.0870185, -0.10006261, -0.4505676, 1.1547005, -0.25005442, -0.47860724, -1.1549422, -0.25005442, -0.47860724, -1.0872602, -0.10006261, -0.4505676, -0.92409873, 0, -0.38288575, 1.1977267, -0.38546935, -0.2625088, 1.124727, -0.55323946, -0.26057506, 1.23471, -0.4541304, -0.00024163723, 1.1977267, -0.38546935, 0.2622671, 1.124727, -0.55323946, 0.26033342, 0.97945285, -0.55323946, 0.6110703, 0.8104899, -0.6251701, 0.8104899, 0.68672895, -0.6866109, 0.68672895, -0.00024163723, -0.6958747, 0.9854958, -0.6869706, -0.6866109, 0.68672895, -0.81073165, -0.6251701, 0.8104899, -1.1252104, -0.55323946, 0.26033342, -1.1979684, -0.38546935, 0.2622671, -1.23471, -0.4541304, -0.00024163723, -1.1979684, -0.38546935, -0.2625088, -1.1252104, -0.55323946, -0.26057506, -0.9796945, -0.55323946, 0.6110703, 0.9236152, 0, -0.38288575, 1.176697, -0.10006261, -0.00024163723, 1.2310841, -0.25005442, -0.00024163723, -1.2313259, -0.25005442, -0.00024163723, -1.1769387, -0.10006261, -0.00024163723, -1.0002408, 0, -0.00024163723, 1.1547005, -0.25005442, 0.47812378, 1.0323896, -0.38546935, 0.6613482, 0.86221814, -0.4535855, 0.86221814, 0.6613482, -0.38546935, 1.0323896, 0.6110703, -0.55323946, 0.97945285, -0.00024163723, -0.62843966, 1.1614685, -0.611312, -0.55323946, 0.97945285, -0.66158986, -0.38546935, 1.0323896, -0.8624599, -0.4535855, 0.86221814, -1.0326314, -0.38546935, 0.6613482, -1.1549422, -0.25005442, 0.47812378, 0.9997573, 0, -0.00024163723, 0.9236152, 0, 0.38264406, 1.0870185, -0.10006261, 0.4500842, -1.0872602, -0.10006261, 0.4500842, -0.92409873, 0, 0.38264406, 0.8320031, -0.10006261, 0.8320031, 0.8706784, -0.25005442, 0.8706784, 0.47812378, -0.25005442, 1.1547005, 0.2622671, -0.38546935, 1.1977267, 0.26033342, -0.55323946, 1.124727, -0.00024163723, -0.4541304, 1.23471, -0.2625088, -0.38546935, 1.1977267, -0.26057506, -0.55323946, 1.124727, -0.8709201, -0.25005442, 0.8706784, -0.47860724, -0.25005442, 1.1547005, -0.83224475, -0.10006261, 0.8320031, 0.7070334, 0, 0.7070334, -0.70727515, 0, 0.7070334, 0.4500842, -0.10006261, 1.0870185, -0.00024163723, -0.10006261, 1.176697, -0.00024163723, -0.25005442, 1.2310841, -0.4505676, -0.10006261, 1.0870185, 0.38264406, 0, 0.9236152, -0.38288575, 0, 0.9236152, -0.00024163723, 0, 0.9997573)
 
-[sub_resource type="NavigationMesh" id="NavigationMesh_7wdtg"]
-vertices = PackedVector3Array(-0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5)
-polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1)]
-
-[sub_resource type="PlaneMesh" id="PlaneMesh_df2xd"]
-
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h4kyp"]
 resource_name = "forest"
 albedo_texture = ExtResource("1_bmjpp")
@@ -1466,13 +1428,6 @@ shadow_mesh = SubResource("ArrayMesh_5pxb3")
 [sub_resource type="BoxShape3D" id="BoxShape3D_27dn0"]
 size = Vector3(3.0000005, 0.001, 3.000001)
 
-[sub_resource type="NavigationMesh" id="NavigationMesh_cto40"]
-vertices = PackedVector3Array(-1, 0.5, -1, -1, 0.5, 1, 1, 0.5, 1, 1, 0.5, -1)
-polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1)]
-
-[sub_resource type="PlaneMesh" id="PlaneMesh_m0jwo"]
-size = Vector2(3, 3)
-
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gkjk5"]
 resource_name = "forest"
 albedo_texture = ExtResource("1_bmjpp")
@@ -1514,13 +1469,6 @@ shadow_mesh = SubResource("ArrayMesh_ilrlg")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_4two6"]
 size = Vector3(2.7500005, 0.7051859, 3.0000012)
-
-[sub_resource type="NavigationMesh" id="NavigationMesh_75lys"]
-vertices = PackedVector3Array(-1, 0.5, -1, -1, 0.5, 1, 0.5, 0.5, 1, 0.5, 0.5, -1)
-polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1)]
-
-[sub_resource type="PlaneMesh" id="PlaneMesh_u7gmr"]
-size = Vector2(2.5, 3)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nxidp"]
 resource_name = "forest"
@@ -1606,10 +1554,6 @@ shadow_mesh = SubResource("ArrayMesh_yub1p")
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_v2sk0"]
 points = PackedVector3Array(-0.0004709105, -0.50241446, 1.2136303, -1.2218258, -0.3349792, -1.4717667, -1.2294313, -0.20785096, -1.4793714, 1.5217571, -0.028616935, -1.5215521, -0.6928775, -0.008276704, 0.7338652, -0.8352198, -0.72702533, -1.0849245, 1.4479643, -0.50067925, 1.0737246, 1.4610726, -0.0010828017, 1.0019144, 1.5217571, -0.5523324, -0.47386461, -0.8182772, -0.62263757, 0.77714515, 1.0850874, -0.72702533, 0.8349245, -1.0020214, -0.0011433681, -1.4606454, 0.4739687, -0.5523324, -1.5215521, -1.1699249, -0.20977926, 0.29266652, -1.1680624, -0.5854484, 0.0417218, -0.49728325, -0.21076085, 1.1195879, 1.4796293, -0.20784475, 1.2294283, 1.4651486, 0, -1.464949, 0.042292297, -0.08757634, 1.154835, 1.0404234, -0.62651527, 1.164869, -0.7344433, -0.66293263, 0.7344311, -1.1147708, -0.5832964, -1.281884, -1.113955, -0.0875335, 0.20509905, -1.0466245, -0.25140384, 0.6280103, -0.03653445, -0.6587248, 1.045575, -0.9790473, -0.5399421, -1.4334202, -1.2201504, -0.46100476, 0.04300476, -1.164946, -0.62652016, -1.0402813, -1.041667, -0.65770334, 0.03579216, -0.4033778, -0.0104145305, 0.93179494, -0.931803, -0.010422066, 0.40338594, -0.62888336, -0.37690786, 1.047675)
 
-[sub_resource type="NavigationMesh" id="NavigationMesh_ideir"]
-vertices = PackedVector3Array(-0.5, 0.5, -1, -0.5, 0.5, 0.5, 1, 0.5, 0.5, 1, 0.5, -1)
-polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1)]
-
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_skxev"]
 resource_name = "forest"
 albedo_texture = ExtResource("1_bmjpp")
@@ -1651,13 +1595,6 @@ shadow_mesh = SubResource("ArrayMesh_rfkrp")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_yq5kh"]
 size = Vector3(3.0000002, 0.7051859, 2.75)
-
-[sub_resource type="NavigationMesh" id="NavigationMesh_f7320"]
-vertices = PackedVector3Array(-1, 0.5, -1, -1, 0.5, 0.5, 1, 0.5, 0.5, 1, 0.5, -1)
-polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1)]
-
-[sub_resource type="PlaneMesh" id="PlaneMesh_5wp46"]
-size = Vector2(3, 2.5)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h76id"]
 resource_name = "forest"
@@ -1742,10 +1679,6 @@ shadow_mesh = SubResource("ArrayMesh_fngrs")
 
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_4tgtw"]
 points = PackedVector3Array(0.62888384, -0.37690383, 1.0474275, -0.47393292, -0.5523324, -1.5215521, -1.464949, 0, -1.4649545, -1.0851125, -0.72702533, 0.8348817, 1.0019933, -0.0011274096, -1.4609728, -1.4608936, -0.001077426, 1.0019048, 1.0457224, -0.658769, 0.03623923, 0.9319208, -0.010441022, 0.40327197, -1.5215521, -0.5523324, -0.473762, 0.83511245, -0.72702533, -1.0848817, -1.4777697, -0.41938812, 1.1853878, 1.221764, -0.33497927, -1.4720323, 0.0840574, -0.12571818, 1.1726234, 0.041507382, -0.5854681, 1.1681095, 1.1799862, -0.29287317, 0.3379457, 0.7343815, -0.66294646, 0.7344171, -1.5215521, -0.028616935, -1.5215521, 1.1650504, -0.62650037, -1.0401798, 0.40327576, -0.010395211, 0.93182063, -1.4794321, -0.20784432, 1.229428, 1.1549028, -0.08761467, -0.04262879, 0.8187646, -0.08925832, 0.8185356, -1.0404447, -0.6265155, 1.1648595, 1.2294283, -0.20784475, -1.4796973, 1.2136456, -0.50241613, 0.00040638895, 0.04278856, -0.4610137, 1.220201, 0.99385613, -0.4595191, 0.66206217, -1.4334202, -0.5399421, 0.9787266, 0.035594173, -0.65774584, 1.041767, 0.49668342, -0.21087109, 1.118628, 0.9787906, -0.539912, -1.4334704, 0.77735156, -0.62264633, 0.8182436)
-
-[sub_resource type="NavigationMesh" id="NavigationMesh_2ls3y"]
-vertices = PackedVector3Array(-1, 0.5, -1, -1, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -1)
-polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1)]
 
 [node name="GrassLandHillPieces" type="Node3D" unique_id=1671745519]
 
@@ -2020,13 +1953,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.34465e-07, -0.25, 0)
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Hill_Top_A_InnerCorner_Color1/StaticBody3D" unique_id=146045030]
 shape = SubResource("BoxShape3D_shqd3")
 
-[node name="NavigationRegion3D" type="NavigationRegion3D" parent="Hill_Top_A_InnerCorner_Color1" unique_id=828118075]
-navigation_mesh = SubResource("NavigationMesh_l21wh")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Hill_Top_A_InnerCorner_Color1/NavigationRegion3D" unique_id=326042450]
-visible = false
-mesh = SubResource("PlaneMesh_2lakd")
-
 [node name="Hill_Top_A_OuterCorner_Color1" type="MeshInstance3D" parent="." unique_id=1630257546]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 8, -10)
 mesh = SubResource("ArrayMesh_hl8qb")
@@ -2036,14 +1962,6 @@ skeleton = NodePath("")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Hill_Top_A_OuterCorner_Color1/StaticBody3D" unique_id=2099076400]
 shape = SubResource("ConvexPolygonShape3D_00p3v")
-
-[node name="NavigationRegion3D" type="NavigationRegion3D" parent="Hill_Top_A_OuterCorner_Color1" unique_id=804310139]
-navigation_mesh = SubResource("NavigationMesh_2lakd")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Hill_Top_A_OuterCorner_Color1/NavigationRegion3D" unique_id=648373497]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 0, 0.25)
-visible = false
-mesh = SubResource("PlaneMesh_gc2oo")
 
 [node name="Hill_Top_B_Side_Color1" type="MeshInstance3D" parent="." unique_id=1890505347]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 8, -10)
@@ -2056,14 +1974,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.35259295, 0.12499952)
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Hill_Top_B_Side_Color1/StaticBody3D" unique_id=1676520644]
 shape = SubResource("BoxShape3D_r05w3")
 
-[node name="NavigationRegion3D" type="NavigationRegion3D" parent="Hill_Top_B_Side_Color1" unique_id=977893702]
-navigation_mesh = SubResource("NavigationMesh_gc2oo")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Hill_Top_B_Side_Color1/NavigationRegion3D" unique_id=999756402]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.25)
-visible = false
-mesh = SubResource("PlaneMesh_bmhfy")
-
 [node name="Hill_Top_C_InnerCorner_Color1" type="MeshInstance3D" parent="." unique_id=1496584875]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 8, -7)
 mesh = SubResource("ArrayMesh_gc114")
@@ -2075,13 +1985,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.1920929e-07, -0.25, -7.152
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Hill_Top_C_InnerCorner_Color1/StaticBody3D" unique_id=1786456857]
 shape = SubResource("BoxShape3D_h7xgo")
 
-[node name="NavigationRegion3D" type="NavigationRegion3D" parent="Hill_Top_C_InnerCorner_Color1" unique_id=1963551118]
-navigation_mesh = SubResource("NavigationMesh_l21wh")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Hill_Top_C_InnerCorner_Color1/NavigationRegion3D" unique_id=398931679]
-visible = false
-mesh = SubResource("PlaneMesh_2lakd")
-
 [node name="Hill_Top_C_OuterCorner_Color1" type="MeshInstance3D" parent="." unique_id=1293415486]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 8, -10)
 mesh = SubResource("ArrayMesh_o5ay6")
@@ -2091,14 +1994,6 @@ skeleton = NodePath("")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Hill_Top_C_OuterCorner_Color1/StaticBody3D" unique_id=1549232725]
 shape = SubResource("ConvexPolygonShape3D_3otas")
-
-[node name="NavigationRegion3D" type="NavigationRegion3D" parent="Hill_Top_C_OuterCorner_Color1" unique_id=259399173]
-navigation_mesh = SubResource("NavigationMesh_k5i11")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Hill_Top_C_OuterCorner_Color1/NavigationRegion3D" unique_id=2081996261]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.25, 0, 0.25)
-visible = false
-mesh = SubResource("PlaneMesh_gc2oo")
 
 [node name="Hill_Top_D_Side_Color1" type="MeshInstance3D" parent="." unique_id=1455818527]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 8, -6)
@@ -2111,14 +2006,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.12499988, -0.35259295, 0)
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Hill_Top_D_Side_Color1/StaticBody3D" unique_id=1619152464]
 shape = SubResource("BoxShape3D_rtt0i")
 
-[node name="NavigationRegion3D" type="NavigationRegion3D" parent="Hill_Top_D_Side_Color1" unique_id=497622685]
-navigation_mesh = SubResource("NavigationMesh_w85lu")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Hill_Top_D_Side_Color1/NavigationRegion3D" unique_id=443609801]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 0, 0)
-visible = false
-mesh = SubResource("PlaneMesh_vxot5")
-
 [node name="Hill_Top_E_Cap_Color1" type="MeshInstance3D" parent="." unique_id=1709950234]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 8, -3)
 mesh = SubResource("ArrayMesh_foiy2")
@@ -2128,13 +2015,6 @@ skeleton = NodePath("")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Hill_Top_E_Cap_Color1/StaticBody3D" unique_id=132440228]
 shape = SubResource("ConvexPolygonShape3D_ay1l1")
-
-[node name="NavigationRegion3D" type="NavigationRegion3D" parent="Hill_Top_E_Cap_Color1" unique_id=525443480]
-navigation_mesh = SubResource("NavigationMesh_7wdtg")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Hill_Top_E_Cap_Color1/NavigationRegion3D" unique_id=448931161]
-visible = false
-mesh = SubResource("PlaneMesh_df2xd")
 
 [node name="Hill_Top_E_Center_Color1" type="MeshInstance3D" parent="." unique_id=1432516483]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 8, -6)
@@ -2147,13 +2027,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.7683716e-07, 5e-06, 4.7683
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Hill_Top_E_Center_Color1/StaticBody3D" unique_id=692000041]
 shape = SubResource("BoxShape3D_27dn0")
 
-[node name="NavigationRegion3D" type="NavigationRegion3D" parent="Hill_Top_E_Center_Color1" unique_id=793321685]
-navigation_mesh = SubResource("NavigationMesh_cto40")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Hill_Top_E_Center_Color1/NavigationRegion3D" unique_id=2034244189]
-visible = false
-mesh = SubResource("PlaneMesh_m0jwo")
-
 [node name="Hill_Top_F_Side_Color1" type="MeshInstance3D" parent="." unique_id=499582390]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 8, -6)
 mesh = SubResource("ArrayMesh_6i70k")
@@ -2164,14 +2037,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.12499952, -0.35259295, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Hill_Top_F_Side_Color1/StaticBody3D" unique_id=1537293170]
 shape = SubResource("BoxShape3D_4two6")
-
-[node name="NavigationRegion3D" type="NavigationRegion3D" parent="Hill_Top_F_Side_Color1" unique_id=1926150103]
-navigation_mesh = SubResource("NavigationMesh_75lys")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Hill_Top_F_Side_Color1/NavigationRegion3D" unique_id=687712571]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.25, 0, 0)
-visible = false
-mesh = SubResource("PlaneMesh_u7gmr")
 
 [node name="Hill_Top_G_InnerCorner_Color1" type="MeshInstance3D" parent="." unique_id=1944864898]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19, 8, -3)
@@ -2184,13 +2049,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1920929e-07, -0.25, 8.34465
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Hill_Top_G_InnerCorner_Color1/StaticBody3D" unique_id=481078735]
 shape = SubResource("BoxShape3D_mmipl")
 
-[node name="NavigationRegion3D" type="NavigationRegion3D" parent="Hill_Top_G_InnerCorner_Color1" unique_id=1484018247]
-navigation_mesh = SubResource("NavigationMesh_l21wh")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Hill_Top_G_InnerCorner_Color1/NavigationRegion3D" unique_id=1785804853]
-visible = false
-mesh = SubResource("PlaneMesh_2lakd")
-
 [node name="Hill_Top_G_OuterCorner_Color1" type="MeshInstance3D" parent="." unique_id=827608156]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 8, -2)
 mesh = SubResource("ArrayMesh_hf6n7")
@@ -2200,14 +2058,6 @@ skeleton = NodePath("")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Hill_Top_G_OuterCorner_Color1/StaticBody3D" unique_id=254333464]
 shape = SubResource("ConvexPolygonShape3D_v2sk0")
-
-[node name="NavigationRegion3D" type="NavigationRegion3D" parent="Hill_Top_G_OuterCorner_Color1" unique_id=612418545]
-navigation_mesh = SubResource("NavigationMesh_ideir")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Hill_Top_G_OuterCorner_Color1/NavigationRegion3D" unique_id=1926572462]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 0, -0.25)
-visible = false
-mesh = SubResource("PlaneMesh_gc2oo")
 
 [node name="Hill_Top_H_Side_Color1" type="MeshInstance3D" parent="." unique_id=1808728183]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 8, -2)
@@ -2220,14 +2070,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.35259295, -0.12499988)
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Hill_Top_H_Side_Color1/StaticBody3D" unique_id=384553498]
 shape = SubResource("BoxShape3D_yq5kh")
 
-[node name="NavigationRegion3D" type="NavigationRegion3D" parent="Hill_Top_H_Side_Color1" unique_id=662640695]
-navigation_mesh = SubResource("NavigationMesh_f7320")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Hill_Top_H_Side_Color1/NavigationRegion3D" unique_id=709080557]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.25)
-visible = false
-mesh = SubResource("PlaneMesh_5wp46")
-
 [node name="Hill_Top_I_InnerCorner_Color1" type="MeshInstance3D" parent="." unique_id=1908968578]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 8, -3)
 mesh = SubResource("ArrayMesh_wgfx3")
@@ -2239,13 +2081,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.1525574e-07, -0.25, -1.1920
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Hill_Top_I_InnerCorner_Color1/StaticBody3D" unique_id=1656363241]
 shape = SubResource("BoxShape3D_soy8o")
 
-[node name="NavigationRegion3D" type="NavigationRegion3D" parent="Hill_Top_I_InnerCorner_Color1" unique_id=868093698]
-navigation_mesh = SubResource("NavigationMesh_l21wh")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Hill_Top_I_InnerCorner_Color1/NavigationRegion3D" unique_id=2089321124]
-visible = false
-mesh = SubResource("PlaneMesh_2lakd")
-
 [node name="Hill_Top_I_OuterCorner_Color1" type="MeshInstance3D" parent="." unique_id=1786262064]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 8, -2)
 mesh = SubResource("ArrayMesh_xrtrq")
@@ -2255,11 +2090,3 @@ skeleton = NodePath("")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Hill_Top_I_OuterCorner_Color1/StaticBody3D" unique_id=109116387]
 shape = SubResource("ConvexPolygonShape3D_4tgtw")
-
-[node name="NavigationRegion3D" type="NavigationRegion3D" parent="Hill_Top_I_OuterCorner_Color1" unique_id=175933986]
-navigation_mesh = SubResource("NavigationMesh_2ls3y")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Hill_Top_I_OuterCorner_Color1/NavigationRegion3D" unique_id=873642520]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.25, 0, -0.25)
-visible = false
-mesh = SubResource("PlaneMesh_gc2oo")
