@@ -163,7 +163,7 @@ public partial class LocalMultiplayerManager : Node
             {
                 playerSM.PlayerSlot = playerSlot;
                 // Use a fake deviceID well outside real range
-                playerSM.AssignInputDevice(100 + playerSlot);
+                playerSM.AssignInputDevice(playerSlot);
             }
             else
             {
@@ -173,7 +173,7 @@ public partial class LocalMultiplayerManager : Node
 
             PlayerSlotToInstance[playerSlot] = playerInstance;
 
-            GD.Print($"Debug force-spawned PlayerSlot {playerSlot} with fake device ID {100 + playerSlot}.");
+            GD.Print($"Debug force-spawned PlayerSlot {playerSlot} with fake device ID {playerSlot}.");
 
             PlayerJoinedEvent?.Invoke(playerInstance, playerSlot);
         }

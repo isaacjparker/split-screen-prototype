@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://fgduh5rpg0mt"]
+
+[ext_resource type="Script" uid="uid://bq1adqygyufd6" path="res://_project/code/managers/GlobalInputManager.cs" id="1_w6ub6"]
+
+[node name="GlobalInputManager" type="Node" unique_id=304432159]
+script = ExtResource("1_w6ub6")
+_startScreenScenePath = "res://_project/scenes/roots/start_screen.tscn"

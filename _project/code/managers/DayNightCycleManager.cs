@@ -39,11 +39,6 @@ public partial class DayNightCycleManager : Node
 
 	public static DayNightCycleManager Instance { get; private set; }
 
-	public DayNightCycleManager()
-	{
-		Instance = this;
-	}
-
 	public enum Phase {Day, Night}
 	public Phase CurrentPhase {get; private set;} = Phase.Day;
 
@@ -86,6 +81,8 @@ public partial class DayNightCycleManager : Node
 
 	public override void _Ready()
 	{
+		Instance = this;
+
 		if (SunRuntimeSet == null)
 		{
 			GD.PushWarning("DayNightCycleManager: No SunRuntimeSet assigned. " +
@@ -105,17 +102,29 @@ public partial class DayNightCycleManager : Node
 		{
 			SunRuntimeSet.ItemAdded += OnSunAdded;
 		}
+
+		SunRuntimeSet.ItemRemoved += OnSunRemoved;
 	}
 
     public override void _ExitTree()
     {
         SunRuntimeSet.ItemAdded -= OnSunAdded;
+		SunRuntimeSet.ItemRemoved -= OnSunRemoved;
     }
 
 	private void OnSunAdded(DirectionalLight3D sun)
 	{
 		SunRuntimeSet.ItemAdded -= OnSunAdded;
 		SetSun(sun);
+	}
+
+	private void OnSunRemoved(DirectionalLight3D sun)
+	{
+		if (_sun == sun)
+		{
+			_sun = null;
+			SunRuntimeSet.ItemAdded += OnSunAdded;  // re-subscribe in case a new sun appears later
+		}
 	}
  
 	private void SetSun(DirectionalLight3D sun)
@@ -126,6 +135,8 @@ public partial class DayNightCycleManager : Node
 
 	public override void _Process(double delta)
 	{
+		if (_sun == null) return;
+
 		_phaseElapsed += (float)delta;
 		PhaseProgressChanged?.Invoke(_phaseProgress);
 

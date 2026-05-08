@@ -1,0 +1,79 @@
+[gd_scene format=3 uid="uid://c6bvmmvjl1g8a"]
+
+[ext_resource type="Script" uid="uid://bj0w7edhkaudv" path="res://_project/code/UI/StartScreen.cs" id="1_hiphw"]
+
+[sub_resource type="SystemFont" id="SystemFont_wc4cr"]
+
+[sub_resource type="Theme" id="Theme_gpgo1"]
+default_font = SubResource("SystemFont_wc4cr")
+
+[sub_resource type="SystemFont" id="SystemFont_e72tu"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_vsb3j"]
+font = SubResource("SystemFont_e72tu")
+font_size = 64
+
+[sub_resource type="SystemFont" id="SystemFont_2y7g4"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_wo15d"]
+font = SubResource("SystemFont_2y7g4")
+font_size = 32
+
+[sub_resource type="SystemFont" id="SystemFont_vltnd"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_whyuw"]
+font = SubResource("SystemFont_vltnd")
+font_size = 32
+
+[node name="StartScreen" type="Control" unique_id=268667961]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_hiphw")
+_gameplayScenePath = "res://_project/scenes/roots/map_prototype.tscn"
+
+[node name="Background" type="ColorRect" parent="." unique_id=1487368747]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Menu" type="VBoxContainer" parent="." unique_id=2004798094]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_gpgo1")
+theme_override_constants/separation = 20
+
+[node name="Title" type="Label" parent="Menu" unique_id=1395084252]
+layout_mode = 2
+text = "Demo"
+label_settings = SubResource("LabelSettings_vsb3j")
+horizontal_alignment = 1
+
+[node name="StartLabel" type="Label" parent="Menu" unique_id=305345153]
+layout_mode = 2
+text = "Start"
+label_settings = SubResource("LabelSettings_wo15d")
+horizontal_alignment = 1
+
+[node name="ExitLabel" type="Label" parent="Menu" unique_id=1684744440]
+layout_mode = 2
+text = "Exit"
+label_settings = SubResource("LabelSettings_whyuw")
+horizontal_alignment = 1

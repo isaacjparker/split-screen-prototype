@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://dcaaier31uce1"]
+
+[ext_resource type="PackedScene" uid="uid://c8dhptjjq107u" path="res://_project/scenes/autoload_manager/managers/day_night_cycle_manager.tscn" id="1_1cvlu"]
+[ext_resource type="PackedScene" uid="uid://lqe3agoeb6ey" path="res://_project/scenes/autoload_manager/managers/faction_manager.tscn" id="2_lnhfq"]
+[ext_resource type="PackedScene" uid="uid://y5gqlt8n1tyv" path="res://_project/scenes/autoload_manager/managers/runtime_sets.tscn" id="3_prjk7"]
+[ext_resource type="PackedScene" uid="uid://b3tdk06n5inos" path="res://_project/scenes/managers/local_multiplayer_manager.tscn" id="4_baih5"]
+[ext_resource type="PackedScene" uid="uid://bqlaca2obiv1o" path="res://_project/scenes/autoload_manager/managers/audio_manager.tscn" id="5_a61xn"]
+[ext_resource type="PackedScene" uid="uid://fgduh5rpg0mt" path="res://_project/scenes/autoload_manager/managers/global_input_manager.tscn" id="6_6rqdq"]
+
+[node name="AutoLoadManagers" type="Node" unique_id=53112796]
+
+[node name="DayNightCycleManager" parent="." unique_id=1929623439 instance=ExtResource("1_1cvlu")]
+
+[node name="FactionManager" parent="." unique_id=1362741790 instance=ExtResource("2_lnhfq")]
+
+[node name="RuntimeSets" parent="." unique_id=49910795 instance=ExtResource("3_prjk7")]
+
+[node name="LocalMultiplayerManager" parent="." unique_id=1621097620 node_paths=PackedStringArray("_spawnPoints") instance=ExtResource("4_baih5")]
+_spawnPoints = [NodePath(""), NodePath(""), NodePath(""), NodePath("")]
+
+[node name="AudioManager" parent="." unique_id=1656051498 instance=ExtResource("5_a61xn")]
+
+[node name="GlobalInputManager" parent="." unique_id=304432159 instance=ExtResource("6_6rqdq")]

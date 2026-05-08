@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://b1556xcyd4mir"]
+
+[ext_resource type="PackedScene" uid="uid://cfqv5s3celbjq" path="res://_project/scenes/environment/sun.tscn" id="1_cwxbn"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_rkvuc"]
+
+[sub_resource type="Sky" id="Sky_56h8e"]
+sky_material = SubResource("ProceduralSkyMaterial_rkvuc")
+
+[sub_resource type="Environment" id="Environment_ob23k"]
+background_mode = 2
+sky = SubResource("Sky_56h8e")
+reflected_light_source = 2
+tonemap_mode = 2
+tonemap_exposure = 0.7
+ssao_enabled = true
+glow_enabled = true
+glow_bloom = 0.1
+fog_enabled = true
+fog_mode = 1
+fog_density = 0.186
+volumetric_fog_density = 0.005
+
+[node name="Environment" type="Node" unique_id=848828364]
+
+[node name="Sun" parent="." unique_id=868266997 instance=ExtResource("1_cwxbn")]
+transform = Transform3D(0.53582674, -0.5370586, 0.6515042, 0, 0.7716246, 0.6360782, -0.8443279, -0.3408277, 0.41345713, 0, 11.32319, 0)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=496862218]
+environment = SubResource("Environment_ob23k")

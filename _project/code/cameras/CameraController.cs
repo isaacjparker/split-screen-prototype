@@ -56,7 +56,7 @@ public partial class CameraController : Camera3D
         LookAt(_actorCore.GlobalPosition + _lookAtOffset, Vector3.Up);
     }
 
-    public override void _Process(double delta)
+    public override void _PhysicsProcess(double delta)
     { 
 		// IsInstanceValid checks both for null AND if the object was freed/disposed
         if (!GodotObject.IsInstanceValid(_actorCore))
