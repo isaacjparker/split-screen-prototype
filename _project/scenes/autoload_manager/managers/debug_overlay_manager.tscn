@@ -1,0 +1,43 @@
+[gd_scene format=3 uid="uid://dotejj7p236ok"]
+
+[ext_resource type="Script" uid="uid://cgppq06whqbof" path="res://_project/code/managers/DebugOverlayManager.cs" id="1_uc6ea"]
+
+[node name="DebugOverlayManager" type="CanvasLayer" unique_id=1147374098 node_paths=PackedStringArray("MetricsPanel", "MetricsLabel", "ConsolePanel", "ConsoleOutput", "ConsoleInput")]
+script = ExtResource("1_uc6ea")
+MetricsPanel = NodePath("MetricsPanel")
+MetricsLabel = NodePath("MetricsPanel/Label")
+ConsolePanel = NodePath("ConsolePanel")
+ConsoleOutput = NodePath("ConsolePanel/ConsoleOutput")
+ConsoleInput = NodePath("ConsolePanel/ConsoleInput")
+
+[node name="MetricsPanel" type="PanelContainer" parent="." unique_id=1614735020]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -50.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = 50.0
+grow_horizontal = 0
+
+[node name="Label" type="Label" parent="MetricsPanel" unique_id=1251403026]
+layout_mode = 2
+
+[node name="ConsolePanel" type="VBoxContainer" parent="." unique_id=772810192]
+custom_minimum_size = Vector2(0, 150)
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="ConsoleOutput" type="RichTextLabel" parent="ConsolePanel" unique_id=235007818]
+layout_mode = 2
+size_flags_vertical = 3
+bbcode_enabled = true
+scroll_following = true
+
+[node name="ConsoleInput" type="LineEdit" parent="ConsolePanel" unique_id=1891476253]
+layout_mode = 2
+size_flags_vertical = 8

@@ -9,6 +9,7 @@ public partial class StatusModule : Node
     [ExportGroup("Vitals")]
     [Export] public float MaxHealth = 100.0f;
     [Export] public float KnockbackResistance = 0.0f;
+    [Export] public float LowHealthThreshold = 0.15f;
 
     [ExportGroup("Visuals")]
     [Export] public Material BodyMaterial;
@@ -91,6 +92,7 @@ public partial class StatusModule : Node
     public ThreatTable ThreatTable {get; private set;} = new ThreatTable();
 
     public bool IsAlive => CurrentHealth > 0f;
+    public bool IsLowHealth {get; private set;}
 
     public void Initialise(ActorCore core)
     {
@@ -114,6 +116,8 @@ public partial class StatusModule : Node
     public event Action<float, float> OnHealthChanged;
     public event Action<Vector3, float> OnDeath;
     public event Action<Vector3, float> OnKnockbackReceived;
+    public event Action OnLowHealthEntered;
+    public event Action OnLowHealthExited;
 
     public void ProcessThreats(float delta)
     {
@@ -126,6 +130,8 @@ public partial class StatusModule : Node
 
         CurrentHealth = Mathf.Clamp(CurrentHealth - payload.BaseDamage, 0.0f, MaxHealth);
         OnHealthChanged?.Invoke(CurrentHealth, payload.BaseDamage);
+
+        EvaluateLowHealthState();
 
         _core.TriggerHitStop(payload.HitStopDuration, payload.HitStopFactor);
 
@@ -145,12 +151,14 @@ public partial class StatusModule : Node
         {
             //_core.HandleDeathEvent(payload.SourcePosition, effectiveKnockback);
             OnDeath?.Invoke(payload.SourcePosition, effectiveKnockback);
+            payload.SourceActor?.RegisterKill(_core);
         }
     }
     public void ApplyHealing(float healAmount) 
     {
         CurrentHealth = Mathf.Clamp(CurrentHealth + healAmount, 0.0f, MaxHealth);
         OnHealthChanged?.Invoke(CurrentHealth, healAmount);
+        EvaluateLowHealthState();
     }
     public void ModifySpeedAbsolute(float multiplier, float duration) { }
     public void ModifySpeedPercentage(float multiplier, float duration) { }
@@ -194,5 +202,23 @@ public partial class StatusModule : Node
         CurrentHealth = MaxHealth;
         //ThreatTable.Clear();
         OnHealthChanged?.Invoke(CurrentHealth, 0f);
+        EvaluateLowHealthState();
+    }
+
+    private void EvaluateLowHealthState()
+    {
+        bool isLowNow = CurrentHealth > 0f && (CurrentHealth / MaxHealth) <= LowHealthThreshold;
+
+        if (isLowNow == IsLowHealth) return;
+
+        IsLowHealth = isLowNow;
+
+        if (isLowNow)
+        {
+            OnLowHealthEntered?.Invoke();
+            return;
+        }
+
+        OnLowHealthExited?.Invoke();
     }
 }

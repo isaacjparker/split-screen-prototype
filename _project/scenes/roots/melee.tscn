@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://jssfihe3gpnw"]
 
-[ext_resource type="PackedScene" uid="uid://dcaaier31uce1" path="res://_project/scenes/autoload_manager/auto_load_managers.tscn" id="1_bj57d"]
+[ext_resource type="PackedScene" uid="uid://dcaaier31uce1" path="res://_project/scenes/autoload_manager/boot_load_managers.tscn" id="1_bj57d"]
 [ext_resource type="PackedScene" uid="uid://b1556xcyd4mir" path="res://_project/scenes/environment/environment.tscn" id="2_bj57d"]
 [ext_resource type="Script" uid="uid://bcdvo2tcqqbh" path="res://_project/code/managers/SpawnManager.cs" id="5_ob23k"]
 [ext_resource type="PackedScene" uid="uid://47ei31alwia0" path="res://_project/scenes/actors/dummy_actor.tscn" id="6_mlhsd"]
@@ -14,7 +14,7 @@ size = Vector3(47, 1, 47)
 
 [node name="Melee" type="Node3D" unique_id=1783538337]
 
-[node name="AutoLoadManagers" parent="." unique_id=53112796 instance=ExtResource("1_bj57d")]
+[node name="BootLoadManagers" parent="." unique_id=53112796 instance=ExtResource("1_bj57d")]
 
 [node name="Environment" parent="." unique_id=848828364 instance=ExtResource("2_bj57d")]
 

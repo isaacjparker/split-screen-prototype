@@ -9,10 +9,29 @@ public partial class PlayerSM : StateMachine
 	// Input cache
 	private StringName _moveLeft, _moveRight, _moveUp, _moveDown, _startButton, _targetButton, _meleeAttack, _interactButton;
 
-	public override bool IsAttackRequested() => Input.IsActionJustPressed(_meleeAttack);
-    public override bool IsTargetLockHeld() => Input.IsActionPressed(_targetButton);
-    public override bool IsTargetLockRequested() => Input.IsActionJustPressed(_targetButton);
-    public override bool IsInteractRequested() => Input.IsActionJustPressed(_interactButton);
+    public override bool IsAttackRequested()
+    {
+        if (IsTextInputFocused()) return false;
+        return Input.IsActionJustPressed(_meleeAttack);
+    }
+
+    public override bool IsTargetLockHeld()
+    {
+        if (IsTextInputFocused()) return false;
+        return Input.IsActionPressed(_targetButton);
+    }
+
+    public override bool IsTargetLockRequested()
+    {
+        if (IsTextInputFocused()) return false;
+        return Input.IsActionJustPressed(_targetButton);
+    }
+
+    public override bool IsInteractRequested()
+    {
+        if (IsTextInputFocused()) return false;
+        return Input.IsActionJustPressed(_interactButton);
+    }
 
     public override void Initialise(ActorCore core)
     {
@@ -22,6 +41,15 @@ public partial class PlayerSM : StateMachine
         CurrentState?.EnterState();
     }
 
+    private bool IsTextInputFocused()
+    {
+        Control focusOwner = GetViewport().GuiGetFocusOwner();
+        if (focusOwner == null) return false;
+        if (focusOwner is LineEdit) return true;
+        if (focusOwner is TextEdit) return true;
+        return false;
+    }
+
     public override string GetInteractButtonName()
     {
         return "A";
@@ -29,6 +57,7 @@ public partial class PlayerSM : StateMachine
 
 	public override Vector3 GetMovementDirection()
     {
+        if (IsTextInputFocused()) return Vector3.Zero;
         Vector2 inputVec = Input.GetVector(_moveLeft, _moveRight, _moveUp, _moveDown);
         return new Vector3(inputVec.X, 0, inputVec.Y);
     }

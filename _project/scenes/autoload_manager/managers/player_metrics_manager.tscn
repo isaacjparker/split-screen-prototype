@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://baix4ju5fi6cb"]
+
+[ext_resource type="Script" uid="uid://b17ctqxf2jkkd" path="res://_project/code/managers/PlayerMetricsManager.cs" id="1_4ftoy"]
+[ext_resource type="Resource" uid="uid://ce02uilv18ybx" path="res://_project/resources/runtime_sets/player_runtime_set.tres" id="2_cb3aj"]
+
+[node name="PlayerMetricsManager" type="Node" unique_id=521440763]
+script = ExtResource("1_4ftoy")
+PlayerRuntimeSet = ExtResource("2_cb3aj")

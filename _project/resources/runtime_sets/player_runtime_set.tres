@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="ActorRuntimeSet" format=3 uid="uid://ce02uilv18ybx"]
+
+[ext_resource type="Script" uid="uid://dnw53k0cp6w67" path="res://_project/code/runtime_sets/ActorRuntimeSet.cs" id="1_ivna3"]
+
+[resource]
+script = ExtResource("1_ivna3")
+metadata/_custom_type_script = "uid://dnw53k0cp6w67"

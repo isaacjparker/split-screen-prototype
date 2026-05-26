@@ -34,6 +34,9 @@ public partial class ActorCore : CharacterBody3D
     public event Action<ActorCore> OnAttackActive;
     public event Action<ActorCore> OnAttackEnded;
     public event Action<ActorCore> OnDeath;
+    public event Action<ActorCore, ActorCore> OnKill;  // killer, victim
+    public event Action<ActorCore> OnLowHealthEntered;
+    public event Action<ActorCore> OnLowHealthExited;
 
 
 
@@ -127,6 +130,8 @@ public partial class ActorCore : CharacterBody3D
         Status.OnDeath += HandleDeathEvent;
         Status.OnKnockbackReceived += HandleKnockbackEvent;
         Status.OnHealthChanged += HandleHealthChanged;
+        Status.OnLowHealthEntered += HandleLowHealthEntered;
+        Status.OnLowHealthExited += HandleLowHealthExited;
 
         if (MagnetTarget != null)
         {
@@ -178,6 +183,8 @@ public partial class ActorCore : CharacterBody3D
         Status.OnDeath -= HandleDeathEvent;
         Status.OnKnockbackReceived -= HandleKnockbackEvent;
         Status.OnHealthChanged -= HandleHealthChanged;
+        Status.OnLowHealthEntered -= HandleLowHealthEntered;
+        Status.OnLowHealthExited -= HandleLowHealthExited;
 
         if (MagnetTarget != null)
         {
@@ -206,6 +213,22 @@ public partial class ActorCore : CharacterBody3D
     public void HandleDropAbsorbed(MagnetDropModule drop)
     {
         Progression.AddExperience(drop.Value);
+    }
+
+    // Called by victim's Status Module
+    public void RegisterKill(ActorCore victim)
+    {
+        OnKill?.Invoke(this, victim);
+    }
+
+    private void HandleLowHealthEntered()
+    {
+        OnLowHealthEntered?.Invoke(this);
+    }
+
+    private void HandleLowHealthExited()
+    {
+        OnLowHealthExited?.Invoke(this);
     }
 
     public void Reset(Vector3 position, Basis basis)

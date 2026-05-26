@@ -10,6 +10,7 @@
 [ext_resource type="Script" uid="uid://d4fhpdqd6gijf" path="res://_project/code/modules/HitFlash.cs" id="8_dj8ae"]
 [ext_resource type="Script" uid="uid://bfpguxj3tucxf" path="res://_project/code/runtime_sets/ActorRuntimeSetMember.cs" id="9_gdco3"]
 [ext_resource type="Resource" uid="uid://dfjkal2hkw76b" path="res://_project/resources/runtime_sets/actor_runtime_set.tres" id="10_2g2r3"]
+[ext_resource type="Resource" uid="uid://ce02uilv18ybx" path="res://_project/resources/runtime_sets/player_runtime_set.tres" id="11_81v3a"]
 [ext_resource type="PackedScene" uid="uid://dwpciplgm5y5g" path="res://_project/scenes/actors/components/magnet_target_module.tscn" id="11_gs0vf"]
 [ext_resource type="PackedScene" uid="uid://cj1ay4nsxtle6" path="res://_project/scenes/actors/components/progression_module.tscn" id="12_utykl"]
 [ext_resource type="PackedScene" uid="uid://b75e32re47n4g" path="res://_project/scenes/drops/magnet_drop_module.tscn" id="13_81v3a"]
@@ -45,6 +46,7 @@ height = 2.2
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_gsska"]
 
 [sub_resource type="SystemFont" id="SystemFont_utykl"]
+subpixel_positioning = 0
 
 [node name="ActorCore" type="CharacterBody3D" unique_id=1813085196 node_paths=PackedStringArray("BodyMesh", "FaceMesh", "CollisionShape", "HitBox", "HurtBox", "ResetLabel")]
 script = ExtResource("1_jyi35")
@@ -100,6 +102,10 @@ script = ExtResource("8_dj8ae")
 [node name="ActorRuntimeSetMember" type="Node" parent="." unique_id=963893128]
 script = ExtResource("9_gdco3")
 RuntimeSet = ExtResource("10_2g2r3")
+
+[node name="PlayerRuntimeSetMember" type="Node" parent="." unique_id=2104534728]
+script = ExtResource("9_gdco3")
+RuntimeSet = ExtResource("11_81v3a")
 
 [node name="HitBox" type="Area3D" parent="." unique_id=62507681]
 process_mode = 4

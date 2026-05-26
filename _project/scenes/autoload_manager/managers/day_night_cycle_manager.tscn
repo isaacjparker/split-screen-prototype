@@ -6,5 +6,7 @@
 [node name="DayNightCycleManager" type="Node" unique_id=1929623439]
 script = ExtResource("1_cvjvc")
 SunRuntimeSet = ExtResource("2_obion")
+DayDuration = 165.0
+NightDuration = 75.0
 ColourTransitionDuration = 4.0
 NightAngleTransitionDuration = 6.0
