@@ -27,6 +27,10 @@ public partial class ActorCore : CharacterBody3D
     public Vector3 InitialSpawnPosition {get; set;}
     public Basis InitialSpawnBasis {get; set;} = Basis.Identity;
 
+    // The turf this actor wanders within (its spawner, or the home room for banked villagers).
+    // Null = fall back to wandering around InitialSpawnPosition.
+    public IPatrolRegion PatrolRegion { get; set; }
+
     public event Action<float, float> OnCameraShake;
     public event Action<float> OnHitStop;
     public event Action<float, float> OnDash;

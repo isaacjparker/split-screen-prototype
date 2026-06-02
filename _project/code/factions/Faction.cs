@@ -2,7 +2,8 @@ public enum Faction
 {
     Player,
     Enemy,
-    Dummy
+    Dummy,
+    Villager   // Unbanked villager — Neutral to enemies (untargetable), Friendly to players
 }
 
 public enum FactionRelation

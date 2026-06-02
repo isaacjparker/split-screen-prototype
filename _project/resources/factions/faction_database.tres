@@ -41,7 +41,13 @@ FactionB = 1
 Relation = 0
 metadata/_custom_type_script = "uid://yxvow3uxbhb3"
 
+[sub_resource type="Resource" id="Resource_vil01"]
+script = ExtResource("1_bdajx")
+FactionB = 3
+Relation = 2
+metadata/_custom_type_script = "uid://yxvow3uxbhb3"
+
 [resource]
 script = ExtResource("1_cyypp")
-Relationships = Array[Object]([SubResource("Resource_032hk"), SubResource("Resource_rtpdl"), SubResource("Resource_av0ul"), SubResource("Resource_to1hd"), SubResource("Resource_00luf"), SubResource("Resource_5a8x0")])
+Relationships = Array[Object]([SubResource("Resource_032hk"), SubResource("Resource_rtpdl"), SubResource("Resource_av0ul"), SubResource("Resource_to1hd"), SubResource("Resource_00luf"), SubResource("Resource_5a8x0"), SubResource("Resource_vil01")])
 metadata/_custom_type_script = "uid://dtgg1axwraa43"

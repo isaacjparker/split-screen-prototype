@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://b1floatlabel01a"]
+
+[ext_resource type="Script" path="res://_project/code/ui/FloatingLabel.cs" id="1_flabel"]
+
+[node name="FloatingLabel" type="Label3D"]
+script = ExtResource("1_flabel")
+billboard = 1
+no_depth_test = true
+fixed_size = true
+pixel_size = 0.012
+font_size = 64
+outline_size = 16
+modulate = Color(1, 0.85, 0.2, 1)
+text = "+1"

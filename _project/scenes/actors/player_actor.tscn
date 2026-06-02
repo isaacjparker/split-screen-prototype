@@ -14,6 +14,9 @@
 [ext_resource type="PackedScene" uid="uid://dwpciplgm5y5g" path="res://_project/scenes/actors/components/magnet_target_module.tscn" id="11_gs0vf"]
 [ext_resource type="PackedScene" uid="uid://cj1ay4nsxtle6" path="res://_project/scenes/actors/components/progression_module.tscn" id="12_utykl"]
 [ext_resource type="PackedScene" uid="uid://b75e32re47n4g" path="res://_project/scenes/drops/magnet_drop_module.tscn" id="13_81v3a"]
+[ext_resource type="Script" path="res://_project/code/environment/PlayerNightLight.cs" id="14_pnl"]
+[ext_resource type="Script" path="res://_project/code/modules/AttackUpgradeModule.cs" id="15_atkup"]
+[ext_resource type="PackedScene" uid="uid://b1floatlabel01a" path="res://_project/scenes/ui/floating_upgrade_label.tscn" id="16_flabel"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_wel1o"]
 
@@ -138,6 +141,20 @@ shape = SubResource("CapsuleShape3D_gsska")
 [node name="ProgressionModule" parent="." unique_id=311529961 instance=ExtResource("12_utykl")]
 CanDrop = false
 DropPrefab = ExtResource("13_81v3a")
+
+[node name="AttackUpgradeModule" type="Node3D" parent="." unique_id=311529962]
+script = ExtResource("15_atkup")
+FloatingLabelScene = ExtResource("16_flabel")
+
+[node name="NightLight" type="OmniLight3D" parent="." unique_id=901234567]
+script = ExtResource("14_pnl")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+light_color = Color(1.0, 0.88, 0.65, 1)
+light_energy = 0.0
+omni_range = 8.0
+omni_attenuation = 1.5
+NightLightEnergy = 1.8
+TransitionDuration = 2.5
 
 [node name="ResetLabel" type="Label3D" parent="." unique_id=780158295]
 pixel_size = 0.02

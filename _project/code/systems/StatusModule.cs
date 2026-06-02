@@ -11,6 +11,12 @@ public partial class StatusModule : Node
     [Export] public float KnockbackResistance = 0.0f;
     [Export] public float LowHealthThreshold = 0.15f;
 
+    /// <summary>
+    /// Scales every outgoing attack's damage. 1 = base. Players raise this as they pick up
+    /// orbs and level up (see AttackUpgradeModule); enemies leave it at 1.
+    /// </summary>
+    [Export] public float DamageMultiplier = 1.0f;
+
     [ExportGroup("Visuals")]
     [Export] public Material BodyMaterial;
     [Export] public Material FaceMaterial;
@@ -154,7 +160,19 @@ public partial class StatusModule : Node
             payload.SourceActor?.RegisterKill(_core);
         }
     }
-    public void ApplyHealing(float healAmount) 
+    /// <summary>
+    /// Overrides max health at runtime (used by spawners to apply the per-night enemy
+    /// HP curve). Refills to full by default so a freshly spawned enemy isn't born wounded.
+    /// </summary>
+    public void SetMaxHealth(float value, bool refill = true)
+    {
+        MaxHealth = Mathf.Max(1f, value);
+        CurrentHealth = refill ? MaxHealth : Mathf.Min(CurrentHealth, MaxHealth);
+        OnHealthChanged?.Invoke(CurrentHealth, 0f);
+        EvaluateLowHealthState();
+    }
+
+    public void ApplyHealing(float healAmount)
     {
         CurrentHealth = Mathf.Clamp(CurrentHealth + healAmount, 0.0f, MaxHealth);
         OnHealthChanged?.Invoke(CurrentHealth, healAmount);

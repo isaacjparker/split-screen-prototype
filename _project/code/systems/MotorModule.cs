@@ -14,11 +14,15 @@ public partial class MotorModule : Node
 
 	private ActorCore _core;
     private StatusModule _status;
+    private NavigationAgent3D _navAgent;
+
+    public bool HasNavAgent => _navAgent != null;
 
     public void Initialise(ActorCore core)
-    { 
+    {
         _core = core;
         _status = _core.Status;
+        _navAgent = _core.GetNodeOrNull<NavigationAgent3D>("NavigationAgent3D");
     }
 
     // ------------------------------------------------------------------------
@@ -38,6 +42,44 @@ public partial class MotorModule : Node
             rotation.Y = GetTargetYaw(simVelocity, _core.Rotation.Y, delta);
             _core.Rotation = rotation;
         }
+    }
+
+    // ------------------------------------------------------------------------
+    // Navigation-driven movement
+    // ------------------------------------------------------------------------
+    // Shared primitive for any agent that must traverse corridors to a goal.
+    // Feeds the navmesh path direction into the existing ProcessLocomotion so
+    // acceleration, rotation and collision behaviour stay identical to direct movement.
+    public void ProcessNavLocomotion(Vector3 targetPosition, float maxSpeed, float delta)
+    {
+        if (_navAgent == null)
+        {
+            // Fallback: steer straight at the goal (open spaces only).
+            Vector3 direct = (targetPosition - _core.GlobalPosition) with { Y = 0 };
+            direct = direct.LengthSquared() > MinDirectionSqLength ? direct.Normalized() : Vector3.Zero;
+            ProcessLocomotion(direct, maxSpeed, delta);
+            return;
+        }
+
+        _navAgent.TargetPosition = targetPosition;
+
+        if (_navAgent.IsNavigationFinished())
+        {
+            ProcessLocomotion(Vector3.Zero, maxSpeed, delta);
+            return;
+        }
+
+        Vector3 nextPoint = _navAgent.GetNextPathPosition();
+        Vector3 moveDir = (nextPoint - _core.GlobalPosition) with { Y = 0 };
+        moveDir = moveDir.LengthSquared() > MinDirectionSqLength ? moveDir.Normalized() : Vector3.Zero;
+
+        ProcessLocomotion(moveDir, maxSpeed, delta);
+    }
+
+    public bool IsNavTargetReached(Vector3 targetPosition, float acceptRadius)
+    {
+        Vector3 flat = (targetPosition - _core.GlobalPosition) with { Y = 0 };
+        return flat.LengthSquared() <= acceptRadius * acceptRadius;
     }
 
     public void ProcessTargetingLocomotion(Vector3 inputDirection, CharacterBody3D target, float maxSpeed, float delta)

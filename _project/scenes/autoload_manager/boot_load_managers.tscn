@@ -12,6 +12,8 @@
 [node name="BootLoadManagers" type="Node" unique_id=53112796]
 
 [node name="DayNightCycleManager" parent="." unique_id=1929623439 instance=ExtResource("1_1cvlu")]
+DayDuration = 60.0
+NightDuration = 30.0
 
 [node name="FactionManager" parent="." unique_id=1362741790 instance=ExtResource("2_lnhfq")]
 

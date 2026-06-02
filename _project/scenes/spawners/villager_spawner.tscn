@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://_project/code/environment/EnemySpawner.cs" id="1_spawn"]
+[ext_resource type="PackedScene" path="res://_project/scenes/actors/villager_actor.tscn" id="2_vil"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_room"]
+size = Vector3(10, 4, 10)
+
+[node name="VillagerSpawner" type="Node3D" node_paths=PackedStringArray("PatrolArea")]
+script = ExtResource("1_spawn")
+EnemyScene = ExtResource("2_vil")
+PatrolArea = NodePath("PatrolArea")
+Count = 2
+DespawnAtNight = true
+EmitNightWaves = false
+
+[node name="PatrolArea" type="Area3D" parent="."]
+monitoring = false
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PatrolArea"]
+shape = SubResource("BoxShape3D_room")

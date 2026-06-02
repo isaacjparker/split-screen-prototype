@@ -27,7 +27,7 @@ public partial class AgentCombatState : ActorState
 		if (target == null || !Node.IsInstanceValid(target) || !target.Status.IsAlive)
 		{
 			_status.CurrentTarget = null;
-			_core.StateMachine.ChangeState(new AgentIdleState(_core));
+			_core.StateMachine.ChangeState((_core.StateMachine as AgentSM)?.CreateReturnState() ?? new AgentPatrolState(_core));
 			return;
 		}
 

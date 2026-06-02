@@ -135,8 +135,9 @@ MaxHealth = 20.0
 BodyMaterial = SubResource("ShaderMaterial_3lgeu")
 FaceMaterial = SubResource("ShaderMaterial_dyk4l")
 HitFlashMaterial = SubResource("StandardMaterial3D_ifnxb")
-MaxTargetScanRange = 200.0
-MaxTargetLeashRange = 210.0
+MaxTargetScanRange = 7.0
+MaxTargetScanAngle = 360.0
+MaxTargetLeashRange = 14.0
 Faction = 1
 ProximityWeight = 0.5
 FactionWeight = 0.8
@@ -180,3 +181,9 @@ shape = SubResource("CapsuleShape3D_8yq2o")
 
 [node name="ProgressionModule" parent="." unique_id=311529961 instance=ExtResource("13_405mr")]
 DropPrefab = ExtResource("14_dyk4l")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+path_desired_distance = 0.5
+target_desired_distance = 1.0
+radius = 0.6
+avoidance_enabled = false

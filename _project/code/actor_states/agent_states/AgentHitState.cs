@@ -3,7 +3,7 @@ using System;
 
 public partial class AgentHitState : ActorState
 {
-	private Vector3 _sourcePos;
+	protected Vector3 _sourcePos;
     private float _knockbackPower;
     private Vector3 _currentVelocity;
 
@@ -71,7 +71,7 @@ public partial class AgentHitState : ActorState
         _core.Velocity = _currentVelocity;
     }
 
-	private void ReturnFromHit()
+	protected virtual void ReturnFromHit()
     {
         // Re-prioritise target
 		ActorCore newTarget = CombatUtils.GetHighestPriorityTarget(
@@ -93,7 +93,7 @@ public partial class AgentHitState : ActorState
         else
         {
             _status.CurrentTarget = null;
-            _core.StateMachine.ChangeState(new AgentIdleState(_core));
+            _core.StateMachine.ChangeState((_core.StateMachine as AgentSM)?.CreateReturnState() ?? new AgentPatrolState(_core));
         }
     }
 }

@@ -83,7 +83,7 @@ public partial class CombatModule : Node
         return new AttackPayload 
         {
         SourceActor = _core,
-        BaseDamage = attackData.BaseDamage,
+        BaseDamage = attackData.BaseDamage * _core.Status.DamageMultiplier,
         KnockbackPower = attackData.KnockbackPower,
         HitStopDuration = attackData.HitStopDuration,
         HitStopFactor = attackData.HitStopFactor,

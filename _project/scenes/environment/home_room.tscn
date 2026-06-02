@@ -1,0 +1,74 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://_project/code/environment/HomeRoom.cs" id="1_hr"]
+[ext_resource type="PackedScene" uid="uid://b75e32re47n4g" path="res://_project/scenes/drops/magnet_drop_module.tscn" id="2_hr"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_heart"]
+size = Vector3(2.0, 3.0, 2.0)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_heart"]
+size = Vector3(2.0, 3.0, 2.0)
+
+[sub_resource type="StandardMaterial3D" id="Mat_heart"]
+albedo_color = Color(0.6, 0.45, 0.25, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_threshold"]
+size = Vector3(24.0, 6.0, 24.0)
+
+; Root node carries the HomeRoom script.
+; Place this scene inside a 25x25 room tile in the maze.
+; Torch assets go on the TorchSlot_* Marker3D children.
+[node name="HomeRoom" type="Node3D" node_paths=PackedStringArray("HeartNode", "ThresholdArea", "RespawnPoint")]
+script = ExtResource("1_hr")
+HeartNode = NodePath("Heart")
+ThresholdArea = NodePath("ThresholdArea")
+RespawnPoint = NodePath("RespawnPoint")
+DropPrefab = ExtResource("2_hr")
+
+; Heart building placeholder - replace mesh with a real asset later.
+[node name="Heart" type="StaticBody3D" parent="."]
+
+[node name="HeartMesh" type="MeshInstance3D" parent="Heart"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+mesh = SubResource("BoxMesh_heart")
+surface_material_override/0 = SubResource("Mat_heart")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Heart"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_heart")
+
+; Always-on warm light over the heart. Torch OmniLights add to this.
+[node name="HeartLight" type="OmniLight3D" parent="Heart"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.0, 0)
+light_color = Color(1.0, 0.82, 0.45, 1)
+light_energy = 2.0
+omni_range = 20.0
+omni_attenuation = 1.2
+
+; Covers the entire 25x25 room floor. Body-entered fires for villagers on layer 1.
+[node name="ThresholdArea" type="Area3D" parent="."]
+monitoring = true
+monitorable = false
+collision_layer = 0
+collision_mask = 1
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ThresholdArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.0, 0)
+shape = SubResource("BoxShape3D_threshold")
+
+; Players respawn here. Move in Godot editor to taste.
+[node name="RespawnPoint" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3)
+
+; Torch asset slots. In editor: instance your torch scene as a child of each slot.
+[node name="TorchSlot_1" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 6)
+
+[node name="TorchSlot_2" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 6)
+
+[node name="TorchSlot_3" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, -6)
+
+[node name="TorchSlot_4" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, -6)
