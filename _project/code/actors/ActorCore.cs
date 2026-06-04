@@ -54,7 +54,7 @@ public partial class ActorCore : CharacterBody3D
         HitFlash = GetNode<HitFlash>("HitFlash");
         StateMachine = GetNode<StateMachine>("StateMachine");
         Progression = GetNode<ProgressionModule>("ProgressionModule");
-        MagnetTarget = GetNodeOrNull<MagnetTargetModule>("MagnetTarget");
+        MagnetTarget = GetNodeOrNull<MagnetTargetModule>("MagnetTargetModule");
 
         //if (ActorInput == null)
         //{

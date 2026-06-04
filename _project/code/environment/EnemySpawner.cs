@@ -186,6 +186,12 @@ public partial class EnemySpawner : Node3D, IPatrolRegion
         {
             if (!IsInstanceValid(e)) continue;
             if (banked != null && banked.Contains(e)) continue;
+
+            // A villager that's already been picked up (following a player) is no longer
+            // "unrescued" — only despawn villagers still idling at the spawn point.
+            if (e.IsInGroup("villagers") && e.StateMachine?.CurrentState is not VillagerIdleState)
+                continue;
+
             e.QueueFree();
         }
         _spawned.Clear();
@@ -247,8 +253,6 @@ public partial class EnemySpawner : Node3D, IPatrolRegion
     {
         if (EmitNightWaves)
         {
-            WaveDirector.NotifyDayStarted();
-
             // Day stops new pulses, but enemies already loose in the maze keep coming —
             // players have to hunt down every straggler. A late wave enemy still marching
             // on the heart can now cross paths with the morning's fresh guards.
@@ -263,8 +267,6 @@ public partial class EnemySpawner : Node3D, IPatrolRegion
         if (DespawnAtNight) ClearGuards();
 
         if (!EmitNightWaves) return;
-
-        WaveDirector.NotifyNightStarted();
 
         // Begin waves; furthest spawners get a 0 delay, nearest wait out the stagger window.
         _waving = true;

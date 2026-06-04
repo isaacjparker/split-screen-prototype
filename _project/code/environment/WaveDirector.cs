@@ -3,11 +3,13 @@ using System.Collections.Generic;
 
 /// <summary>
 /// Shared bookkeeping for night waves. Not a node — spawners register themselves and
-/// drive it. Owns the night counter (for difficulty) and the distance-to-heart stagger:
-/// spawners furthest from home activate first, nearest last, so the horde sweeps inward.
+/// drive it. Holds the distance-to-heart stagger (spawners furthest from home activate
+/// first, nearest last, so the horde sweeps inward) and the difficulty knobs that
+/// EnemySpawner reads when emitting pulses.
 ///
-/// When GameLoopManager (M6) arrives it can take over NightNumber / difficulty by setting
-/// the public knobs here.
+/// As of M6, GameLoopManager is the authoritative owner of NightNumber and the difficulty
+/// curve: it sets the static knobs below (from the boot-scene Inspector) and advances
+/// NightNumber on each nightfall. This class is a passive helper that EnemySpawner reads.
 /// </summary>
 public static class WaveDirector
 {
@@ -20,8 +22,11 @@ public static class WaveDirector
     public static float StaggerWindow = 12f;       // seconds: furthest=0 .. nearest=StaggerWindow
     public static float EnemyHealthGrowthPerNight = 0.25f; // +fraction of base max HP per night
 
-    public static int NightNumber { get; private set; }
-    private static bool _nightCounted;
+    /// <summary>
+    /// Nights survived so far (drives the difficulty curve). Owned by GameLoopManager,
+    /// which advances it on each nightfall; spawners only read it. 0 = before the first night.
+    /// </summary>
+    public static int NightNumber { get; set; }
 
     /// <summary>
     /// Active local players, clamped to [1,4]. Counted from the live actor set rather
@@ -71,23 +76,10 @@ public static class WaveDirector
         _spawners.Remove(s);
         if (_spawners.Count == 0)
         {
-            // Level unloaded — reset so a fresh run starts at night 1.
+            // Level unloaded — reset so a fresh run starts at night 1. (GameLoopManager also
+            // resets this in its _Ready, but reset here too for scenes that have no manager.)
             NightNumber = 0;
-            _nightCounted = false;
         }
-    }
-
-    /// <summary>Called by every spawner on NightStarted; only the first advances the counter.</summary>
-    public static void NotifyNightStarted()
-    {
-        if (_nightCounted) return;
-        _nightCounted = true;
-        NightNumber++;
-    }
-
-    public static void NotifyDayStarted()
-    {
-        _nightCounted = false;
     }
 
     /// <summary>

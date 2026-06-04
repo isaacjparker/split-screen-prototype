@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://fgduh5rpg0mt" path="res://_project/scenes/autoload_manager/managers/global_input_manager.tscn" id="6_6rqdq"]
 [ext_resource type="PackedScene" uid="uid://baix4ju5fi6cb" path="res://_project/scenes/autoload_manager/managers/player_metrics_manager.tscn" id="7_lnhfq"]
 [ext_resource type="PackedScene" uid="uid://dotejj7p236ok" path="res://_project/scenes/autoload_manager/managers/debug_overlay_manager.tscn" id="8_ae8b5"]
+[ext_resource type="Script" uid="uid://c641ejuljdati" path="res://_project/code/managers/GameLoopManager.cs" id="9_gameloop"]
 
 [node name="BootLoadManagers" type="Node" unique_id=53112796]
 
@@ -27,6 +28,11 @@ _spawnPoints = [null, null, null, null]
 [node name="GlobalInputManager" parent="." unique_id=304432159 instance=ExtResource("6_6rqdq")]
 
 [node name="PlayerMetricsManager" parent="." unique_id=521440763 instance=ExtResource("7_lnhfq")]
+
+[node name="GameLoopManager" type="Node" parent="." unique_id=1147374099 node_paths=PackedStringArray("PlayerMetrics")]
+script = ExtResource("9_gameloop")
+NightsToSurvive = 1
+PlayerMetrics = NodePath("../PlayerMetricsManager")
 
 [node name="DebugOverlayManager" parent="." unique_id=1147374098 node_paths=PackedStringArray("PlayerMetricsManager") instance=ExtResource("8_ae8b5")]
 PlayerMetricsManager = NodePath("../PlayerMetricsManager")

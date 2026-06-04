@@ -98,6 +98,9 @@ public partial class DebugOverlayManager : CanvasLayer
             _stringBuilder.Append("p").Append(playerIndex).Append(" (").Append(player.Name).AppendLine(")");
             _stringBuilder.Append("  Kills: ").AppendLine(record.KillCount.ToString());
             _stringBuilder.Append("  Deaths: ").AppendLine(record.DeathCount.ToString());
+            _stringBuilder.Append("  Villagers saved: ").AppendLine(record.VillagersSaved.ToString());
+            if (player.Progression != null)
+                _stringBuilder.Append("  Attack Lv: ").AppendLine(player.Progression.CurrentLevel.ToString());
             _stringBuilder.Append("  Low HP: ").AppendLine(record.IsLowHealth.ToString());
 
             playerIndex++;

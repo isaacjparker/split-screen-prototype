@@ -10,6 +10,7 @@ public partial class PlayerMetricsManager : Node
 
     public event Action<ActorCore, int> OnKillCountChanged;
     public event Action<ActorCore, int> OnDeathCountChanged;
+    public event Action<ActorCore, int> OnVillagersSavedChanged;
     public event Action<ActorCore> OnLowHealthEntered;
     public event Action<ActorCore> OnLowHealthExited;
 
@@ -52,6 +53,19 @@ public partial class PlayerMetricsManager : Node
     {
         _records.TryGetValue(player, out PlayerMetricsRecord record);
         return record;
+    }
+
+    /// <summary>
+    /// Credits a rescuing player with one more saved villager. Called by GameLoopManager when
+    /// a villager banks at the home heart.
+    /// </summary>
+    public void RegisterVillagerSaved(ActorCore rescuer)
+    {
+        if (rescuer == null) return;
+        if (!_records.TryGetValue(rescuer, out PlayerMetricsRecord record)) return;
+
+        record.VillagersSaved += 1;
+        OnVillagersSavedChanged?.Invoke(rescuer, record.VillagersSaved);
     }
 
     public void DebugSetKillCount(ActorCore player, int value)

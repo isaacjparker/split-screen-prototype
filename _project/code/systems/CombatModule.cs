@@ -80,7 +80,7 @@ public partial class CombatModule : Node
     
     public AttackPayload BuildAttackPayload(AttackData attackData)
     {
-        return new AttackPayload 
+        return new AttackPayload
         {
         SourceActor = _core,
         BaseDamage = attackData.BaseDamage * _core.Status.DamageMultiplier,

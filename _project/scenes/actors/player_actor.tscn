@@ -141,6 +141,7 @@ shape = SubResource("CapsuleShape3D_gsska")
 [node name="ProgressionModule" parent="." unique_id=311529961 instance=ExtResource("12_utykl")]
 CanDrop = false
 DropPrefab = ExtResource("13_81v3a")
+BaseLevelThreshold = 1.0
 
 [node name="AttackUpgradeModule" type="Node3D" parent="." unique_id=311529962]
 script = ExtResource("15_atkup")

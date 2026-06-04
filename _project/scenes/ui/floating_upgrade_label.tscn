@@ -6,9 +6,8 @@
 script = ExtResource("1_flabel")
 billboard = 1
 no_depth_test = true
-fixed_size = true
-pixel_size = 0.012
+pixel_size = 0.01
 font_size = 64
-outline_size = 16
+outline_size = 8
 modulate = Color(1, 0.85, 0.2, 1)
 text = "+1"

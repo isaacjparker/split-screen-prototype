@@ -65,11 +65,14 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23, 0, -8)
 [node name="EnemySpawner" parent="." unique_id=1023871797 instance=ExtResource("6_bmhfy")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39, 0, -81)
 RoomSize = Vector3(12, 4, 12)
+Count = 2
 
 [node name="EnemySpawner2" parent="." unique_id=707985516 instance=ExtResource("6_bmhfy")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39, 0, -115)
 RoomSize = Vector3(30, 4, 30)
+Count = 2
 
 [node name="VillagerSpawner" parent="." unique_id=838054907 instance=ExtResource("6_k5i11")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33, 0, -34)
 RoomSize = Vector3(12, 4, 12)
+Count = 3
